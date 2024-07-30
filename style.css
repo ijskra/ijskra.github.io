@@ -24,7 +24,7 @@ body {
     line-height: 1.6;
     color: var(--text-color);
     background: var(--bg);
-    background-image: url('beige-texture.jpg');
+    background-image: url('btexture.jpg');
     background-repeat: repeat;
     background-attachment: fixed;
 }
