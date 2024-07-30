@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OH Jung-Woong</title>
+    <script>
+        function getBrowserLanguage() {
+            return navigator.language || navigator.userLanguage;
+        }
+
+        function redirectToLanguage() {
+            var lang = getBrowserLanguage().substr(0, 2).toLowerCase();
+            if (lang === 'ko') {
+                window.location.href = 'index-ko.html';
+            } else {
+                window.location.href = 'index-en.html';
+            }
+        }
+
+        // Redirect when the page loads
+        window.onload = redirectToLanguage;
+    </script>
+</head>
+body>
+    <noscript>
+        <p>Please enable JavaScript to view this site, or go to:</p>
+        <ul>
+            <li><a href="index-en.html">English version</a></li>
+            <li><a href="index-ko.html">한국어 버전</a></li>
+        </ul>
+    </noscript>
+</body>
+</html>
