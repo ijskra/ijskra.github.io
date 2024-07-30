@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OH Jung-Woong's Portfolio</title>
+    <title>OH Jung-Woong - Portfolio</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -22,6 +22,7 @@
         <section id="home">
             <h1>OH Jung-Woong</h1>
             <p>Web composer, performer & producer</p>
+            <a href="#contact" class="btn">Contact Me</a>
         </section>
 
         <section id="about">
@@ -33,8 +34,11 @@
             <h2>My Projects</h2>
             <div class="project">
                 <img src="project1.jpg" alt="Project 1">
-                <h3>Project 1</h3>
-                <p>Description of Project 1</p>
+                <div class="project-info">
+                    <h3>Project 1</h3>
+                    <p>Description of Project 1</p>
+                    <a href="#" class="btn">View Project</a>
+                </div>
             </div>
             <!-- Add more project divs as needed -->
         </section>
@@ -42,16 +46,16 @@
         <section id="contact">
             <h2>Contact Me</h2>
             <form>
-                <input type="text" placeholder="Name">
-                <input type="email" placeholder="Email">
-                <textarea placeholder="Message"></textarea>
+                <input type="text" placeholder="Name" required>
+                <input type="email" placeholder="Email" required>
+                <textarea placeholder="Message" required></textarea>
                 <button type="submit">Send</button>
             </form>
         </section>
     </main>
 
     <footer>
-        <p>&copy; 2024 Your Name. All rights reserved.</p>
+        <p>&copy; 2024 OH Jung-Woong. All rights reserved.</p>
     </footer>
 </body>
 </html>
