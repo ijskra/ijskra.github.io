@@ -1,86 +1,154 @@
-@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Lora&family=Noto+Sans+KR&display=swap');
-
-:root {
-    --light-beige: #e8e6e1;
-    --medium-beige: #d0cdc7;
-    --dark-beige: #b8b5ae;
-    --text-color: #333;
-    --accent-color: #8c8a85;
+.project:hover {
+    transform: translateY(-5px);
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Lora', 'Noto Sans KR', serif;
-    line-height: 1.6;
-    color: var(--text-color);
-    background-image: url('btexture.png');
-    background-repeat: repeat;
-    background-attachment: fixed;
-}
-
-header {
-    background-color: rgba(216, 214, 209, 0.9);
-    backdrop-filter: blur(5px);
-    padding: 1rem;
-    position: fixed;
+.project img {
     width: 100%;
-    top: 0;
-    z-index: 1000;
+    height: 200px;
+    object-fit: cover;
 }
 
-nav ul {
-    list-style-type: none;
-    display: flex;
-    justify-content: center;
+.project-info {
+    padding: 1rem;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 0 0 8px 8px;
 }
 
-nav a {
-    text-decoration: none;
-    color: var(--text-color);
+.btn {
+    display: inline-block;
+    background-color: var(--accent-color);
+    color: var(--light-beige);
     padding: 0.5rem 1rem;
-    margin: 0 0.5rem;
+    text-decoration: none;
     border-radius: 5px;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    border: 1px solid var(--medium-beige);
+    cursor: pointer;
 }
 
-nav a:hover {
-    background-color: var(--medium-beige);
+.btn:hover {
+    background-color: var(--dark-beige);
+    transform: translateY(-2px);
 }
 
-main {
-    padding: 6rem 2rem 2rem;
-    max-width: 1200px;
+form {
+    display: flex;
+    flex-direction: column;
+    max-width: 500px;
     margin: 0 auto;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 15px;
+    border-radius: 5px;
 }
 
-section {
-    margin-bottom: 4rem;
+input, textarea {
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    background-color: var(--light-beige);
+    border: 1px solid var(--medium-beige);
+    border-radius: 4px;
+    color: var(--text-color);
 }
 
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'Libre Baskerville', 'Noto Sans KR', serif;
-    color: var(--dark-beige);
+input::placeholder, textarea::placeholder {
+    color: var(--accent-color);
+}
+
+footer {
+    background-color: var(--dark-beige);
+    color: var(--light-beige);
+    text-align: center;
+    padding: 1rem;
+    margin-top: 2rem;
+}
+
+.about-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 2rem;
+    border-radius: 8px;
+}
+
+.profile-picture {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.about-text {
+    flex: 1;
+}
+
+.about-summary {
     margin-bottom: 1rem;
 }
 
-.project-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
+.language-selector {
+    margin-left: auto;
 }
 
-.project {
-    background-color: rgba(232, 230, 225, 0.7);
-    border-radius: 8px;
-    overflow: hidden;
-    transition: transform 0.3s ease;
+#language-select {
+    padding: 0.5rem;
+    background-color: var(--light-beige);
     border: 1px solid var(--medium-beige);
+    border-radius: 4px;
+    color: var(--text-color);
 }
 
-.project:hover {
-    transform: translateY
+@media (max-width: 767px) {
+    body {
+        font-size: 16px;
+    }
+
+    main {
+        padding: 4rem 1rem 1rem;
+    }
+
+    .project-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .about-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .profile-picture {
+        margin-bottom: 1rem;
+    }
+
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    nav a {
+        margin: 0.5rem 0;
+    }
+
+    .language-selector {
+        margin-left: 0;
+        margin-top: 1rem;
+    }
+}
+
+#about {
+    padding: 2rem;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 8px;
+}
+
+#projects {
+    padding: 2rem;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 8px;
+}
+
+#contact {
+    padding: 2rem;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 8px;
+}
