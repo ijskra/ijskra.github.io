@@ -18,7 +18,7 @@ body {
     font-family: 'Lora', serif;
     line-height: 1.6;
     color: var(--text-color);
-    background-image: url('beige-texture.jpg');
+    background-image: url('btexture.jpg');
     background-repeat: repeat;
     background-attachment: fixed;
 }
