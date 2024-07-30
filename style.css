@@ -156,3 +156,34 @@ footer {
         margin: 0.5rem 0;
     }
 }
+
+/* Add this to the end of the existing CSS file */
+
+/* For all text */
+body {
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+/* For headings */
+h1, h2, h3, h4, h5, h6 {
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2), 
+                 -1px -1px 2px rgba(255, 255, 255, 0.7);
+}
+
+/* For buttons and links */
+.btn, nav a {
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Increase contrast for better readability */
+p, input, textarea {
+    color: #333; /* Darker text color */
+    text-shadow: 0.5px 0.5px 1px rgba(255, 255, 255, 0.5);
+}
+
+/* Optional: Add a subtle background to text containers for better contrast */
+.project-info, #about p, #contact form {
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 15px;
+    border-radius: 5px;
+}
