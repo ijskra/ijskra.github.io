@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OH Jung-Woong - Composer, Performer & Producer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#about">About</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li class="language-selector">
+                    <select id="language-select">
+                        <option value="en">English</option>
+                        <option value="ko">한국어</option>
+                    </select>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="about" class="section">
+            <h1>OH Jung-Woong</h1>
+            <h2>Composer, Performer & Producer</h2>
+            <div class="about-content">
+                <img src="profile-picture.jpg" alt="OH Jung-Woong" class="profile-picture">
+                <div class="about-text">
+                    <p class="about-summary">OH Jung-Woong (also known as Jake) is a composer, performer, and producer who recently obtained his doctorate degree from Indiana University in Bloomington.</p>
+                    <button class="btn" id="read-more">Read More</button>
+                    <div class="about-details" style="display: none;">
+                        <p>During his time at IU, he studied music composition with P.Q. Phan and Eugene O'Brien, harpsichord with Elisabeth Wright and Jonathan Oddie, and computer music with John Gibson and Chi Wang. His musical education was further enriched by masterclasses with renowned composers such as Unsuk Chin, Georg Friedrich Haas, and Sven-David Sandström.</p>
+                        <p>After completing his military service, OH returned to his studies, culminating in the completion of his doctoral degree in 2024. His academic journey has been marked by a diverse range of musical interests and a commitment to pushing the boundaries of contemporary classical music.</p>
+                        <p>Since 2014, OH has focused significantly on microtonal music, influenced by composers like Georg Friedrich Haas and Easley Blackwood. This research resulted in works such as "Romanze," "Torso of The Sapphire Wings," and "Microtonal Bagatelles." He has shown particular interest in 24EDO and 36EDO tuning systems, exploring the expanded possibilities of emotional expression through these alternative tunings.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="section">
+            <h2>My Projects</h2>
+            <div class="project-grid">
+                <div class="project">
+                    <img src="deluge-small.jpg" alt="Deluge">
+                    <div class="project-info">
+                        <h3>Deluge</h3>
+                        <p>A 12-minute piece composed for triple woodwind orchestra (2024)</p>
+                        <a href="#" class="btn">View Project</a>
+                    </div>
+                </div>
+                <div class="project">
+                    <img src="harpsichord-concerto-small.jpg" alt="Harpsichord Concerto">
+                    <div class="project-info">
+                        <h3>Harpsichord Concerto</h3>
+                        <p>A 23-minute piece for harpsichord and baroque orchestra (2022)</p>
+                        <a href="https://www.youtube.com/watch?v=WuUQeFpRhHo" class="btn">View Project</a>
+                    </div>
+                </div>
+                <div class="project">
+                    <img src="torso-of-the-sapphire-wings-small.jpg" alt="Torso of the Sapphire Wings">
+                    <div class="project-info">
+                        <h3>Torso of the Sapphire Wings</h3>
+                        <p>A 15-minute piece for two pianos tuned 50 cents apart in 24-tone equal temperament (2018)</p>
+                        <a href="#" class="btn">View Project</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="section">
+            <h2>Contact Me</h2>
+            <form>
+                <input type="text" name="name" placeholder="Your Name" required>
+                <input type="email" name="email" placeholder="Your Email" required>
+                <textarea name="message" placeholder="Your Message" required></textarea>
+                <button type="submit" class="btn">Send Message</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 OH Jung-Woong. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.getElementById('read-more').addEventListener('click', function() {
+            var details = document.querySelector('.about-details');
+            var button = document.getElementById('read-more');
+            if (details.style.display === 'none') {
+                details.style.display = 'block';
+                button.textContent = 'Read Less';
+            } else {
+                details.style.display = 'none';
+                button.textContent = 'Read More';
+            }
+        });
+
+        document.getElementById('language-select').addEventListener('change', function() {
+            var lang = this.value;
+            window.location.href = 'index-' + lang + '.html';
+        });
+    </script>
+</body>
+</html>
