@@ -21,7 +21,7 @@ body {
     font-family: 'Lora', serif;
     line-height: 1.6;
     color: var(--text-color);
-    background-image: url('btexture.jpg');
+    background-image: url('btexture.png');
     background-repeat: repeat;
     background-attachment: fixed;
 }
