@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>OH Jung-Woong - Composer, Performer & Producer</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -127,21 +127,13 @@ document.addEventListener('DOMContentLoaded', function() {
             const targetElement = document.querySelector(targetId);
             
             if (targetElement) {
-                // Get the current header height
                 const headerHeight = document.querySelector('header').offsetHeight;
-                const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
-                const offsetPosition = elementPosition - headerHeight;
+                const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight;
 
                 window.scrollTo({
-                    top: offsetPosition,
+                    top: targetPosition,
                     behavior: 'smooth'
                 });
-
-                // Close mobile menu if it's open (you may need to adjust this based on your specific menu implementation)
-                const mobileMenu = document.querySelector('.mobile-menu');
-                if (mobileMenu && mobileMenu.classList.contains('open')) {
-                    mobileMenu.classList.remove('open');
-                }
             }
         });
     });
