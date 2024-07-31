@@ -21,6 +21,7 @@
     }
 }
 
+
 body {
     font-family: 'Lora', serif;
     line-height: 1.6;
@@ -50,6 +51,17 @@ header {
         height: 50px; /* Possibly smaller for mobile */
     }
 }
+
+#header-spacer {
+    height: 60px; /* Same as header height */
+}
+
+@media (max-width: 768px) {
+    #header-spacer {
+        height: 50px; /* Same as mobile header height */
+    }
+}
+
 nav ul {
     list-style-type: none;
     display: flex;
