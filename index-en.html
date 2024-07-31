@@ -113,6 +113,7 @@
             window.location.href = 'index-' + lang + '.html';
         });
     </script>
+    <!-- scroll thing here !-->
     <script>
 document.addEventListener('DOMContentLoaded', function() {
     const navLinks = document.querySelectorAll('nav a[href^="#"]');
@@ -125,7 +126,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const targetElement = document.querySelector(targetId);
             
             if (targetElement) {
-                const headerHeight = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-height'));
+                // Get the current header height
+                const headerHeight = document.querySelector('header').offsetHeight;
                 const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
                 const offsetPosition = elementPosition - headerHeight;
 
@@ -133,6 +135,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     top: offsetPosition,
                     behavior: 'smooth'
                 });
+
+                // Close mobile menu if it's open (you may need to adjust this based on your specific menu implementation)
+                const mobileMenu = document.querySelector('.mobile-menu');
+                if (mobileMenu && mobileMenu.classList.contains('open')) {
+                    mobileMenu.classList.remove('open');
+                }
             }
         });
     });
