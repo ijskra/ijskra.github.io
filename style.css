@@ -6,6 +6,7 @@
     --dark-beige: #b8b5ae;
     --text-color: #333;
     --accent-color: #8c8a85;
+    --header-height: 60px;
 }
 
 * {
@@ -53,12 +54,15 @@ nav a:hover {
 }
 
 main {
+    padding-top: calc(var(--header-height) + 2rem);
     padding: 6rem 2rem 2rem;
     max-width: 1200px;
     margin: 0 auto;
 }
 
 section {
+    padding-top: var(--header-height);
+    margin-top: calc(-1 * var(--header-height));
     margin-bottom: 4rem;
 }
 
@@ -210,4 +214,9 @@ footer {
         width: 150px;  /* Smaller size for mobile devices */
         height: 225px;
     }
+}
+
+html {
+    scroll-padding-top: var(--header-height);
+    scroll-behavior: smooth;
 }
