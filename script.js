@@ -1,5 +1,3 @@
-// script.js
-
 document.addEventListener('DOMContentLoaded', function() {
     // Load bio content
     fetch('bio.html')
@@ -56,5 +54,22 @@ document.addEventListener('DOMContentLoaded', function() {
         } else if (lang === 'ko') {
             window.location.href = 'index-ko.html';
         }
+    });
+
+    // Project search functionality
+    const projectSearch = document.getElementById('project-search');
+    const projects = document.querySelectorAll('.project');
+
+    projectSearch.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase().trim();
+
+        projects.forEach(project => {
+            const tags = project.dataset.tags.toLowerCase();
+            if (searchTerm === '' || tags.includes(searchTerm)) {
+                project.style.display = '';
+            } else {
+                project.style.display = 'none';
+            }
+        });
     });
 });
