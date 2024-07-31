@@ -1,75 +1,48 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Load bio content
-    fetch('bio.html')
-        .then(response => response.text())
-        .then(html => {
-            document.getElementById('bio-content').innerHTML = html;
-        })
-        .catch(error => {
-            console.error('Error loading bio:', error);
+    // ... (keep your existing code)
+
+    // Dynamic project generation
+    const projectGrid = document.getElementById('project-grid');
+
+    function createProjectElement(project) {
+        const projectElement = document.createElement('div');
+        projectElement.className = 'project';
+        projectElement.dataset.tags = project.tags.map(tag => `#${tag}`).join(' ');
+
+        projectElement.innerHTML = `
+            <img src="${project.imageUrl}" alt="${project.title}">
+            <div class="project-info">
+                <h3>${project.title}</h3>
+                <p>${project.description}</p>
+                <p class="project-tags">
+                    ${project.tags.map(tag => `<span class="hashtag">#${tag}</span>`).join(' ')}
+                </p>
+                <a href="${project.link}" class="btn">View Project</a>
+            </div>
+        `;
+
+        return projectElement;
+    }
+
+    function renderProjects(projects) {
+        projectGrid.innerHTML = '';
+        projects.forEach(project => {
+            projectGrid.appendChild(createProjectElement(project));
         });
+    }
 
-    // Read More button functionality
-    const readMoreBtn = document.getElementById('read-more');
-    const bioContent = document.getElementById('bio-content');
-    
-    readMoreBtn.addEventListener('click', function() {
-        if (bioContent.style.display === 'none' || bioContent.style.display === '') {
-            bioContent.style.display = 'block';
-            readMoreBtn.textContent = 'Read Less';
-        } else {
-            bioContent.style.display = 'none';
-            readMoreBtn.textContent = 'Read More';
-        }
-    });
-
-    // Smooth scrolling for navigation links
-    const navLinks = document.querySelectorAll('nav a[href^="#"]');
-    
-    navLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            const targetId = this.getAttribute('href');
-            const targetElement = document.querySelector(targetId);
-            
-            if (targetElement) {
-                const headerHeight = document.querySelector('header').offsetHeight;
-                const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
-                const offsetPosition = elementPosition - headerHeight;
-
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: 'smooth'
-                });
-            }
-        });
-    });
-
-    // Language selector functionality
-    document.getElementById('language-select').addEventListener('change', function() {
-        var lang = this.value;
-        if (lang === 'en') {
-            window.location.href = 'index-en.html';
-        } else if (lang === 'ko') {
-            window.location.href = 'index-ko.html';
-        }
-    });
+    renderProjects(projectsData);
 
     // Project search functionality
     const projectSearch = document.getElementById('project-search');
-    const projects = document.querySelectorAll('.project');
 
     projectSearch.addEventListener('input', function() {
         const searchTerm = this.value.toLowerCase().trim();
 
-        projects.forEach(project => {
-            const tags = project.dataset.tags.toLowerCase();
-            if (searchTerm === '' || tags.includes(searchTerm)) {
-                project.style.display = '';
-            } else {
-                project.style.display = 'none';
-            }
-        });
+        const filteredProjects = projectsData.filter(project => 
+            searchTerm === '' || project.tags.some(tag => tag.toLowerCase().includes(searchTerm))
+        );
+
+        renderProjects(filteredProjects);
     });
 });
