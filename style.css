@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Lora&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Lora&family=Noto+Sans+KR&display=swap');
 
 :root {
     --light-beige: #e8e6e1;
@@ -15,15 +15,13 @@
     box-sizing: border-box;
 }
 
-@media (max-width: 768px) {
-    :root {
-        --header-height: 100px; /* Adjust this value for mobile */
-    }
+html {
+    scroll-padding-top: var(--header-height);
+    scroll-behavior: smooth;
 }
 
-
 body {
-    font-family: 'Lora', serif;
+    font-family: 'Lora', 'Noto Sans KR', serif;
     line-height: 1.6;
     color: var(--text-color);
     background-image: url('btexture.png');
@@ -37,35 +35,22 @@ header {
     left: 0;
     right: 0;
     z-index: 1000;
-    height: 60px;
+    height: var(--header-height);
     background-color: rgba(216, 214, 209, 0.9);
     backdrop-filter: blur(5px);
-    padding: 1rem;
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 1000;
-}
-@media (max-width: 768px) {
-    header {
-        height: 50px; /* Possibly smaller for mobile */
-    }
+    padding: 0.5rem 1rem;
 }
 
 #header-spacer {
-    height: 60px; /* Same as header height */
-}
-
-@media (max-width: 768px) {
-    #header-spacer {
-        height: 50px; /* Same as mobile header height */
-    }
+    height: var(--header-height);
 }
 
 nav ul {
     list-style-type: none;
     display: flex;
     justify-content: center;
+    align-items: center;
+    height: 100%;
 }
 
 nav a {
@@ -82,22 +67,40 @@ nav a:hover {
 }
 
 main {
-padding-top: 0;
-    padding: 6rem 2rem 2rem;
+    padding: 2rem;
     max-width: 1200px;
     margin: 0 auto;
 }
 
 section {
-    padding-top: 20px; /* Or whatever general padding you want */
-    margin-top: 0;
     margin-bottom: 4rem;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 2rem;
+    border-radius: 8px;
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Libre Baskerville', serif;
+    font-family: 'Libre Baskerville', 'Noto Sans KR', serif;
     color: var(--dark-beige);
     margin-bottom: 1rem;
+}
+
+.about-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem;
+}
+
+.profile-picture {
+    width: 200px;
+    height: 300px;
+    object-fit: cover;
+    object-position: center top;
+    border-radius: 10px;
+}
+
+.about-text {
+    flex: 1;
 }
 
 .project-grid {
@@ -126,8 +129,6 @@ h1, h2, h3, h4, h5, h6 {
 
 .project-info {
     padding: 1rem;
-    background-color: rgba(255, 255, 255, 0.7);
-    border-radius: 0 0 8px 8px;
 }
 
 .btn {
@@ -138,7 +139,7 @@ h1, h2, h3, h4, h5, h6 {
     text-decoration: none;
     border-radius: 5px;
     transition: background-color 0.3s ease, transform 0.2s ease;
-    border: 1px solid var(--medium-beige);
+    border: none;
     cursor: pointer;
 }
 
@@ -152,9 +153,6 @@ form {
     flex-direction: column;
     max-width: 500px;
     margin: 0 auto;
-    background-color: rgba(255, 255, 255, 0.7);
-    padding: 15px;
-    border-radius: 5px;
 }
 
 input, textarea {
@@ -166,10 +164,6 @@ input, textarea {
     color: var(--text-color);
 }
 
-input::placeholder, textarea::placeholder {
-    color: var(--accent-color);
-}
-
 footer {
     background-color: var(--dark-beige);
     color: var(--light-beige);
@@ -178,22 +172,6 @@ footer {
     margin-top: 2rem;
 }
 
-#about p {
-    background-color: rgba(255, 255, 255, 0.7);
-    padding: 15px;
-    border-radius: 5px;
-}
-
-@media (max-width: 600px) {
-    nav ul {
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    nav a {
-        margin: 0.5rem 0;
-    }
-}
 .language-selector {
     margin-left: auto;
 }
@@ -206,45 +184,42 @@ footer {
     color: var(--text-color);
 }
 
-@media (max-width: 600px) {
-    .language-selector {
-        margin-left: 0;
-        margin-top: 1rem;
-    }
-}
-
-
-.profile-picture {
-    width: 200px;  /* Adjust this value as needed */
-    height: 300px; /* Adjust this value to maintain the portrait aspect ratio */
-    object-fit: cover;
-    object-position: center top;
-    border-radius: 10px; /* Optional: if you want rounded corners */
-}
-
-.about-content {
-    display: flex;
-    align-items: flex-start;
-    gap: 2rem;
-}
-
-.about-text {
-    flex: 1;
-}
-
 @media (max-width: 768px) {
+    :root {
+        --header-height: 80px;
+    }
+
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav a {
+        margin: 0.25rem 0;
+    }
+
     .about-content {
         flex-direction: column;
         align-items: center;
     }
 
     .profile-picture {
-        width: 150px;  /* Smaller size for mobile devices */
+        width: 150px;
         height: 225px;
+    }
+
+    .language-selector {
+        margin-left: 0;
+        margin-top: 0.5rem;
     }
 }
 
-html {
-    scroll-padding-top: var(--header-height);
-    scroll-behavior: smooth;
+@supports (-webkit-touch-callout: none) {
+    header {
+        height: 100px;
+    }
+
+    #header-spacer {
+        height: 100px;
+    }
 }
