@@ -51,6 +51,7 @@ nav ul {
     justify-content: center;
     align-items: center;
     height: 100%;
+    flex-wrap: wrap;
 }
 
 nav a {
@@ -62,14 +63,23 @@ nav a {
     transition: background-color 0.3s ease;
 }
 
-nav a:hover {
-    background-color: var(--medium-beige);
+nav li {
+    margin: 0.25rem 0.5rem;
+}
+
+nav a {
+    text-decoration: none;
+    color: var(--text-color);
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
 }
 
 main {
     padding: 2rem;
     max-width: 1200px;
     margin: 0 auto;
+    padding-top: calc(var(--header-height) + 2rem);
 }
 
 section {
@@ -186,7 +196,7 @@ footer {
 
 @media (max-width: 768px) {
     :root {
-        --header-height: 80px;
+        --header-height: 120px;
     }
 
     nav ul {
@@ -215,6 +225,9 @@ footer {
 }
 
 @supports (-webkit-touch-callout: none) {
+        :root {
+        --header-height: 140px; /* Extra height for iOS devices */
+    }
     header {
         height: 100px;
     }
