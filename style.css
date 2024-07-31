@@ -197,6 +197,10 @@ footer {
     color: var(--text-color);
 }
 
+#bio-content {
+    display: none;
+}
+
 @media (max-width: 768px) {
     :root {
         --header-height: 120px;
@@ -257,6 +261,8 @@ footer {
         padding: 1.5rem;
     }
 }
+
+
 
 @media (max-width: 480px) {
     .project-grid {
