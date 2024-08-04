@@ -82,8 +82,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // ... (keep your existing code for projects)
 
     // Dynamic event generation
+    const eventSection = document.getElementById('events');
     const eventGrid = document.getElementById('event-grid');
-    console.log("Event grid element:", eventGrid); // Debug log
 
     function createEventElement(event) {
         const eventElement = document.createElement('div');
@@ -101,18 +101,22 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function renderEvents(events) {
-        console.log("Rendering events:", events); // Debug log
-        eventGrid.innerHTML = '';
-        events.forEach(event => {
-            eventGrid.appendChild(createEventElement(event));
-        });
+        if (events && events.length > 0) {
+            eventGrid.innerHTML = '';
+            events.forEach(event => {
+                eventGrid.appendChild(createEventElement(event));
+            });
+            eventSection.style.display = 'block'; // Make sure the section is visible
+        } else {
+            eventSection.style.display = 'none'; // Hide the section if there are no events
+        }
     }
 
-    if (typeof eventsData !== 'undefined') {
-        console.log("Events data:", eventsData); // Debug log
+    // Check if eventsData exists and render events
+    if (typeof eventsData !== 'undefined' && Array.isArray(eventsData)) {
         renderEvents(eventsData);
     } else {
-        console.error("eventsData is not defined"); // Debug log
+        console.error("eventsData is not defined or is not an array. Make sure event.js is loaded properly.");
     }
 
     // ... (keep your existing code for read more functionality)
