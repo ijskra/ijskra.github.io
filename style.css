@@ -180,21 +180,50 @@ h1, h2, h3, h4, h5, h6 {
 
 #events {
     margin-bottom: 4rem;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 2rem;
+    border-radius: 8px;
+}
+
+#events h2 {
+    margin-bottom: 1.5rem;
+    color: var(--dark-beige);
 }
 
 .event-grid {
     display: grid;
-    gap: 1em;
-    padding: 1rem;
+    gap: 1.5em;
 }
 
 .event-item {
     background-color: rgba(232, 230, 225, 0.9);
     border-radius: 8px;
-    padding: 1rem;
+    padding: 1.5rem;
     border: 1px solid var(--medium-beige);
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     transition: transform 0.3s ease;
+}
+
+/* Keep your existing styles for event-item:hover, event-date, event-location, etc. */
+
+@media (max-width: 768px) {
+    #events {
+        padding: 1.5rem;
+    }
+
+    .event-item {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    #events {
+        padding: 1rem;
+    }
+
+    .event-item {
+        padding: 0.75rem;
+    }
 }
 
 .event-item:hover {
