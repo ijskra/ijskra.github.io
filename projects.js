@@ -11,7 +11,7 @@ const projectsData = [
         title: "Harpsichord Concerto",
         description: "for harpsichord and baroque orchestra (2022)",
         imageUrl: "pic/hpc.jpg",
-        tags: ["harpsichord", "baroque", "composition", "Couperin", "Suite"],
+        tags: ["harpsichord", "baroque", "composition", "François Couperin", "Suite"],
         link: "https://www.youtube.com/watch?v=WuUQeFpRhHo"
     },
     {
