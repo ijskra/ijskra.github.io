@@ -1,3 +1,33 @@
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    // ... (keep your existing code)
+
+    // Read More functionality
+    const readMoreBtn = document.getElementById('read-more-btn');
+    const bioContent = document.getElementById('bio-content');
+
+    readMoreBtn.addEventListener('click', function() {
+        if (bioContent.style.display === 'none' || bioContent.style.display === '') {
+            bioContent.style.display = 'block';
+            readMoreBtn.textContent = 'Read Less';
+        } else {
+            bioContent.style.display = 'none';
+            readMoreBtn.textContent = 'Read More';
+        }
+    });
+
+    // Load bio content
+    fetch('bio.html')
+        .then(response => response.text())
+        .then(data => {
+            bioContent.innerHTML = data;
+            bioContent.style.display = 'none';
+        })
+        .catch(error => console.error('Error loading bio:', error));
+});
+
+
 document.addEventListener('DOMContentLoaded', function() {
     // ... (keep your existing code)
 
@@ -49,28 +79,34 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 document.addEventListener('DOMContentLoaded', function() {
-    // ... (keep your existing code)
+    // ... (keep your existing code for projects)
 
-    // Read More functionality
-    const readMoreBtn = document.getElementById('read-more-btn');
-    const bioContent = document.getElementById('bio-content');
+    // Dynamic event generation
+    const eventGrid = document.getElementById('event-grid');
 
-    readMoreBtn.addEventListener('click', function() {
-        if (bioContent.style.display === 'none' || bioContent.style.display === '') {
-            bioContent.style.display = 'block';
-            readMoreBtn.textContent = 'Read Less';
-        } else {
-            bioContent.style.display = 'none';
-            readMoreBtn.textContent = 'Read More';
-        }
-    });
+    function createEventElement(event) {
+        const eventElement = document.createElement('div');
+        eventElement.className = 'event-item';
 
-    // Load bio content
-    fetch('bio.html')
-        .then(response => response.text())
-        .then(data => {
-            bioContent.innerHTML = data;
-            bioContent.style.display = 'none';
-        })
-        .catch(error => console.error('Error loading bio:', error));
+        eventElement.innerHTML = `
+            <h3>${event.title}</h3>
+            <p class="event-date">Date: ${event.date}</p>
+            <p class="event-location">Location: ${event.location}</p>
+            <p class="event-description">${event.description}</p>
+            <a href="${event.link}" class="btn">More Info</a>
+        `;
+
+        return eventElement;
+    }
+
+    function renderEvents(events) {
+        eventGrid.innerHTML = '';
+        events.forEach(event => {
+            eventGrid.appendChild(createEventElement(event));
+        });
+    }
+
+    renderEvents(eventsData);
+
+    // ... (keep your existing code for read more functionality)
 });
