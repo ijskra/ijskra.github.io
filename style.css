@@ -175,9 +175,64 @@ h1, h2, h3, h4, h5, h6 {
     margin-bottom: 0.5rem;
 }
 
+/* Event section styles */
+#events {
+    margin-bottom: 4rem;
+}
+
 .event-grid {
     display: grid;
     gap: 1em;
+    padding: 1rem;
+}
+
+.event-item {
+    background-color: rgba(232, 230, 225, 0.9);
+    border-radius: 8px;
+    padding: 1rem;
+    border: 1px solid var(--medium-beige);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.event-item:hover {
+    transform: translateY(-5px);
+}
+
+.event-item h3 {
+    color: var(--dark-beige);
+    margin-bottom: 0.5rem;
+}
+
+.event-date, .event-location {
+    font-size: 0.9em;
+    color: var(--accent-color);
+    margin-bottom: 0.5rem;
+}
+
+.event-description {
+    margin-bottom: 1rem;
+}
+
+.event-link {
+    display: inline-block;
+    padding: 0.5em 1em;
+    background-color: var(--accent-color);
+    color: var(--light-beige);
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.event-link:hover {
+    background-color: var(--dark-beige);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .event-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 .btn {
