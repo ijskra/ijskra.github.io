@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <p class="event-date">Date: ${event.date}</p>
             <p class="event-location">Location: ${event.location}</p>
             <p class="event-description">${event.description}</p>
-            <a href="${event.link}" class="btn">More Info</a>
+            <a href="${event.link}" class="event-link">More Info</a>
         `;
 
         return eventElement;
