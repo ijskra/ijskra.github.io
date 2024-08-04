@@ -46,3 +46,31 @@ document.addEventListener('DOMContentLoaded', function() {
         renderProjects(filteredProjects);
     });
 });
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    // ... (keep your existing code)
+
+    // Read More functionality
+    const readMoreBtn = document.getElementById('read-more-btn');
+    const bioContent = document.getElementById('bio-content');
+
+    readMoreBtn.addEventListener('click', function() {
+        if (bioContent.style.display === 'none' || bioContent.style.display === '') {
+            bioContent.style.display = 'block';
+            readMoreBtn.textContent = 'Read Less';
+        } else {
+            bioContent.style.display = 'none';
+            readMoreBtn.textContent = 'Read More';
+        }
+    });
+
+    // Load bio content
+    fetch('bio.html')
+        .then(response => response.text())
+        .then(data => {
+            bioContent.innerHTML = data;
+            bioContent.style.display = 'none';
+        })
+        .catch(error => console.error('Error loading bio:', error));
+});
