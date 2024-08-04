@@ -3,17 +3,17 @@
 // Array of event objects
 const events = [
     {
-        title: "Concert at Symphony Hall",
-        date: "2024-09-15",
-        location: "Symphony Hall, Boston",
-        description: "Performing new compositions with the Boston Symphony Orchestra.",
+        title: "IU New Music Voice",
+        date: "2024-11-19",
+        location: "Auer Hall, Indiana",
+        description: "Performing a new composition with IU New Music Orchestra.",
         link: "#"
     },
     {
-        title: "Guest Lecture at Julliard",
-        date: "2024-10-02",
-        location: "Julliard School, New York",
-        description: "Discussing modern compositional techniques in classical music.",
+        title: "Microtonal Seminar Concert",
+        date: "TBA",
+        location: "Seoul",
+        description: "Discussing microtonalities in new music.",
         link: "#"
     },
     // Add more events as needed
