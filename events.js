@@ -1,4 +1,4 @@
-// event.js
+// events.js
 const eventsData = [
     {
         title: "IU New Voices Orchestra Concert",
