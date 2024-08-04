@@ -83,6 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Dynamic event generation
     const eventGrid = document.getElementById('event-grid');
+    console.log("Event grid element:", eventGrid); // Debug log
 
     function createEventElement(event) {
         const eventElement = document.createElement('div');
@@ -100,13 +101,19 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function renderEvents(events) {
+        console.log("Rendering events:", events); // Debug log
         eventGrid.innerHTML = '';
         events.forEach(event => {
             eventGrid.appendChild(createEventElement(event));
         });
     }
 
-    renderEvents(eventsData);
+    if (typeof eventsData !== 'undefined') {
+        console.log("Events data:", eventsData); // Debug log
+        renderEvents(eventsData);
+    } else {
+        console.error("eventsData is not defined"); // Debug log
+    }
 
     // ... (keep your existing code for read more functionality)
 });
