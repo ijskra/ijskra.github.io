@@ -3,10 +3,10 @@
 // Array of event objects
 const events = [
     {
-        title: "IU New Music Voice",
+        title: "IU New Voices Orchestra Concert",
         date: "2024-11-19",
         location: "Auer Hall, Indiana",
-        description: "Performing a new composition with IU New Music Orchestra.",
+        description: "Performing a new composition with IU New Voices Orchestra.",
         link: "#"
     },
     {
