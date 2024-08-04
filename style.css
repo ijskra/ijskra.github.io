@@ -102,6 +102,10 @@ h1, h2, h3, h4, h5, h6 {
     gap: 2rem;
 }
 
+.about-content p + p {
+    text-indent: 40px;
+}
+
 .profile-picture {
     width: 200px;
     height: 300px;
