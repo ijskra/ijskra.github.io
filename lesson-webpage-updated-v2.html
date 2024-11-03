@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>음악 이론 및 작곡 레슨</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        
+        :root {
+            --primary-color: #1a1f36;
+            --secondary-color: #2d3748;
+            --accent-color: #4a5568;
+            --highlight-color: #667eea;
+            --text-color: #2d3748;
+            --light-bg: #f7fafc;
+            --border-color: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            line-height: 1.7;
+            color: var(--text-color);
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                        url("/api/placeholder/1920/1080") fixed center;
+            background-size: cover;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        h1 {
+            font-size: 2.4rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            color: var(--accent-color);
+            font-size: 1.1rem;
+            font-weight: 400;
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            color: var(--secondary-color);
+            margin: 2.5rem 0 1.5rem;
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+        }
+
+        h2::before {
+            content: "";
+            display: inline-block;
+            width: 4px;
+            height: 24px;
+            background-color: var(--highlight-color);
+            margin-right: 1rem;
+            border-radius: 2px;
+        }
+
+        .section {
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background-color: rgba(247, 250, 252, 0.8);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 0.5rem;
+        }
+
+        li {
+            margin-bottom: 1rem;
+            position: relative;
+            padding-left: 1.5rem;
+            line-height: 1.6;
+        }
+
+        li::before {
+            content: "•";
+            color: var(--highlight-color);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .highlight-text {
+            color: var(--highlight-color);
+            font-weight: 500;
+        }
+
+        .price-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 1.5rem 0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .price-table th, .price-table td {
+            padding: 1.2rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+
+        .price-table th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 500;
+        }
+
+        .price-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .note {
+            font-size: 0.9rem;
+            color: var(--accent-color);
+            font-style: italic;
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            border-left: 4px solid var(--highlight-color);
+        }
+
+        .contact-info {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-info p {
+            margin-bottom: 1rem;
+        }
+
+        .contact-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background-color: white;
+            color: var(--primary-color);
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .contact-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            background-color: var(--light-bg);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .container {
+                padding: 1.5rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .section {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>음악 이론 및 작곡 레슨</h1>
+            <p class="subtitle">체계적이고 전문적인 음악 교육을 제공합니다</p>
+        </header>
+
+        <div class="section">
+            <h2>전문 분야</h2>
+            <ul>
+                <li><span class="highlight-text">화성학</span> - 기초부터 고급 응용까지 체계적 교육</li>
+                <li><span class="highlight-text">건반화성</span> - 실제 연주를 통한 화성 이해 심화</li>
+                <li><span class="highlight-text">작곡</span> - 실용적인 작곡 기법과 창작 지도</li>
+                <li><span class="highlight-text">음악 이론</span> - 포괄적인 음악 전반에 대한 이해와 지도</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>학력 및 이력</h2>
+            <ul>
+                <li>음악영재아카데미 개원 작곡 최초 예술의전당 리사이틀홀 연주 및 발표</li>
+                <li>서울대학교 음악대학 작곡과 학사 (우수장학생 선발, 조기최우등졸업)</li>
+                <li>서울대학교 음악대학 작곡과 석사과정 수료</li>
+                <li>Indiana University Jacobs School of Music 작곡과 석사 및 박사 졸업</li>
+                <li>Indiana University Historical Performance Institute 하프시코드 연주자 디플로마 수료</li>
+                <li>현 계명대학교 출강</li>
+                <li>북미 유럽 아시아 대륙 등지 다양한 페스티벌과 음악회에서 발표 및 연주</li>
+                <li>음악감독으로 참여한 영화 "당신으로부터" 전주국제영화제 대상 수상</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>교육 이력</h2>
+            <ul>
+                <li>문하생 한국예술종합학교, 연세대학교, 한양대학교 합격</li>
+                <li>화성학 수학: 백병동, 김홍인, Dubois, Challan, Riemann, Schenker</li>
+                <li>전문 과정: 반음계적 화성학, 응용화성학 심화 연구</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>레슨 구분 및 수강료</h2>
+            <table class="price-table">
+                <tr>
+                    <th>구분</th>
+                    <th>시간</th>
+                    <th>수강료</th>
+                </tr>
+                <tr>
+                    <td rowspan="2">취미 레슨</td>
+                    <td>25분</td>
+                    <td>3만원</td>
+                </tr>
+                <tr>
+                    <td>50분</td>
+                    <td>5만원</td>
+                </tr>
+            </table>
+            <p class="note">※ 일반 레슨(직업 음악인) 및 입시 레슨 수강료는 오픈카톡으로 문의 바랍니다.</p>
+        </div>
+
+        <div class="section">
+            <h2>레슨 운영 원칙</h2>
+            <ul>
+                <li>시간 배정 우선순위: 입시 레슨 > 일반 레슨 > 취미 레슨</li>
+                <li>입시 레슨의 경우 시간 고정을 원칙으로 하며, 불가피한 변동 시 보강 보장</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>레슨 장소</h2>
+            <ul>
+                <li>서울특별시 송파구 방이동 소재 작업실 (4층, 엘리베이터 미설치)</li>
+                <li>작업실 내부 쾌적한 환경 유지</li>
+            </ul>
+        </div>
+
+        <div class="contact-info">
+            <p>체계적이고 전문적인 음악 교육을 제공해드리겠습니다.</p>
+            <p>자세한 상담과 문의는 아래 링크를 통해 연락 주시기 바랍니다.</p>
+            <a href="https://open.kakao.com/o/[YOUR_KAKAO_ID]" target="_blank" class="contact-button">
+                오픈카톡으로 문의하기
+            </a>
+        </div>
+    </div>
+</body>
+</html>
