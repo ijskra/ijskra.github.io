@@ -92,16 +92,16 @@ mark{background:rgba(247,232,140,.55);color:inherit}
 <div style="position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(to bottom, transparent 0 20px, #cdc3b3 20px 20.8px, transparent 20.8px 26.5px, #cdc3b3 26.5px 27.3px, transparent 27.3px 33px, #cdc3b3 33px 33.8px, transparent 33.8px 39.5px, #cdc3b3 39.5px 40.3px, transparent 40.3px 46px, #cdc3b3 46px 46.8px, transparent 46.8px 69.55px);background-size:100% 69.55px;background-repeat:repeat;background-position:0 21.8px;filter:url(#ink)"></div>
 <div style="{{ w.woodStyle }}"></div>
 <div data-reveal="1" style="position:relative;max-width:1440px;margin:0 auto;height:100%;opacity:0;transition:opacity .6s ease">
-<div style="{{ S.titleRow }}">
+<div data-fit="1" style="{{ S.titleRow }}">
 <span style="width:34px;flex:none;margin-right:14px;font-family:'EB Garamond',serif;font-size:11.5px;font-variant-numeric:lining-nums tabular-nums;color:#6b6052">{{ w.year }}</span>
 <sc-for list="{{ w.line1 }}" as="pt" hint-placeholder-count="1">
 <sc-if value="{{ pt.t1Kr }}" hint-placeholder-val="{{ true }}"><span style="font-weight:600">{{ pt.text }}</span></sc-if>
 <sc-if value="{{ pt.t1En }}" hint-placeholder-val="{{ false }}"><span style="font-family:'EB Garamond',serif;font-size:14px;font-weight:500">{{ pt.text }}</span></sc-if>
-<sc-if value="{{ pt.t2Kr }}" hint-placeholder-val="{{ false }}"><span style="margin-left:14px;color:#6b6052">{{ pt.text }}</span></sc-if>
-<sc-if value="{{ pt.t2En }}" hint-placeholder-val="{{ false }}"><span style="margin-left:14px;font-family:'EB Garamond',serif;font-style:italic;font-size:14px;color:#6b6052">{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.t2Kr }}" hint-placeholder-val="{{ false }}"><span data-secondary="1" style="margin-left:14px;color:#6b6052">{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.t2En }}" hint-placeholder-val="{{ false }}"><span data-secondary="1" style="margin-left:14px;font-family:'EB Garamond',serif;font-style:italic;font-size:14px;color:#6b6052">{{ pt.text }}</span></sc-if>
 </sc-for>
 </div>
-<div style="{{ S.inst }}">{{ w.inst }}</div>
+<div data-fit="wrap" style="{{ w.instStyle }}">{{ w.inst }}</div>
 <div style="{{ S.linksRow }}">
 <sc-for list="{{ w.links }}" as="pt" hint-placeholder-count="0">
 <sc-if value="{{ pt.linkKr }}" hint-placeholder-val="{{ true }}"><a href="{{ pt.href }}" target="_blank" rel="noopener">{{ pt.text }}</a></sc-if>
@@ -109,7 +109,7 @@ mark{background:rgba(247,232,140,.55);color:inherit}
 </sc-for>
 </div>
 <sc-for list="{{ w.details }}" as="ln" hint-placeholder-count="0">
-<div style="{{ ln.style }}">
+<div data-fit="1" style="{{ ln.style }}">
 <sc-for list="{{ ln.parts }}" as="pt" hint-placeholder-count="1">
 <sc-if value="{{ pt.label }}" hint-placeholder-val="{{ false }}"><span style="margin-right:9px;font-size:11px;letter-spacing:.06em;color:#6b6052">{{ pt.text }}</span></sc-if>
 <sc-if value="{{ pt.plain }}" hint-placeholder-val="{{ true }}"><span>{{ pt.text }}</span></sc-if>
@@ -141,15 +141,15 @@ mark{background:rgba(247,232,140,.55);color:inherit}
 <div style="position:relative;height:69.55px">
 <div style="position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(to bottom, transparent 0 20px, #cdc3b3 20px 20.8px, transparent 20.8px 26.5px, #cdc3b3 26.5px 27.3px, transparent 27.3px 33px, #cdc3b3 33px 33.8px, transparent 33.8px 39.5px, #cdc3b3 39.5px 40.3px, transparent 40.3px 46px, #cdc3b3 46px 46.8px, transparent 46.8px 69.55px);background-size:100% 69.55px;background-repeat:repeat;background-position:0 21.8px;filter:url(#ink)"></div>
 <div data-reveal="1" style="position:relative;max-width:1440px;margin:0 auto;height:100%;opacity:0;transition:opacity .6s ease">
-<div style="{{ S.titleRow }}">
+<div data-fit="1" style="{{ S.titleRow }}">
 <span style="width:34px;flex:none;margin-right:14px;font-family:'EB Garamond',serif;font-size:11.5px;font-variant-numeric:lining-nums tabular-nums;color:#6b6052">{{ r.year }}</span>
 <sc-for list="{{ r.line1 }}" as="pt" hint-placeholder-count="1">
 <sc-if value="{{ pt.subKr }}" hint-placeholder-val="{{ false }}"><span style="font-size:15.5px;font-weight:500;letter-spacing:.06em">{{ pt.text }}</span></sc-if>
 <sc-if value="{{ pt.subEn }}" hint-placeholder-val="{{ false }}"><span style="font-family:'EB Garamond',serif;font-size:17px;font-weight:500;letter-spacing:.02em">{{ pt.text }}</span></sc-if>
 <sc-if value="{{ pt.t1Kr }}" hint-placeholder-val="{{ true }}"><span style="font-weight:600">{{ pt.text }}</span></sc-if>
 <sc-if value="{{ pt.t1En }}" hint-placeholder-val="{{ false }}"><span style="font-family:'EB Garamond',serif;font-size:14px;font-weight:500">{{ pt.text }}</span></sc-if>
-<sc-if value="{{ pt.t2Kr }}" hint-placeholder-val="{{ false }}"><span style="margin-left:14px;color:#6b6052">{{ pt.text }}</span></sc-if>
-<sc-if value="{{ pt.t2En }}" hint-placeholder-val="{{ false }}"><span style="margin-left:14px;font-family:'EB Garamond',serif;font-style:italic;font-size:14px;color:#6b6052">{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.t2Kr }}" hint-placeholder-val="{{ false }}"><span data-secondary="1" style="margin-left:14px;color:#6b6052">{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.t2En }}" hint-placeholder-val="{{ false }}"><span data-secondary="1" style="margin-left:14px;font-family:'EB Garamond',serif;font-style:italic;font-size:14px;color:#6b6052">{{ pt.text }}</span></sc-if>
 <sc-if value="{{ pt.meta }}" hint-placeholder-val="{{ false }}"><span style="margin-left:14px;font-size:11px;letter-spacing:.06em;color:#6b6052">{{ pt.text }}</span></sc-if>
 <sc-if value="{{ pt.plain }}" hint-placeholder-val="{{ false }}"><span>{{ pt.text }}</span></sc-if>
 </sc-for>
@@ -161,7 +161,7 @@ mark{background:rgba(247,232,140,.55);color:inherit}
 <sc-if value="{{ pt.linkEn }}" hint-placeholder-val="{{ false }}"><a href="{{ pt.href }}" target="_blank" rel="noopener" style="font-family:'EB Garamond',serif;font-size:14px">{{ pt.text }}</a></sc-if>
 </sc-for>
 </div>
-<div style="{{ S.line2 }}">
+<div data-fit="wrap" style="{{ S.line2 }}">
 <sc-for list="{{ r.line2 }}" as="pt" hint-placeholder-count="0">
 <sc-if value="{{ pt.label }}" hint-placeholder-val="{{ false }}"><span style="margin-right:9px;font-size:11px;letter-spacing:.06em;color:#6b6052">{{ pt.text }}</span></sc-if>
 <sc-if value="{{ pt.plain }}" hint-placeholder-val="{{ true }}"><span>{{ pt.text }}</span></sc-if>
@@ -191,15 +191,15 @@ mark{background:rgba(247,232,140,.55);color:inherit}
 <div style="position:relative;height:69.55px">
 <div style="position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(to bottom, transparent 0 20px, #cdc3b3 20px 20.8px, transparent 20.8px 26.5px, #cdc3b3 26.5px 27.3px, transparent 27.3px 33px, #cdc3b3 33px 33.8px, transparent 33.8px 39.5px, #cdc3b3 39.5px 40.3px, transparent 40.3px 46px, #cdc3b3 46px 46.8px, transparent 46.8px 69.55px);background-size:100% 69.55px;background-repeat:repeat;background-position:0 21.8px;filter:url(#ink)"></div>
 <div data-reveal="1" style="position:relative;max-width:1440px;margin:0 auto;height:100%;opacity:0;transition:opacity .6s ease">
-<div style="{{ S.titleRow }}">
+<div data-fit="1" style="{{ S.titleRow }}">
 <span style="width:34px;flex:none;margin-right:14px;font-family:'EB Garamond',serif;font-size:11.5px;font-variant-numeric:lining-nums tabular-nums;color:#6b6052">{{ r.year }}</span>
 <sc-for list="{{ r.line1 }}" as="pt" hint-placeholder-count="1">
 <sc-if value="{{ pt.subKr }}" hint-placeholder-val="{{ false }}"><span style="font-size:15.5px;font-weight:500;letter-spacing:.06em">{{ pt.text }}</span></sc-if>
 <sc-if value="{{ pt.subEn }}" hint-placeholder-val="{{ false }}"><span style="font-family:'EB Garamond',serif;font-size:17px;font-weight:500;letter-spacing:.02em">{{ pt.text }}</span></sc-if>
 <sc-if value="{{ pt.t1Kr }}" hint-placeholder-val="{{ true }}"><span style="font-weight:600">{{ pt.text }}</span></sc-if>
 <sc-if value="{{ pt.t1En }}" hint-placeholder-val="{{ false }}"><span style="font-family:'EB Garamond',serif;font-size:14px;font-weight:500">{{ pt.text }}</span></sc-if>
-<sc-if value="{{ pt.t2Kr }}" hint-placeholder-val="{{ false }}"><span style="margin-left:14px;color:#6b6052">{{ pt.text }}</span></sc-if>
-<sc-if value="{{ pt.t2En }}" hint-placeholder-val="{{ false }}"><span style="margin-left:14px;font-family:'EB Garamond',serif;font-style:italic;font-size:14px;color:#6b6052">{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.t2Kr }}" hint-placeholder-val="{{ false }}"><span data-secondary="1" style="margin-left:14px;color:#6b6052">{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.t2En }}" hint-placeholder-val="{{ false }}"><span data-secondary="1" style="margin-left:14px;font-family:'EB Garamond',serif;font-style:italic;font-size:14px;color:#6b6052">{{ pt.text }}</span></sc-if>
 <sc-if value="{{ pt.meta }}" hint-placeholder-val="{{ false }}"><span style="margin-left:14px;font-size:11px;letter-spacing:.06em;color:#6b6052">{{ pt.text }}</span></sc-if>
 <sc-if value="{{ pt.plain }}" hint-placeholder-val="{{ false }}"><span>{{ pt.text }}</span></sc-if>
 </sc-for>
@@ -211,7 +211,7 @@ mark{background:rgba(247,232,140,.55);color:inherit}
 <sc-if value="{{ pt.linkEn }}" hint-placeholder-val="{{ false }}"><a href="{{ pt.href }}" target="_blank" rel="noopener" style="font-family:'EB Garamond',serif;font-size:14px">{{ pt.text }}</a></sc-if>
 </sc-for>
 </div>
-<div style="{{ S.line2 }}">
+<div data-fit="wrap" style="{{ S.line2 }}">
 <sc-for list="{{ r.line2 }}" as="pt" hint-placeholder-count="0">
 <sc-if value="{{ pt.label }}" hint-placeholder-val="{{ false }}"><span style="margin-right:9px;font-size:11px;letter-spacing:.06em;color:#6b6052">{{ pt.text }}</span></sc-if>
 <sc-if value="{{ pt.plain }}" hint-placeholder-val="{{ true }}"><span>{{ pt.text }}</span></sc-if>
@@ -241,15 +241,15 @@ mark{background:rgba(247,232,140,.55);color:inherit}
 <div style="position:relative;height:69.55px">
 <div style="position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(to bottom, transparent 0 20px, #cdc3b3 20px 20.8px, transparent 20.8px 26.5px, #cdc3b3 26.5px 27.3px, transparent 27.3px 33px, #cdc3b3 33px 33.8px, transparent 33.8px 39.5px, #cdc3b3 39.5px 40.3px, transparent 40.3px 46px, #cdc3b3 46px 46.8px, transparent 46.8px 69.55px);background-size:100% 69.55px;background-repeat:repeat;background-position:0 21.8px;filter:url(#ink)"></div>
 <div data-reveal="1" style="position:relative;max-width:1440px;margin:0 auto;height:100%;opacity:0;transition:opacity .6s ease">
-<div style="{{ S.titleRow }}">
+<div data-fit="1" style="{{ S.titleRow }}">
 <span style="width:34px;flex:none;margin-right:14px;font-family:'EB Garamond',serif;font-size:11.5px;font-variant-numeric:lining-nums tabular-nums;color:#6b6052">{{ r.year }}</span>
 <sc-for list="{{ r.line1 }}" as="pt" hint-placeholder-count="1">
 <sc-if value="{{ pt.subKr }}" hint-placeholder-val="{{ false }}"><span style="font-size:15.5px;font-weight:500;letter-spacing:.06em">{{ pt.text }}</span></sc-if>
 <sc-if value="{{ pt.subEn }}" hint-placeholder-val="{{ false }}"><span style="font-family:'EB Garamond',serif;font-size:17px;font-weight:500;letter-spacing:.02em">{{ pt.text }}</span></sc-if>
 <sc-if value="{{ pt.t1Kr }}" hint-placeholder-val="{{ true }}"><span style="font-weight:600">{{ pt.text }}</span></sc-if>
 <sc-if value="{{ pt.t1En }}" hint-placeholder-val="{{ false }}"><span style="font-family:'EB Garamond',serif;font-size:14px;font-weight:500">{{ pt.text }}</span></sc-if>
-<sc-if value="{{ pt.t2Kr }}" hint-placeholder-val="{{ false }}"><span style="margin-left:14px;color:#6b6052">{{ pt.text }}</span></sc-if>
-<sc-if value="{{ pt.t2En }}" hint-placeholder-val="{{ false }}"><span style="margin-left:14px;font-family:'EB Garamond',serif;font-style:italic;font-size:14px;color:#6b6052">{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.t2Kr }}" hint-placeholder-val="{{ false }}"><span data-secondary="1" style="margin-left:14px;color:#6b6052">{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.t2En }}" hint-placeholder-val="{{ false }}"><span data-secondary="1" style="margin-left:14px;font-family:'EB Garamond',serif;font-style:italic;font-size:14px;color:#6b6052">{{ pt.text }}</span></sc-if>
 <sc-if value="{{ pt.meta }}" hint-placeholder-val="{{ false }}"><span style="margin-left:14px;font-size:11px;letter-spacing:.06em;color:#6b6052">{{ pt.text }}</span></sc-if>
 <sc-if value="{{ pt.plain }}" hint-placeholder-val="{{ false }}"><span>{{ pt.text }}</span></sc-if>
 </sc-for>
@@ -261,7 +261,7 @@ mark{background:rgba(247,232,140,.55);color:inherit}
 <sc-if value="{{ pt.linkEn }}" hint-placeholder-val="{{ false }}"><a href="{{ pt.href }}" target="_blank" rel="noopener" style="font-family:'EB Garamond',serif;font-size:14px">{{ pt.text }}</a></sc-if>
 </sc-for>
 </div>
-<div style="{{ S.line2 }}">
+<div data-fit="wrap" style="{{ S.line2 }}">
 <sc-for list="{{ r.line2 }}" as="pt" hint-placeholder-count="0">
 <sc-if value="{{ pt.label }}" hint-placeholder-val="{{ false }}"><span style="margin-right:9px;font-size:11px;letter-spacing:.06em;color:#6b6052">{{ pt.text }}</span></sc-if>
 <sc-if value="{{ pt.plain }}" hint-placeholder-val="{{ true }}"><span>{{ pt.text }}</span></sc-if>
@@ -291,7 +291,7 @@ mark{background:rgba(247,232,140,.55);color:inherit}
 <div style="position:relative;height:69.55px">
 <div style="position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(to bottom, transparent 0 20px, #cdc3b3 20px 20.8px, transparent 20.8px 26.5px, #cdc3b3 26.5px 27.3px, transparent 27.3px 33px, #cdc3b3 33px 33.8px, transparent 33.8px 39.5px, #cdc3b3 39.5px 40.3px, transparent 40.3px 46px, #cdc3b3 46px 46.8px, transparent 46.8px 69.55px);background-size:100% 69.55px;background-repeat:repeat;background-position:0 21.8px;filter:url(#ink)"></div>
 <div data-reveal="1" style="position:relative;max-width:1440px;margin:0 auto;height:100%;opacity:0;transition:opacity .6s ease">
-<div style="{{ S.contactRow }}">
+<div data-fit="1" style="{{ S.contactRow }}">
 <span style="width:34px;flex:none;margin-right:14px;font-family:'EB Garamond',serif;font-size:11.5px;font-variant-numeric:lining-nums tabular-nums;color:#6b6052">{{ r.year }}</span>
 <sc-for list="{{ r.line1 }}" as="pt" hint-placeholder-count="1">
 <sc-if value="{{ pt.label }}" hint-placeholder-val="{{ false }}"><span style="margin-right:9px;font-size:11px;letter-spacing:.06em;color:#6b6052">{{ pt.text }}</span></sc-if>
@@ -334,8 +334,10 @@ class Component extends DCLogic {
     this.reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
     this._failsafe = setTimeout(() => document.querySelectorAll('[data-reveal]').forEach(el => { el.style.opacity = '1'; }), 4000);
     this.onScroll = () => { if (this._sr) return; this._sr = requestAnimationFrame(() => { this._sr = 0; this.updateCurrent(); }); };
+    this._fitTimer = 0;
     window.addEventListener('scroll', this.onScroll, { passive: true });
-    this.onResize = () => { const vw = window.innerWidth; if (vw !== this.state.vw) this.setState({ vw }, () => this.measure()); else this.measure(); };
+    this.onResize = () => { const vw = window.innerWidth; if (vw !== this.state.vw) this.setState({ vw }, () => this.measure()); else this.measure(); clearTimeout(this._fitTimer); this._fitTimer = setTimeout(() => this.fitLines(), 80); };
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => this.fitLines());
     window.addEventListener('resize', this.onResize);
     requestAnimationFrame(this.onResize);
     if ('ResizeObserver' in window) { this.vro = new ResizeObserver(this.onResize); this.vro.observe(document.documentElement); }
@@ -362,6 +364,35 @@ class Component extends DCLogic {
     const key = this.state.lang + ':' + this.state.vw;
     if (this._measuredFor !== key) { this._measuredFor = key; this.measure(); }
     this.observe();
+    clearTimeout(this._fitTimer); this._fitTimer = setTimeout(() => this.fitLines(), 60);
+  }
+  // Lines that must stay on one staff row: instead of clipping, squeeze letter-spacing (then word-spacing) until the text fits.
+  fitLines() {
+    document.querySelectorAll('[data-fit]').forEach(el => {
+      el.style.letterSpacing = ''; el.style.wordSpacing = ''; el.style.fontSize = '';
+      const sec = el.querySelector('[data-secondary]'); if (sec) sec.style.display = '';
+      const avail = el.clientWidth; if (!avail || el.scrollWidth <= avail + 0.5) return;
+      // 1) an optional secondary-language title is dropped first — better than crushing the row
+      if (sec) { sec.style.display = 'none'; if (el.scrollWidth <= avail + 0.5) return; }
+      // 2) gentle squeeze only: ≤4% via letter-spacing (min −0.35px); word-spacing never below −0.8px
+      const chars = Math.max(1, (el.textContent || '').length);
+      let over = el.scrollWidth - avail;
+      if (over / el.scrollWidth <= 0.04) {
+        el.style.letterSpacing = Math.max(-0.35, -over / chars).toFixed(2) + 'px';
+        if (el.scrollWidth > avail + 0.5) { over = el.scrollWidth - avail; const words = Math.max(1, (el.textContent || '').split(/\s+/).length - 1); el.style.wordSpacing = Math.max(-0.8, -over / words).toFixed(2) + 'px'; }
+        if (el.scrollWidth <= avail + 0.5) return;
+      }
+      el.style.letterSpacing = ''; el.style.wordSpacing = '';
+      if (el.dataset.fit === 'wrap') {
+        // 3a) lyric rows with nothing pinned beneath them may flow onto the next line
+        el.style.whiteSpace = 'normal'; el.style.height = 'auto'; el.style.maxHeight = '39px'; el.style.wordBreak = 'keep-all'; el.style.display = 'block';
+      } else {
+        // 3b) title rows sit above a fixed second line: keep one line, shrink the type (never below 11px)
+        const ratio = avail / el.scrollWidth;
+        el.style.fontSize = Math.max(11, parseFloat(getComputedStyle(el).fontSize) * ratio * 0.98).toFixed(2) + 'px';
+        if (el.scrollWidth > avail + 0.5) { over = el.scrollWidth - avail; el.style.letterSpacing = Math.max(-0.5, -over / chars).toFixed(2) + 'px'; }
+      }
+    });
   }
   // Geometry per viewport width. Every vertical position is a system top (k·P) plus a fixed offset inside the system,
   // so text always lands in the same place relative to the staff: titles/memos under a staff, the next staff separating items.
@@ -475,7 +506,7 @@ class Component extends DCLogic {
       head: { position: 'relative', height: L.headH },
       memo: A({ left: M, top: 20, height: this.P, width: 'auto', display: 'block' }),
       headTitle: A(L.headTitle, { display: 'flex', alignItems: 'baseline', whiteSpace: 'nowrap' }),
-      titleRow: rowLine(0.25, T - 48, M + L.rightGap),
+      titleRow: rowLine(0.25, T - 48, M + (mobile ? 130 : L.rightGap)),
       rightRow: { position: 'absolute', right: M, top: 0.25, height: 19.5, display: 'flex', alignItems: 'baseline', gap: 18, whiteSpace: 'nowrap' },
       line2: rowLine(19.75, T, M),
       inst: { position: 'absolute', left: T, right: M + L.rightGap, top: 19.75, height: 19.5, whiteSpace: 'nowrap', overflow: 'hidden' },
@@ -537,7 +568,8 @@ class Component extends DCLogic {
         const ptxt = byLang(r['연주자'], r['연주자_영문']);
         const est = Array.from(ptxt).reduce((w, ch) => w + (/[가-힣一-龥]/.test(ch) ? 13 : 6.6), 0) + 60;
         const parts = [label(t('label.performers')), plain(ptxt)];
-        parts.wrap = est > L.colW - (score ? 324 : 0) - 20;   // too long for one lyric line → takes the pair of lines under a staff
+        const avail = L.colW - (mobile ? 0 : (score ? 324 : 0)) - 20;
+        parts.wrap = est > avail;   // too long for one lyric line → takes the pair of lines under a staff, as running text
         lines.push(parts);
       }
       if (ok(r['재연'])) lines.push(lang === 'ko' ? [label('재연'), plain(r['재연'])] : [plain(r['재연'])]);
@@ -545,6 +577,8 @@ class Component extends DCLogic {
       const links = []; if (ok(r['음원'])) links.push(link(r['음원'], t('label.audio'))); if (ok(r['영상'])) links.push(link(r['영상'], t('label.video')));
       return {
         id: r.id, year: year(r['연도']), line1: title(r['제목_국문'], r['제목_영문']), inst: byLang(r['편성_국문'], r['편성_영문']), links,
+        // on phones the instrumentation line only yields room for links that actually exist
+        instStyle: Object.assign({}, S.inst, mobile ? { right: M + (links.length ? links.length * 44 : 0) } : {}),
         scoreImg: score ? React.createElement('img', { src: score, alt: t('label.score'), style: { position: 'absolute', right: M, top: 41.8, maxHeight: 165.9, maxWidth: 300, width: 'auto', height: 'auto', display: 'block', mixBlendMode: 'multiply' } }) : null,
         details: (() => {
           const out = []; let k = 0;
@@ -552,7 +586,9 @@ class Component extends DCLogic {
             const need = parts.wrap ? 2 : 1;
             if (need === 2 && k % 2 === 1) k++;            // a two-line entry starts at the top of a lyric pair
             if (k + need > slots.length) break;
-            out.push({ parts, style: { position: 'absolute', left: T, right: score ? M + 324 : M, top: slots[k], height: 19.5 * need, display: 'flex', alignItems: 'baseline', whiteSpace: need === 2 ? 'normal' : 'nowrap', wordBreak: 'keep-all', overflow: 'hidden' } });
+            out.push({ parts, style: need === 2
+              ? { position: 'absolute', left: T, right: score ? M + 324 : M, top: slots[k], height: 39, display: 'block', whiteSpace: 'normal', wordBreak: 'keep-all', lineHeight: '19.5px', overflow: 'hidden' }
+              : { position: 'absolute', left: T, right: score ? M + 324 : M, top: slots[k], height: 19.5, display: 'flex', alignItems: 'baseline', whiteSpace: 'nowrap', overflow: 'hidden' } });
             k += need;
           }
           return out;
