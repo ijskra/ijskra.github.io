@@ -1,0 +1,126 @@
+{
+  "site.name": {
+    "국문": "오정웅",
+    "영문": "Jung-Woong Oh"
+  },
+  "site.title": {
+    "국문": "작곡가 · 하프시코드 연주자",
+    "영문": "Composer · Harpsichordist"
+  },
+  "nav.about": {
+    "국문": "소개",
+    "영문": "About"
+  },
+  "nav.works": {
+    "국문": "작품",
+    "영문": "Works"
+  },
+  "nav.performances": {
+    "국문": "연주·영화",
+    "영문": "Performances & Film"
+  },
+  "nav.research": {
+    "국문": "연구",
+    "영문": "Research"
+  },
+  "nav.news": {
+    "국문": "소식",
+    "영문": "News"
+  },
+  "nav.contact": {
+    "국문": "연락",
+    "영문": "Contact"
+  },
+  "sub.papers": {
+    "국문": "논문·발표",
+    "영문": "Papers & Talks"
+  },
+  "sub.teaching": {
+    "국문": "강의",
+    "영문": "Teaching"
+  },
+  "sub.film": {
+    "국문": "영화·무대",
+    "영문": "Film & Stage"
+  },
+  "label.year": {
+    "국문": "연도",
+    "영문": "Year"
+  },
+  "label.instrumentation": {
+    "국문": "편성",
+    "영문": "Instrumentation"
+  },
+  "label.duration": {
+    "국문": "길이",
+    "영문": "Duration"
+  },
+  "label.premiere": {
+    "국문": "초연",
+    "영문": "Premiere"
+  },
+  "label.performers": {
+    "국문": "연주",
+    "영문": "Performers"
+  },
+  "label.role": {
+    "국문": "역할",
+    "영문": "Role"
+  },
+  "label.audio": {
+    "국문": "음원",
+    "영문": "Audio"
+  },
+  "label.video": {
+    "국문": "영상",
+    "영문": "Video"
+  },
+  "label.score": {
+    "국문": "악보",
+    "영문": "Score"
+  },
+  "label.upcoming": {
+    "국문": "예정",
+    "영문": "Upcoming"
+  },
+  "label.cv": {
+    "국문": "CV 내려받기",
+    "영문": "Download CV"
+  },
+  "label.email": {
+    "국문": "이메일",
+    "영문": "Email"
+  },
+  "label.lang_switch": {
+    "국문": "English",
+    "영문": "한국어"
+  },
+  "role.composition": {
+    "국문": "작곡",
+    "영문": "Composition"
+  },
+  "role.composition_performance": {
+    "국문": "작곡·연주",
+    "영문": "Composition & performance"
+  },
+  "role.continuo": {
+    "국문": "하프시코드 통주저음",
+    "영문": "Harpsichord, basso continuo"
+  },
+  "role.music_director": {
+    "국문": "음악감독",
+    "영문": "Music director"
+  },
+  "contact.email": {
+    "국문": "marinmarais123@gmail.com",
+    "영문": "marinmarais123@gmail.com"
+  },
+  "news.empty": {
+    "국문": "예정된 소식이 없습니다.",
+    "영문": "No upcoming events."
+  },
+  "footer": {
+    "국문": "© 2026 오정웅",
+    "영문": "© 2026 Jung-Woong Oh"
+  }
+}

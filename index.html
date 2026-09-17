@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600&amp;family=EB+Garamond:ital,wght@0,400;0,500;1,400&amp;display=swap">
+<style>
+html,body{margin:0;background:#efe9df}
+body{font-family:'Noto Serif KR',serif;color:#3d3529;font-size:13px;line-height:19.5px;-webkit-text-size-adjust:100%}
+a{color:#a83c25;text-decoration:none}a:hover{color:#8e5a30}
+button{font:inherit;color:inherit}
+nav::-webkit-scrollbar{display:none}
+mark{background:rgba(247,232,140,.55);color:inherit}
+::selection{background:rgba(142,90,48,.18)}
+:focus-visible{outline:1px solid #a83c25;outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</helmet>
+{{ inkDefs }}
+<div aria-hidden="true" style="position:fixed;inset:0;z-index:7;pointer-events:none;background-image:url(assets/grain.svg);background-size:240px 240px"></div>
+<header style="position:fixed;top:0;left:0;right:0;z-index:5;height:20px;background:linear-gradient(to bottom,#efe9df 0,#efe9df 16px,rgba(239,233,223,0) 20px)">
+<div style="{{ S.headerInner }}">
+<nav style="{{ S.nav }}">
+<sc-for list="{{ nav }}" as="n" hint-placeholder-count="6">
+<button type="button" style="{{ n.style }}" style-hover="color:#a83c25" onClick="{{ n.go }}">{{ n.label }}</button>
+</sc-for>
+</nav>
+<button type="button" style="{{ langStyle }}" style-hover="color:#a83c25" onClick="{{ toggleLang }}">{{ langLabel }}</button>
+</div>
+</header>
+<main ref="{{ sheetRef }}" style="{{ S.main }}">
+
+<section id="sec-about" data-screen-label="소개" style="{{ S.about }}">
+<div style="position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(to bottom, transparent 0 20px, #cdc3b3 20px 20.8px, transparent 20.8px 26.5px, #cdc3b3 26.5px 27.3px, transparent 27.3px 33px, #cdc3b3 33px 33.8px, transparent 33.8px 39.5px, #cdc3b3 39.5px 40.3px, transparent 40.3px 46px, #cdc3b3 46px 46.8px, transparent 46.8px 69.55px);background-size:100% 69.55px;background-repeat:repeat;filter:url(#ink)"></div>
+<div style="position:relative;max-width:1440px;margin:0 auto;height:100%">
+<img src="assets/handwriting-jungwoong.svg" data-hw="name" alt="{{ heroName }}" style="{{ S.hwName }}">
+<div style="{{ S.heroName }}">
+<sc-if value="{{ heroKr }}" hint-placeholder-val="{{ true }}"><span style="font-weight:600">{{ heroName }}</span></sc-if>
+<sc-if value="{{ heroEn }}" hint-placeholder-val="{{ false }}"><span style="font-family:'EB Garamond',serif;font-size:14px;font-weight:500">{{ heroName }}</span></sc-if>
+</div>
+<div style="{{ S.heroRole }}">
+<sc-if value="{{ heroKr }}" hint-placeholder-val="{{ true }}"><span style="letter-spacing:.04em">{{ heroRole }}</span></sc-if>
+<sc-if value="{{ heroEn }}" hint-placeholder-val="{{ false }}"><span style="font-family:'EB Garamond',serif;font-size:14px;letter-spacing:.02em">{{ heroRole }}</span></sc-if>
+</div>
+<div style="{{ S.photo }}"><img src="assets/photo-lines-cut.png" alt="{{ heroName }}" style="display:block;width:100%;height:auto;mix-blend-mode:multiply;opacity:.9"></div>
+<img src="assets/handwriting-about.svg" data-hw="about" alt="" style="{{ S.aboutMemo }}">
+<div style="{{ S.aboutTitle }}">
+<sc-if value="{{ h.about.t1Kr }}" hint-placeholder-val="{{ true }}"><span style="font-size:19.5px;line-height:26px;font-weight:500">{{ h.about.t1 }}</span></sc-if>
+<sc-if value="{{ h.about.t1En }}" hint-placeholder-val="{{ false }}"><span style="font-family:'EB Garamond',serif;font-size:21px;line-height:26px;font-weight:500">{{ h.about.t1 }}</span></sc-if>
+<sc-if value="{{ h.about.t2Kr }}" hint-placeholder-val="{{ false }}"><span style="margin-left:14px;color:#6b6052">{{ h.about.t2 }}</span></sc-if>
+<sc-if value="{{ h.about.t2En }}" hint-placeholder-val="{{ true }}"><span style="margin-left:14px;font-family:'EB Garamond',serif;font-style:italic;font-size:14px;color:#6b6052">{{ h.about.t2 }}</span></sc-if>
+</div>
+<div aria-hidden="true" style="{{ S.proseBack }}"></div>
+<div id="about-prose" ref="{{ proseRef }}" style="{{ S.prose }}">
+<sc-for list="{{ about }}" as="p" hint-placeholder-count="3">
+<p style="{{ p.style }}">
+<sc-for list="{{ p.segs }}" as="s" hint-placeholder-count="1">
+<sc-if value="{{ s.plain }}" hint-placeholder-val="{{ true }}"><span>{{ s.t }}</span></sc-if>
+<sc-if value="{{ s.iOnly }}" hint-placeholder-val="{{ false }}"><em>{{ s.t }}</em></sc-if>
+<sc-if value="{{ s.hlOnly }}" hint-placeholder-val="{{ false }}"><mark>{{ s.t }}</mark></sc-if>
+<sc-if value="{{ s.ihl }}" hint-placeholder-val="{{ false }}"><mark><em>{{ s.t }}</em></mark></sc-if>
+</sc-for>
+</p>
+</sc-for>
+</div>
+</div>
+</section>
+
+<section id="sec-works" data-screen-label="작품" style="position:relative">
+<div style="{{ S.head }}">
+<div style="position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(to bottom, transparent 0 20px, #cdc3b3 20px 20.8px, transparent 20.8px 26.5px, #cdc3b3 26.5px 27.3px, transparent 27.3px 33px, #cdc3b3 33px 33.8px, transparent 33.8px 39.5px, #cdc3b3 39.5px 40.3px, transparent 40.3px 46px, #cdc3b3 46px 46.8px, transparent 46.8px 69.55px);background-size:100% 69.55px;background-repeat:repeat;filter:url(#ink)"></div>
+<div data-reveal="1" style="position:relative;max-width:1440px;margin:0 auto;height:100%;opacity:0;transition:opacity .6s ease">
+<img src="assets/handwriting-works.svg" data-hw="works" alt="" style="{{ S.memo }}">
+<div style="{{ S.headTitle }}">
+<sc-if value="{{ h.works.t1Kr }}" hint-placeholder-val="{{ true }}"><span style="font-size:19.5px;line-height:26px;font-weight:500">{{ h.works.t1 }}</span></sc-if>
+<sc-if value="{{ h.works.t1En }}" hint-placeholder-val="{{ false }}"><span style="font-family:'EB Garamond',serif;font-size:21px;line-height:26px;font-weight:500">{{ h.works.t1 }}</span></sc-if>
+<sc-if value="{{ h.works.t2Kr }}" hint-placeholder-val="{{ false }}"><span style="margin-left:14px;color:#6b6052">{{ h.works.t2 }}</span></sc-if>
+<sc-if value="{{ h.works.t2En }}" hint-placeholder-val="{{ true }}"><span style="margin-left:14px;font-family:'EB Garamond',serif;font-style:italic;font-size:14px;color:#6b6052">{{ h.works.t2 }}</span></sc-if>
+</div>
+</div>
+</div>
+<sc-for list="{{ works }}" as="w" hint-placeholder-count="12">
+<div style="{{ w.rowStyle }}" onMouseEnter="{{ w.enter }}" onMouseLeave="{{ w.leave }}" onClick="{{ w.toggle }}">
+<div style="position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(to bottom, transparent 0 20px, #cdc3b3 20px 20.8px, transparent 20.8px 26.5px, #cdc3b3 26.5px 27.3px, transparent 27.3px 33px, #cdc3b3 33px 33.8px, transparent 33.8px 39.5px, #cdc3b3 39.5px 40.3px, transparent 40.3px 46px, #cdc3b3 46px 46.8px, transparent 46.8px 69.55px);background-size:100% 69.55px;background-repeat:repeat;background-position:0 21.8px;filter:url(#ink)"></div>
+<div style="{{ w.woodStyle }}"></div>
+<div data-reveal="1" style="position:relative;max-width:1440px;margin:0 auto;height:100%;opacity:0;transition:opacity .6s ease">
+<div style="{{ S.titleRow }}">
+<span style="width:34px;flex:none;margin-right:14px;font-family:'EB Garamond',serif;font-size:11.5px;font-variant-numeric:lining-nums tabular-nums;color:#6b6052">{{ w.year }}</span>
+<sc-for list="{{ w.line1 }}" as="pt" hint-placeholder-count="1">
+<sc-if value="{{ pt.t1Kr }}" hint-placeholder-val="{{ true }}"><span style="font-weight:600">{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.t1En }}" hint-placeholder-val="{{ false }}"><span style="font-family:'EB Garamond',serif;font-size:14px;font-weight:500">{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.t2Kr }}" hint-placeholder-val="{{ false }}"><span style="margin-left:14px;color:#6b6052">{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.t2En }}" hint-placeholder-val="{{ false }}"><span style="margin-left:14px;font-family:'EB Garamond',serif;font-style:italic;font-size:14px;color:#6b6052">{{ pt.text }}</span></sc-if>
+</sc-for>
+</div>
+<div style="{{ S.inst }}">{{ w.inst }}</div>
+<div style="{{ S.linksRow }}">
+<sc-for list="{{ w.links }}" as="pt" hint-placeholder-count="0">
+<sc-if value="{{ pt.linkKr }}" hint-placeholder-val="{{ true }}"><a href="{{ pt.href }}" target="_blank" rel="noopener">{{ pt.text }}</a></sc-if>
+<sc-if value="{{ pt.linkEn }}" hint-placeholder-val="{{ false }}"><a href="{{ pt.href }}" target="_blank" rel="noopener" style="font-family:'EB Garamond',serif;font-size:14px">{{ pt.text }}</a></sc-if>
+</sc-for>
+</div>
+<sc-for list="{{ w.details }}" as="ln" hint-placeholder-count="0">
+<div style="{{ ln.style }}">
+<sc-for list="{{ ln.parts }}" as="pt" hint-placeholder-count="1">
+<sc-if value="{{ pt.label }}" hint-placeholder-val="{{ false }}"><span style="margin-right:9px;font-size:11px;letter-spacing:.06em;color:#6b6052">{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.plain }}" hint-placeholder-val="{{ true }}"><span>{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.sep }}" hint-placeholder-val="{{ false }}"><span style="margin:0 8px;color:#6b6052">·</span></sc-if>
+</sc-for>
+</div>
+</sc-for>
+{{ w.scoreImg }}
+</div>
+</div>
+</sc-for>
+<div style="position:relative;height:21.8px"></div>
+</section>
+
+<section id="sec-performances" data-screen-label="연주·영화" style="position:relative">
+<div style="{{ S.head }}">
+<div style="position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(to bottom, transparent 0 20px, #cdc3b3 20px 20.8px, transparent 20.8px 26.5px, #cdc3b3 26.5px 27.3px, transparent 27.3px 33px, #cdc3b3 33px 33.8px, transparent 33.8px 39.5px, #cdc3b3 39.5px 40.3px, transparent 40.3px 46px, #cdc3b3 46px 46.8px, transparent 46.8px 69.55px);background-size:100% 69.55px;background-repeat:repeat;filter:url(#ink)"></div>
+<div data-reveal="1" style="position:relative;max-width:1440px;margin:0 auto;height:100%;opacity:0;transition:opacity .6s ease">
+<img src="assets/handwriting-performances.svg" data-hw="performances" alt="" style="{{ S.memo }}">
+<div style="{{ S.headTitle }}">
+<sc-if value="{{ h.performances.t1Kr }}" hint-placeholder-val="{{ true }}"><span style="font-size:19.5px;line-height:26px;font-weight:500">{{ h.performances.t1 }}</span></sc-if>
+<sc-if value="{{ h.performances.t1En }}" hint-placeholder-val="{{ false }}"><span style="font-family:'EB Garamond',serif;font-size:21px;line-height:26px;font-weight:500">{{ h.performances.t1 }}</span></sc-if>
+<sc-if value="{{ h.performances.t2Kr }}" hint-placeholder-val="{{ false }}"><span style="margin-left:14px;color:#6b6052">{{ h.performances.t2 }}</span></sc-if>
+<sc-if value="{{ h.performances.t2En }}" hint-placeholder-val="{{ true }}"><span style="margin-left:14px;font-family:'EB Garamond',serif;font-style:italic;font-size:14px;color:#6b6052">{{ h.performances.t2 }}</span></sc-if>
+</div>
+</div>
+</div>
+<sc-for list="{{ rows.performances }}" as="r" hint-placeholder-count="10">
+<div style="position:relative;height:69.55px">
+<div style="position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(to bottom, transparent 0 20px, #cdc3b3 20px 20.8px, transparent 20.8px 26.5px, #cdc3b3 26.5px 27.3px, transparent 27.3px 33px, #cdc3b3 33px 33.8px, transparent 33.8px 39.5px, #cdc3b3 39.5px 40.3px, transparent 40.3px 46px, #cdc3b3 46px 46.8px, transparent 46.8px 69.55px);background-size:100% 69.55px;background-repeat:repeat;background-position:0 21.8px;filter:url(#ink)"></div>
+<div data-reveal="1" style="position:relative;max-width:1440px;margin:0 auto;height:100%;opacity:0;transition:opacity .6s ease">
+<div style="{{ S.titleRow }}">
+<span style="width:34px;flex:none;margin-right:14px;font-family:'EB Garamond',serif;font-size:11.5px;font-variant-numeric:lining-nums tabular-nums;color:#6b6052">{{ r.year }}</span>
+<sc-for list="{{ r.line1 }}" as="pt" hint-placeholder-count="1">
+<sc-if value="{{ pt.subKr }}" hint-placeholder-val="{{ false }}"><span style="font-size:15.5px;font-weight:500;letter-spacing:.06em">{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.subEn }}" hint-placeholder-val="{{ false }}"><span style="font-family:'EB Garamond',serif;font-size:17px;font-weight:500;letter-spacing:.02em">{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.t1Kr }}" hint-placeholder-val="{{ true }}"><span style="font-weight:600">{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.t1En }}" hint-placeholder-val="{{ false }}"><span style="font-family:'EB Garamond',serif;font-size:14px;font-weight:500">{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.t2Kr }}" hint-placeholder-val="{{ false }}"><span style="margin-left:14px;color:#6b6052">{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.t2En }}" hint-placeholder-val="{{ false }}"><span style="margin-left:14px;font-family:'EB Garamond',serif;font-style:italic;font-size:14px;color:#6b6052">{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.meta }}" hint-placeholder-val="{{ false }}"><span style="margin-left:14px;font-size:11px;letter-spacing:.06em;color:#6b6052">{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.plain }}" hint-placeholder-val="{{ false }}"><span>{{ pt.text }}</span></sc-if>
+</sc-for>
+</div>
+<div style="{{ S.rightRow }}">
+<sc-for list="{{ r.right }}" as="pt" hint-placeholder-count="0">
+<sc-if value="{{ pt.meta }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px;letter-spacing:.06em;color:#6b6052">{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.linkKr }}" hint-placeholder-val="{{ false }}"><a href="{{ pt.href }}" target="_blank" rel="noopener">{{ pt.text }}</a></sc-if>
+<sc-if value="{{ pt.linkEn }}" hint-placeholder-val="{{ false }}"><a href="{{ pt.href }}" target="_blank" rel="noopener" style="font-family:'EB Garamond',serif;font-size:14px">{{ pt.text }}</a></sc-if>
+</sc-for>
+</div>
+<div style="{{ S.line2 }}">
+<sc-for list="{{ r.line2 }}" as="pt" hint-placeholder-count="0">
+<sc-if value="{{ pt.label }}" hint-placeholder-val="{{ false }}"><span style="margin-right:9px;font-size:11px;letter-spacing:.06em;color:#6b6052">{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.plain }}" hint-placeholder-val="{{ true }}"><span>{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.sep }}" hint-placeholder-val="{{ false }}"><span style="margin:0 8px;color:#6b6052">·</span></sc-if>
+</sc-for>
+</div>
+</div>
+</div>
+</sc-for>
+<div style="position:relative;height:21.8px"></div>
+</section>
+
+<section id="sec-research" data-screen-label="연구" style="position:relative">
+<div style="{{ S.head }}">
+<div style="position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(to bottom, transparent 0 20px, #cdc3b3 20px 20.8px, transparent 20.8px 26.5px, #cdc3b3 26.5px 27.3px, transparent 27.3px 33px, #cdc3b3 33px 33.8px, transparent 33.8px 39.5px, #cdc3b3 39.5px 40.3px, transparent 40.3px 46px, #cdc3b3 46px 46.8px, transparent 46.8px 69.55px);background-size:100% 69.55px;background-repeat:repeat;filter:url(#ink)"></div>
+<div data-reveal="1" style="position:relative;max-width:1440px;margin:0 auto;height:100%;opacity:0;transition:opacity .6s ease">
+<img src="assets/handwriting-research.svg" data-hw="research" alt="" style="{{ S.memo }}">
+<div style="{{ S.headTitle }}">
+<sc-if value="{{ h.research.t1Kr }}" hint-placeholder-val="{{ true }}"><span style="font-size:19.5px;line-height:26px;font-weight:500">{{ h.research.t1 }}</span></sc-if>
+<sc-if value="{{ h.research.t1En }}" hint-placeholder-val="{{ false }}"><span style="font-family:'EB Garamond',serif;font-size:21px;line-height:26px;font-weight:500">{{ h.research.t1 }}</span></sc-if>
+<sc-if value="{{ h.research.t2Kr }}" hint-placeholder-val="{{ false }}"><span style="margin-left:14px;color:#6b6052">{{ h.research.t2 }}</span></sc-if>
+<sc-if value="{{ h.research.t2En }}" hint-placeholder-val="{{ true }}"><span style="margin-left:14px;font-family:'EB Garamond',serif;font-style:italic;font-size:14px;color:#6b6052">{{ h.research.t2 }}</span></sc-if>
+</div>
+</div>
+</div>
+<sc-for list="{{ rows.research }}" as="r" hint-placeholder-count="4">
+<div style="position:relative;height:69.55px">
+<div style="position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(to bottom, transparent 0 20px, #cdc3b3 20px 20.8px, transparent 20.8px 26.5px, #cdc3b3 26.5px 27.3px, transparent 27.3px 33px, #cdc3b3 33px 33.8px, transparent 33.8px 39.5px, #cdc3b3 39.5px 40.3px, transparent 40.3px 46px, #cdc3b3 46px 46.8px, transparent 46.8px 69.55px);background-size:100% 69.55px;background-repeat:repeat;background-position:0 21.8px;filter:url(#ink)"></div>
+<div data-reveal="1" style="position:relative;max-width:1440px;margin:0 auto;height:100%;opacity:0;transition:opacity .6s ease">
+<div style="{{ S.titleRow }}">
+<span style="width:34px;flex:none;margin-right:14px;font-family:'EB Garamond',serif;font-size:11.5px;font-variant-numeric:lining-nums tabular-nums;color:#6b6052">{{ r.year }}</span>
+<sc-for list="{{ r.line1 }}" as="pt" hint-placeholder-count="1">
+<sc-if value="{{ pt.subKr }}" hint-placeholder-val="{{ false }}"><span style="font-size:15.5px;font-weight:500;letter-spacing:.06em">{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.subEn }}" hint-placeholder-val="{{ false }}"><span style="font-family:'EB Garamond',serif;font-size:17px;font-weight:500;letter-spacing:.02em">{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.t1Kr }}" hint-placeholder-val="{{ true }}"><span style="font-weight:600">{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.t1En }}" hint-placeholder-val="{{ false }}"><span style="font-family:'EB Garamond',serif;font-size:14px;font-weight:500">{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.t2Kr }}" hint-placeholder-val="{{ false }}"><span style="margin-left:14px;color:#6b6052">{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.t2En }}" hint-placeholder-val="{{ false }}"><span style="margin-left:14px;font-family:'EB Garamond',serif;font-style:italic;font-size:14px;color:#6b6052">{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.meta }}" hint-placeholder-val="{{ false }}"><span style="margin-left:14px;font-size:11px;letter-spacing:.06em;color:#6b6052">{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.plain }}" hint-placeholder-val="{{ false }}"><span>{{ pt.text }}</span></sc-if>
+</sc-for>
+</div>
+<div style="{{ S.rightRow }}">
+<sc-for list="{{ r.right }}" as="pt" hint-placeholder-count="0">
+<sc-if value="{{ pt.meta }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px;letter-spacing:.06em;color:#6b6052">{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.linkKr }}" hint-placeholder-val="{{ false }}"><a href="{{ pt.href }}" target="_blank" rel="noopener">{{ pt.text }}</a></sc-if>
+<sc-if value="{{ pt.linkEn }}" hint-placeholder-val="{{ false }}"><a href="{{ pt.href }}" target="_blank" rel="noopener" style="font-family:'EB Garamond',serif;font-size:14px">{{ pt.text }}</a></sc-if>
+</sc-for>
+</div>
+<div style="{{ S.line2 }}">
+<sc-for list="{{ r.line2 }}" as="pt" hint-placeholder-count="0">
+<sc-if value="{{ pt.label }}" hint-placeholder-val="{{ false }}"><span style="margin-right:9px;font-size:11px;letter-spacing:.06em;color:#6b6052">{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.plain }}" hint-placeholder-val="{{ true }}"><span>{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.sep }}" hint-placeholder-val="{{ false }}"><span style="margin:0 8px;color:#6b6052">·</span></sc-if>
+</sc-for>
+</div>
+</div>
+</div>
+</sc-for>
+<div style="position:relative;height:21.8px"></div>
+</section>
+
+<section id="sec-news" data-screen-label="소식" style="position:relative">
+<div style="{{ S.head }}">
+<div style="position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(to bottom, transparent 0 20px, #cdc3b3 20px 20.8px, transparent 20.8px 26.5px, #cdc3b3 26.5px 27.3px, transparent 27.3px 33px, #cdc3b3 33px 33.8px, transparent 33.8px 39.5px, #cdc3b3 39.5px 40.3px, transparent 40.3px 46px, #cdc3b3 46px 46.8px, transparent 46.8px 69.55px);background-size:100% 69.55px;background-repeat:repeat;filter:url(#ink)"></div>
+<div data-reveal="1" style="position:relative;max-width:1440px;margin:0 auto;height:100%;opacity:0;transition:opacity .6s ease">
+<img src="assets/handwriting-news.svg" data-hw="news" alt="" style="{{ S.memo }}">
+<div style="{{ S.headTitle }}">
+<sc-if value="{{ h.news.t1Kr }}" hint-placeholder-val="{{ true }}"><span style="font-size:19.5px;line-height:26px;font-weight:500">{{ h.news.t1 }}</span></sc-if>
+<sc-if value="{{ h.news.t1En }}" hint-placeholder-val="{{ false }}"><span style="font-family:'EB Garamond',serif;font-size:21px;line-height:26px;font-weight:500">{{ h.news.t1 }}</span></sc-if>
+<sc-if value="{{ h.news.t2Kr }}" hint-placeholder-val="{{ false }}"><span style="margin-left:14px;color:#6b6052">{{ h.news.t2 }}</span></sc-if>
+<sc-if value="{{ h.news.t2En }}" hint-placeholder-val="{{ true }}"><span style="margin-left:14px;font-family:'EB Garamond',serif;font-style:italic;font-size:14px;color:#6b6052">{{ h.news.t2 }}</span></sc-if>
+</div>
+</div>
+</div>
+<sc-for list="{{ rows.news }}" as="r" hint-placeholder-count="2">
+<div style="position:relative;height:69.55px">
+<div style="position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(to bottom, transparent 0 20px, #cdc3b3 20px 20.8px, transparent 20.8px 26.5px, #cdc3b3 26.5px 27.3px, transparent 27.3px 33px, #cdc3b3 33px 33.8px, transparent 33.8px 39.5px, #cdc3b3 39.5px 40.3px, transparent 40.3px 46px, #cdc3b3 46px 46.8px, transparent 46.8px 69.55px);background-size:100% 69.55px;background-repeat:repeat;background-position:0 21.8px;filter:url(#ink)"></div>
+<div data-reveal="1" style="position:relative;max-width:1440px;margin:0 auto;height:100%;opacity:0;transition:opacity .6s ease">
+<div style="{{ S.titleRow }}">
+<span style="width:34px;flex:none;margin-right:14px;font-family:'EB Garamond',serif;font-size:11.5px;font-variant-numeric:lining-nums tabular-nums;color:#6b6052">{{ r.year }}</span>
+<sc-for list="{{ r.line1 }}" as="pt" hint-placeholder-count="1">
+<sc-if value="{{ pt.subKr }}" hint-placeholder-val="{{ false }}"><span style="font-size:15.5px;font-weight:500;letter-spacing:.06em">{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.subEn }}" hint-placeholder-val="{{ false }}"><span style="font-family:'EB Garamond',serif;font-size:17px;font-weight:500;letter-spacing:.02em">{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.t1Kr }}" hint-placeholder-val="{{ true }}"><span style="font-weight:600">{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.t1En }}" hint-placeholder-val="{{ false }}"><span style="font-family:'EB Garamond',serif;font-size:14px;font-weight:500">{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.t2Kr }}" hint-placeholder-val="{{ false }}"><span style="margin-left:14px;color:#6b6052">{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.t2En }}" hint-placeholder-val="{{ false }}"><span style="margin-left:14px;font-family:'EB Garamond',serif;font-style:italic;font-size:14px;color:#6b6052">{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.meta }}" hint-placeholder-val="{{ false }}"><span style="margin-left:14px;font-size:11px;letter-spacing:.06em;color:#6b6052">{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.plain }}" hint-placeholder-val="{{ false }}"><span>{{ pt.text }}</span></sc-if>
+</sc-for>
+</div>
+<div style="{{ S.rightRow }}">
+<sc-for list="{{ r.right }}" as="pt" hint-placeholder-count="0">
+<sc-if value="{{ pt.meta }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px;letter-spacing:.06em;color:#6b6052">{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.linkKr }}" hint-placeholder-val="{{ false }}"><a href="{{ pt.href }}" target="_blank" rel="noopener">{{ pt.text }}</a></sc-if>
+<sc-if value="{{ pt.linkEn }}" hint-placeholder-val="{{ false }}"><a href="{{ pt.href }}" target="_blank" rel="noopener" style="font-family:'EB Garamond',serif;font-size:14px">{{ pt.text }}</a></sc-if>
+</sc-for>
+</div>
+<div style="{{ S.line2 }}">
+<sc-for list="{{ r.line2 }}" as="pt" hint-placeholder-count="0">
+<sc-if value="{{ pt.label }}" hint-placeholder-val="{{ false }}"><span style="margin-right:9px;font-size:11px;letter-spacing:.06em;color:#6b6052">{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.plain }}" hint-placeholder-val="{{ true }}"><span>{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.sep }}" hint-placeholder-val="{{ false }}"><span style="margin:0 8px;color:#6b6052">·</span></sc-if>
+</sc-for>
+</div>
+</div>
+</div>
+</sc-for>
+<div style="position:relative;height:21.8px"></div>
+</section>
+
+<section id="sec-contact" data-screen-label="연락" style="position:relative">
+<div style="{{ S.head }}">
+<div style="position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(to bottom, transparent 0 20px, #cdc3b3 20px 20.8px, transparent 20.8px 26.5px, #cdc3b3 26.5px 27.3px, transparent 27.3px 33px, #cdc3b3 33px 33.8px, transparent 33.8px 39.5px, #cdc3b3 39.5px 40.3px, transparent 40.3px 46px, #cdc3b3 46px 46.8px, transparent 46.8px 69.55px);background-size:100% 69.55px;background-repeat:repeat;filter:url(#ink)"></div>
+<div data-reveal="1" style="position:relative;max-width:1440px;margin:0 auto;height:100%;opacity:0;transition:opacity .6s ease">
+<img src="assets/handwriting-contact.svg" data-hw="contact" alt="" style="{{ S.memo }}">
+<div style="{{ S.headTitle }}">
+<sc-if value="{{ h.contact.t1Kr }}" hint-placeholder-val="{{ true }}"><span style="font-size:19.5px;line-height:26px;font-weight:500">{{ h.contact.t1 }}</span></sc-if>
+<sc-if value="{{ h.contact.t1En }}" hint-placeholder-val="{{ false }}"><span style="font-family:'EB Garamond',serif;font-size:21px;line-height:26px;font-weight:500">{{ h.contact.t1 }}</span></sc-if>
+<sc-if value="{{ h.contact.t2Kr }}" hint-placeholder-val="{{ false }}"><span style="margin-left:14px;color:#6b6052">{{ h.contact.t2 }}</span></sc-if>
+<sc-if value="{{ h.contact.t2En }}" hint-placeholder-val="{{ true }}"><span style="margin-left:14px;font-family:'EB Garamond',serif;font-style:italic;font-size:14px;color:#6b6052">{{ h.contact.t2 }}</span></sc-if>
+</div>
+</div>
+</div>
+<sc-for list="{{ rows.contact }}" as="r" hint-placeholder-count="2">
+<div style="position:relative;height:69.55px">
+<div style="position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(to bottom, transparent 0 20px, #cdc3b3 20px 20.8px, transparent 20.8px 26.5px, #cdc3b3 26.5px 27.3px, transparent 27.3px 33px, #cdc3b3 33px 33.8px, transparent 33.8px 39.5px, #cdc3b3 39.5px 40.3px, transparent 40.3px 46px, #cdc3b3 46px 46.8px, transparent 46.8px 69.55px);background-size:100% 69.55px;background-repeat:repeat;background-position:0 21.8px;filter:url(#ink)"></div>
+<div data-reveal="1" style="position:relative;max-width:1440px;margin:0 auto;height:100%;opacity:0;transition:opacity .6s ease">
+<div style="{{ S.contactRow }}">
+<span style="width:34px;flex:none;margin-right:14px;font-family:'EB Garamond',serif;font-size:11.5px;font-variant-numeric:lining-nums tabular-nums;color:#6b6052">{{ r.year }}</span>
+<sc-for list="{{ r.line1 }}" as="pt" hint-placeholder-count="1">
+<sc-if value="{{ pt.label }}" hint-placeholder-val="{{ false }}"><span style="margin-right:9px;font-size:11px;letter-spacing:.06em;color:#6b6052">{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.plain }}" hint-placeholder-val="{{ false }}"><span>{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.linkKr }}" hint-placeholder-val="{{ true }}"><a href="{{ pt.href }}" style="font-family:'EB Garamond','Noto Serif KR',serif;font-size:13.5px">{{ pt.text }}</a></sc-if>
+<sc-if value="{{ pt.linkEn }}" hint-placeholder-val="{{ false }}"><a href="{{ pt.href }}" style="font-family:'EB Garamond',serif;font-size:14px">{{ pt.text }}</a></sc-if>
+</sc-for>
+</div>
+</div>
+</div>
+</sc-for>
+<div style="position:relative;height:21.8px"></div>
+<div style="position:relative;height:69.55px">
+<div style="position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(to bottom, transparent 0 20px, #cdc3b3 20px 20.8px, transparent 20.8px 26.5px, #cdc3b3 26.5px 27.3px, transparent 27.3px 33px, #cdc3b3 33px 33.8px, transparent 33.8px 39.5px, #cdc3b3 39.5px 40.3px, transparent 40.3px 46px, #cdc3b3 46px 46.8px, transparent 46.8px 69.55px);background-size:100% 69.55px;background-repeat:repeat;filter:url(#ink)"></div>
+<div style="position:relative;max-width:1440px;margin:0 auto;height:100%">
+<div style="{{ S.footer }}">{{ footer }}</div>
+</div>
+</div>
+<div style="{{ S.filler }}">
+<div style="position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(to bottom, transparent 0 20px, #cdc3b3 20px 20.8px, transparent 20.8px 26.5px, #cdc3b3 26.5px 27.3px, transparent 27.3px 33px, #cdc3b3 33px 33.8px, transparent 33.8px 39.5px, #cdc3b3 39.5px 40.3px, transparent 40.3px 46px, #cdc3b3 46px 46.8px, transparent 46.8px 69.55px);background-size:100% 69.55px;background-repeat:repeat;filter:url(#ink)"></div>
+</div>
+</section>
+
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;initialLang&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;ko&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;ko&quot;,&quot;en&quot;],&quot;section&quot;:&quot;언어 — 처음 표시 언어 (화면 우상단에서도 전환)&quot;},&quot;cameraZoom&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;움직임 — 단 이동 시 카메라의 미세한 줌 아웃&quot;}}">
+class Component extends DCLogic {
+  P = 69.55;
+  state = { data: null, lang: (this.props && this.props.initialLang) || 'ko', hover: null, pinned: null, current: 'about', aboutH: 1112.8, filler: 625.95, vw: typeof window !== 'undefined' ? window.innerWidth : 1440 };
+  sheetRef = React.createRef();
+  proseRef = React.createRef();
+  IDS = ['about', 'works', 'performances', 'research', 'news', 'contact'];
+
+  componentDidMount() {
+    const files = ['strings', 'works', 'performances', 'film', 'research', 'news', 'about', 'handwriting'];
+    Promise.all(files.map(f => fetch('data/' + f + '.json').then(r => r.json())))
+      .then(vals => { const data = {}; files.forEach((f, i) => { data[f] = vals[i]; }); this.setState({ data }, () => { this.measure(); this.observe(); }); })
+      .catch(err => console.warn('data load failed', err));
+    this._lastInitialLang = this.props && this.props.initialLang;
+    this.reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this._failsafe = setTimeout(() => document.querySelectorAll('[data-reveal]').forEach(el => { el.style.opacity = '1'; }), 4000);
+    this.onScroll = () => { if (this._sr) return; this._sr = requestAnimationFrame(() => { this._sr = 0; this.updateCurrent(); }); };
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+    this.onResize = () => { const vw = window.innerWidth; if (vw !== this.state.vw) this.setState({ vw }, () => this.measure()); else this.measure(); };
+    window.addEventListener('resize', this.onResize);
+    requestAnimationFrame(this.onResize);
+    if ('ResizeObserver' in window) { this.vro = new ResizeObserver(this.onResize); this.vro.observe(document.documentElement); }
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => this.measure());
+    if (document.fonts && document.fonts.addEventListener) document.fonts.addEventListener('loadingdone', () => this.measure());
+    // Re-measure whenever the prose box itself changes size (web-font swap, browser zoom, language switch).
+    if ('ResizeObserver' in window) this.ro = new ResizeObserver(() => this.measure());
+  }
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.onScroll);
+    window.removeEventListener('resize', this.onResize);
+    if (this.io) this.io.disconnect();
+    if (this.ro) this.ro.disconnect();
+    if (this.vro) this.vro.disconnect();
+    clearTimeout(this._failsafe);
+    cancelAnimationFrame(this._cam);
+  }
+  componentDidUpdate(prevProps) {
+    const il = this.props && this.props.initialLang;
+    if (il && il !== this._lastInitialLang) { this._lastInitialLang = il; if (il !== this.state.lang) this.setState({ lang: il }); }
+    if (!this.state.data) return;
+    const pel = this.proseEl();
+    if (this.ro && pel && this._roTarget !== pel) { if (this._roTarget) this.ro.unobserve(this._roTarget); this._roTarget = pel; this.ro.observe(pel); }
+    const key = this.state.lang + ':' + this.state.vw;
+    if (this._measuredFor !== key) { this._measuredFor = key; this.measure(); }
+    this.observe();
+  }
+  // Geometry per viewport width. Every vertical position is a system top (k·P) plus a fixed offset inside the system,
+  // so text always lands in the same place relative to the staff: titles/memos under a staff, the next staff separating items.
+  layout() {
+    // Live width first: state.vw is captured at construction, when an unsized preview frame can report 0.
+    const P = this.P, vw = (typeof window !== 'undefined' && window.innerWidth) || this.state.vw || 1440;
+    // Two layouts only: the desktop sheet (fixed 96px margins, 1440 column, scrolls sideways below 1120px) and a separate mobile arrangement.
+    const mobile = vw < 760;
+    const M = mobile ? 20 : 96;
+    const colW = Math.max(280, Math.min(vw, 1440) - 2 * M);
+    const T = mobile ? M + 48 : M;
+    let L;
+    if (mobile) {
+      const photoW = Math.min(240, colW);
+      L = { hwName: { left: M, top: 2 * P, width: Math.min(colW, 390), height: 'auto' }, nameTop: 4 * P + 48,
+        photo: { left: M, top: 6 * P + 20, width: photoW, height: 'auto' },
+        aboutMemoTop: 12 * P + 20, aboutTitle: { left: M, top: 13 * P + 42 }, proseTop: 15 * P, proseW: colW,
+        headH: 2 * P + 47.75, headTitle: { left: M, top: P + 42 }, rightGap: 70, main: { position: 'relative' } };
+    } else {
+      L = { hwName: { left: M, top: 2 * P, height: 3 * P, width: 'auto' }, nameTop: 5 * P + 48,
+        photo: { right: M, top: P + 20, width: 324.57, height: 'auto' },
+        aboutMemoTop: 8 * P + 20, aboutTitle: { left: M + 215, top: 8 * P + 42 }, proseTop: 10 * P, proseW: 640,
+        headH: P + 47.75, headTitle: { left: M + 215, top: 42 }, rightGap: 204, main: { position: 'relative', minWidth: 1120 } };
+    }
+    return Object.assign(L, { mobile, M, T, colW });
+  }
+  proseEl() { return (this.proseRef && this.proseRef.current) || document.getElementById('about-prose'); }
+  measure() {
+    const P = this.P, prose = this.proseEl(), L = this.layout();
+    if (prose && prose.offsetHeight) {
+      const proseH = prose.offsetHeight;
+      const total = +(Math.max(13, Math.ceil((L.proseTop + proseH + 1.5 * P) / P)) * P).toFixed(2);
+      const next = {};
+      if (Math.abs(total - this.state.aboutH) > 0.5) next.aboutH = total;
+      if (Math.abs(proseH - (this.state.proseH || 0)) > 0.5) next.proseH = proseH;
+      if (Object.keys(next).length) this.setState(next);
+    }
+    const filler = +Math.max(0, Math.ceil(window.innerHeight / P) * P - 4 * P).toFixed(2);
+    if (Math.abs(filler - this.state.filler) > 0.5) this.setState({ filler });
+  }
+  observe() {
+    const els = document.querySelectorAll('[data-reveal]:not([data-seen])');
+    if (!els.length) return;
+    if (this.reduce || !('IntersectionObserver' in window)) { els.forEach(el => { el.dataset.seen = '1'; el.style.opacity = '1'; }); return; }
+    if (!this.io) this.io = new IntersectionObserver(entries => entries.forEach(en => { if (en.isIntersecting) { en.target.style.opacity = '1'; this.io.unobserve(en.target); } }), { rootMargin: '0px 0px -6% 0px' });
+    els.forEach(el => { el.dataset.seen = '1'; this.io.observe(el); });
+  }
+  updateCurrent() {
+    const y = window.scrollY + 40; let cur = 'about';
+    for (const id of this.IDS) { const el = document.getElementById('sec-' + id); if (el && el.offsetTop <= y) cur = id; }
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) cur = 'contact';
+    if (cur !== this.state.current) this.setState({ current: cur });
+  }
+  // Camera: pan the sheet to the section head (under the fixed nav) with a slight zoom-out breath at mid-flight.
+  go(id) {
+    const el = document.getElementById('sec-' + id); if (!el) return;
+    this.setState({ current: id, pinned: null });
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    const target = Math.max(0, Math.min(el.offsetTop, max));
+    if (this.reduce) { window.scrollTo(0, target); return; }
+    const start = window.scrollY, dist = target - start;
+    if (Math.abs(dist) < 1) return;
+    const dur = Math.min(1500, 550 + Math.abs(dist) * 0.22), t0 = performance.now();
+    const sheet = this.sheetRef.current, zoom = this.props.cameraZoom ?? true;
+    const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    cancelAnimationFrame(this._cam);
+    const step = now => {
+      const t = Math.min(1, (now - t0) / dur), y = start + dist * ease(t);
+      window.scrollTo(0, y);
+      if (sheet && zoom) {
+        const s = 1 - 0.035 * Math.sin(Math.PI * t);
+        sheet.style.transformOrigin = '50% ' + (y + window.innerHeight / 2) + 'px';
+        sheet.style.transform = t < 1 ? 'scale(' + s.toFixed(4) + ')' : '';
+      }
+      if (t < 1) this._cam = requestAnimationFrame(step);
+    };
+    this._cam = requestAnimationFrame(step);
+  }
+
+  renderVals() {
+    const d = this.state.data, lang = this.state.lang, cur = this.state.current, L = this.layout();
+    const { mobile, M, T } = L;
+    const G = '#6b6052', R = '#a83c25';
+    const ok = v => typeof v === 'string' && v.trim() !== '' && !v.includes('【');
+    const isKr = s => /[가-힣]/.test(s || '');
+    const str = (k, other) => { const s = d && d.strings[k]; if (!s) return ''; const ko = (lang === 'ko') !== !!other; return ko ? s['국문'] : s['영문']; };
+    const t = k => str(k);
+    const A = (o, extra) => Object.assign({ position: 'absolute' }, o, extra || {});
+    const rowLine = (top, left, right) => ({ position: 'absolute', left, right, top, height: 19.5, display: 'flex', alignItems: 'baseline', whiteSpace: 'nowrap', overflow: 'hidden' });
+    const S = {
+      main: L.main,
+      headerInner: { position: 'relative', maxWidth: 1440, margin: '0 auto', height: 19.5, padding: '0 ' + M + 'px', display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', fontSize: 11, lineHeight: '19.5px', letterSpacing: '.08em', color: G },
+      nav: { display: 'flex', gap: mobile ? 16 : 26, overflowX: 'auto', whiteSpace: 'nowrap', minWidth: 0, flex: '1 1 auto', marginRight: 12, scrollbarWidth: 'none' },
+      about: { position: 'relative', height: this.state.aboutH, background: '#efe9df', isolation: 'isolate' },
+      hwName: A(L.hwName, { display: 'block' }),
+      heroName: A({ left: M, top: L.nameTop, height: 19.5, display: 'flex', alignItems: 'baseline', whiteSpace: 'nowrap' }),
+      heroRole: A({ left: M, top: L.nameTop + 19.5, height: 19.5, display: 'flex', alignItems: 'baseline', whiteSpace: 'nowrap' }),
+      photo: A(L.photo, { background: '#efe9df', isolation: 'isolate' }),
+      aboutMemo: A({ left: M, top: L.aboutMemoTop, height: this.P, width: 'auto', display: 'block' }),
+      aboutTitle: A(L.aboutTitle, { display: 'flex', alignItems: 'baseline', whiteSpace: 'nowrap' }),
+      // A feathered wash behind the prose: softens and lightens the staff under the paragraph without drawing a box.
+      proseBack: A({ left: M - 48, top: L.proseTop - 30, width: L.proseW + 96, height: (this.state.proseH || 0) + 60, pointerEvents: 'none',
+        background: 'rgba(239,233,223,.42)', backdropFilter: 'blur(1.2px)', WebkitBackdropFilter: 'blur(1.2px)',
+        WebkitMaskImage: 'radial-gradient(ellipse 100% 100% at 50% 50%, #000 40%, rgba(0,0,0,.6) 65%, transparent 100%)',
+        maskImage: 'radial-gradient(ellipse 100% 100% at 50% 50%, #000 40%, rgba(0,0,0,.6) 65%, transparent 100%)',
+        WebkitMaskComposite: 'source-in', maskComposite: 'intersect' }),
+      prose: A({ left: M, top: L.proseTop, width: L.proseW, wordBreak: 'keep-all', textWrap: 'pretty', fontFamily: lang === 'en' ? "'EB Garamond', serif" : "'Noto Serif KR', serif", fontSize: lang === 'en' ? 14 : 13, lineHeight: '19.5px' }),
+      head: { position: 'relative', height: L.headH },
+      memo: A({ left: M, top: 20, height: this.P, width: 'auto', display: 'block' }),
+      headTitle: A(L.headTitle, { display: 'flex', alignItems: 'baseline', whiteSpace: 'nowrap' }),
+      titleRow: rowLine(0.25, T - 48, M + L.rightGap),
+      rightRow: { position: 'absolute', right: M, top: 0.25, height: 19.5, display: 'flex', alignItems: 'baseline', gap: 18, whiteSpace: 'nowrap' },
+      line2: rowLine(19.75, T, M),
+      inst: { position: 'absolute', left: T, right: M + L.rightGap, top: 19.75, height: 19.5, whiteSpace: 'nowrap', overflow: 'hidden' },
+      linksRow: { position: 'absolute', right: M, top: 19.75, height: 19.5, display: 'flex', alignItems: 'baseline', gap: 18, whiteSpace: 'nowrap' },
+      contactRow: rowLine(0.25, T - 48, M),
+      footer: A({ left: T, top: 48, height: 19.5, fontFamily: "'EB Garamond', 'Noto Serif KR', serif", fontSize: 11.5, letterSpacing: '.06em', color: G }),
+      filler: { position: 'relative', height: this.state.filler },
+    };
+    const navBase = { background: 'none', border: 0, padding: 0, margin: 0, cursor: 'pointer', font: 'inherit', letterSpacing: 'inherit', lineHeight: 'inherit', flex: 'none' };
+    const nav = this.IDS.map(id => ({ id, label: t('nav.' + id), go: () => this.go(id), style: Object.assign({}, navBase, { color: cur === id ? R : G }) }));
+    const langLabel = t('label.lang_switch');
+    const langStyle = Object.assign({}, navBase, { color: G, fontFamily: isKr(langLabel) ? "'Noto Serif KR', serif" : "'EB Garamond', serif", fontSize: isKr(langLabel) ? 11 : 12.5, letterSpacing: isKr(langLabel) ? '.08em' : '.04em' });
+    const base = {
+      S, inkDefs: this.ink(), nav, langLabel, langStyle, toggleLang: () => this.setState(s => ({ lang: s.lang === 'ko' ? 'en' : 'ko' })),
+      h: {}, works: [], rows: { performances: [], research: [], news: [], contact: [] }, about: [], footer: '',
+      heroName: '', heroRole: '', heroKr: lang === 'ko', heroEn: lang === 'en',
+    };
+    if (!d) return base;
+
+    // --- helpers -------------------------------------------------------------
+    const title = (kr, en, keepBoth) => {
+      kr = ok(kr) ? kr : ''; en = ok(en) ? en : '';
+      if (!kr && !en) return [];
+      if (!en) return [{ text: kr, [isKr(kr) ? 't1Kr' : 't1En']: true }];
+      if (!kr || kr === en) return [{ text: en, t1En: true }];
+      const both = lang === 'ko' ? [{ text: kr, t1Kr: true }, { text: en, t2En: true }] : [{ text: en, t1En: true }, { text: kr, t2Kr: true }];
+      return (mobile && !keepBoth) ? both.slice(0, 1) : both;   // narrow screens: primary language only in item titles
+    };
+    const head = key => { const s = d.strings[key]; const a = lang === 'ko' ? s['국문'] : s['영문'], b = lang === 'ko' ? s['영문'] : s['국문']; return { t1: a, t1Kr: isKr(a), t1En: !isKr(a), t2: b, t2Kr: isKr(b), t2En: !isKr(b) }; };
+    // Sub-headings (영화·무대, 논문·발표, 예정) set a step larger than item titles so they read as headings, not entries.
+    const sub = key => ({ year: '', right: [], line2: [], line1: title(d.strings[key]['국문'], d.strings[key]['영문'], true).map(p => p.t1Kr ? { text: p.text, subKr: true } : p.t1En ? { text: p.text, subEn: true } : p) });
+    const host = url => { try { return new URL(url).hostname.replace(/^www\./, ''); } catch (e) { return url; } };
+    const link = (href, text) => ({ href, text, [isKr(text) ? 'linkKr' : 'linkEn']: true });
+    const meta = text => ({ text, meta: true }), plain = text => ({ text, plain: true }), label = text => ({ text, label: true }), SEP = { sep: true };
+    const join = items => { const out = []; items.filter(x => x && (typeof x !== 'string' || x.trim())).forEach((x, i) => { if (i) out.push(SEP); if (typeof x === 'string') out.push(plain(x)); else out.push(...x); }); return out; };
+    const byLang = (kr, en) => (lang === 'en' && ok(en)) ? en : (ok(kr) ? kr : '');
+    const roleMap = { '작곡': 'role.composition', '작곡·연주': 'role.composition_performance', '하프시코드 통주저음': 'role.continuo', '음악감독': 'role.music_director' };
+    const role = v => ok(v) ? ((lang === 'en' && roleMap[v]) ? t(roleMap[v]) : v) : '';
+    const year = v => ok(v) ? v : '';
+    const pub = list => (list || []).filter(r => r['웹'] === undefined || r['웹'] === 'Y');
+    const LINES = c => `linear-gradient(to bottom, transparent 0 20px, ${c} 20px 20.8px, transparent 20.8px 26.5px, ${c} 26.5px 27.3px, transparent 27.3px 33px, ${c} 33px 33.8px, transparent 33.8px 39.5px, ${c} 39.5px 40.3px, transparent 40.3px 46px, ${c} 46px 46.8px, transparent 46.8px 69.55px)`;
+
+    // --- works (hover expands 1 → 3 systems) ---------------------------------
+    const slots = [69.8, 89.3, 139.35, 158.85];
+    const works = pub(d.works).map(r => {
+      const expanded = this.state.hover === r.id || this.state.pinned === r.id;
+      const score = ok(r['악보이미지']) && !mobile ? (/^(https?:)?\//.test(r['악보이미지']) ? r['악보이미지'] : 'assets/' + r['악보이미지']) : '';
+      const lines = [];
+      // 역할과 길이는 한 줄에 — 긴 연주자 명단이 두 줄을 쓸 자리를 남긴다.
+      const rl = role(r['역할']); const head1 = [];
+      if (rl) head1.push(label(t('label.role')), plain(rl));
+      if (ok(r['길이'])) { if (head1.length) head1.push(SEP); head1.push(label(t('label.duration')), plain(r['길이'])); }
+      if (head1.length) lines.push(head1);
+      const place = lang === 'en' && ok(r['초연장소_영문']) ? r['초연장소_영문'] : r['초연장소_국문'];
+      const prem = [r['초연일자'], r['공연·행사'], place].filter(ok).join(' · '); if (prem) lines.push([label(t('label.premiere')), plain(prem)]);
+      // 연주자가 본인뿐이고 역할에 이미 '연주'가 있으면 중복이므로 생략.
+      const selfOnly = ok(r['연주자']) && r['연주자'].trim() === d.strings['site.name']['국문'] && /연주/.test(r['역할'] || '');
+      if (ok(r['연주자']) && !selfOnly) {
+        const ptxt = byLang(r['연주자'], r['연주자_영문']);
+        const est = Array.from(ptxt).reduce((w, ch) => w + (/[가-힣一-龥]/.test(ch) ? 13 : 6.6), 0) + 60;
+        const parts = [label(t('label.performers')), plain(ptxt)];
+        parts.wrap = est > L.colW - (score ? 324 : 0) - 20;   // too long for one lyric line → takes the pair of lines under a staff
+        lines.push(parts);
+      }
+      if (ok(r['재연'])) lines.push(lang === 'ko' ? [label('재연'), plain(r['재연'])] : [plain(r['재연'])]);
+      if (lang === 'ko' && ok(r['지원기관'])) lines.push([label('지원기관'), plain(r['지원기관'])]);
+      const links = []; if (ok(r['음원'])) links.push(link(r['음원'], t('label.audio'))); if (ok(r['영상'])) links.push(link(r['영상'], t('label.video')));
+      return {
+        id: r.id, year: year(r['연도']), line1: title(r['제목_국문'], r['제목_영문']), inst: byLang(r['편성_국문'], r['편성_영문']), links,
+        scoreImg: score ? React.createElement('img', { src: score, alt: t('label.score'), style: { position: 'absolute', right: M, top: 41.8, maxHeight: 165.9, maxWidth: 300, width: 'auto', height: 'auto', display: 'block', mixBlendMode: 'multiply' } }) : null,
+        details: (() => {
+          const out = []; let k = 0;
+          for (const parts of lines) {
+            const need = parts.wrap ? 2 : 1;
+            if (need === 2 && k % 2 === 1) k++;            // a two-line entry starts at the top of a lyric pair
+            if (k + need > slots.length) break;
+            out.push({ parts, style: { position: 'absolute', left: T, right: score ? M + 324 : M, top: slots[k], height: 19.5 * need, display: 'flex', alignItems: 'baseline', whiteSpace: need === 2 ? 'normal' : 'nowrap', wordBreak: 'keep-all', overflow: 'hidden' } });
+            k += need;
+          }
+          return out;
+        })(),
+        rowStyle: { position: 'relative', height: expanded ? 208.65 : 69.55, overflow: 'hidden', transition: this.reduce ? 'none' : 'height .32s cubic-bezier(.4,0,.2,1)' },
+        woodStyle: { position: 'absolute', inset: 0, pointerEvents: 'none', backgroundImage: LINES('#b79e85'), backgroundSize: '100% 69.55px', backgroundRepeat: 'repeat', backgroundPosition: '0 21.8px', filter: 'url(#ink)', opacity: 0, display: 'none' },
+        enter: () => this.setState({ hover: r.id }), leave: () => this.setState({ hover: null }),
+        toggle: e => { if (e && e.target && e.target.closest && e.target.closest('a')) return; this.setState(s => ({ pinned: s.pinned === r.id ? null : r.id })); },
+      };
+    });
+
+    // --- performances + film ---------------------------------------------------
+    const perf = pub(d.performances).map(r => ({
+      year: year(r['연도']), line1: title(r['공연명_국문'], r['공연명_영문']),
+      right: role(r['역할']) ? [meta(role(r['역할']))] : [],
+      line2: join([ok(r['일자']) ? r['일자'] : null, byLang(r['장소_국문'], r['장소_영문']), ok(r['프로그램·협연']) ? r['프로그램·협연'] : null]),
+    }));
+    const film = pub(d.film).map(r => ({
+      year: year(r['연도']), line1: title(r['제목_국문'], r['제목_영문']).concat(lang === 'ko' && ok(r['유형']) ? [meta(r['유형'])] : []),
+      right: ok(r['링크']) ? [link(r['링크'], host(r['링크']))] : [],
+      line2: join([role(r['역할']), lang === 'ko' && ok(r['감독·연출']) ? [label('감독·연출'), plain(r['감독·연출'])] : null, byLang(r['영화제·수상_국문'], r['영화제·수상_영문']), ok(r['장소·지원']) ? r['장소·지원'] : null]),
+    }));
+    // --- research ------------------------------------------------------------------
+    const res = pub(d.research).map(r => ({
+      year: year(r['연도']), line1: title(r['제목'], r['제목_영문']).concat(lang === 'ko' && ok(r['유형']) ? [meta(r['유형'])] : []), right: [],
+      line2: join([ok(r['학회·기관']) ? r['학회·기관'] : null, ok(r['일자·장소']) ? r['일자·장소'] : null]),
+    }));
+    // --- news ------------------------------------------------------------------------
+    const newsSrc = (d.news || []).filter(r => r['공개'] === 'Y');
+    const news = newsSrc.length ? newsSrc.map(r => ({
+      year: '', line1: title(r['제목_국문'], r['제목_영문']), right: ok(r['링크']) ? [link(r['링크'], host(r['링크']))] : [],
+      line2: join([ok(r['일자']) ? r['일자'] : null, byLang(r['장소_국문'], r['장소_영문']), ok(r['내용']) ? r['내용'] : null]),
+    })) : [{ year: '', line1: [plain(t('news.empty'))], right: [], line2: [] }];
+    // --- contact ---------------------------------------------------------------------
+    const email = t('contact.email');
+    const contact = [
+      { year: '', line1: [label(t('label.email')), link('mailto:' + email, email)], right: [], line2: [] },
+      { year: '', line1: [link('#', t('label.cv'))], right: [], line2: [] },
+    ];
+    // --- about prose -------------------------------------------------------------------
+    const about = (d.about[lang === 'ko' ? '국문' : '영문'] || []).map((segs, k) => ({
+      style: { margin: k ? '19.5px 0 0' : 0 },
+      segs: segs.map(s => ({ t: s.t, plain: !s.i && !s.hl, iOnly: !!s.i && !s.hl, hlOnly: !s.i && !!s.hl, ihl: !!s.i && !!s.hl })),
+    }));
+
+    return Object.assign(base, {
+      h: { about: head('nav.about'), works: head('nav.works'), performances: head('nav.performances'), research: head('nav.research'), news: head('nav.news'), contact: head('nav.contact') },
+      heroName: t('site.name'), heroRole: t('site.title'),
+      works,
+      rows: { performances: perf.concat([sub('sub.film')], film), research: [sub('sub.papers')].concat(res), news: [sub('label.upcoming')].concat(news), contact },
+      about, footer: t('footer'),
+    });
+  }
+  // The staff-line wobble of 오선지_패턴.svg, as a CSS-referenced SVG filter (#ink).
+  ink() {
+    if (this._ink) return this._ink;
+    const e = React.createElement;
+    this._ink = e('svg', { width: 0, height: 0, 'aria-hidden': 'true', style: { position: 'absolute', width: 0, height: 0, overflow: 'hidden' } },
+      e('defs', null, e('filter', { id: 'ink', x: '-1%', y: '-2%', width: '102%', height: '104%' },
+        e('feTurbulence', { type: 'fractalNoise', baseFrequency: '0.004 0.03', numOctaves: 2, seed: 3, result: 'n' }),
+        e('feDisplacementMap', { in: 'SourceGraphic', in2: 'n', scale: 0.9, xChannelSelector: 'R', yChannelSelector: 'G' }))));
+    return this._ink;
+  }
+}
+</script>
+</body>
+</html>

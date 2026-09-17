@@ -1,0 +1,46 @@
+{
+  "국문": [
+    [{ "t": "작곡가·하프시코드 연주자 오정웅은 2024년 오케스트라 작품 〈민가람소리〉와 〈Deluge〉를 초연하였다. 하프시코드 협주곡 제1번에 이어 2025년 창작독주회 「하프시코드를 상상하다」에서 하프시코드 협주곡 제2번과 〈하프시코드를 위한 모음곡〉을 작곡·연주하였다." }],
+    [{ "t": "서울문화재단 지원 「건축무한미분음계」 음악회에서 조율된 그랜드 피아노와 두 전자음악 재생체를 위한 〈22년〉을, 이에 앞서 〈격자무늬 파노라마〉를 공동 작곡·연주하였다. IRCAM, MA/IN Festival, ICMC 2018에서 전자음악 작품을 발표하였고, ICMC 2024 서울에서는 피아노로 전자음악과 협연하였다." }],
+    [{ "t": "하프시코드 연주자로서는 낙동아트센터 시범개관연주 「LE: CLASSIC Gibboni 고전을 다시 말하다」와 서초실내악축제 2025에서 통주저음을 연주하였다. 2023년에는 전주국제영화제 한국경쟁 부문에서 대상을 수상한 영화 〈당신으로부터〉의 음악감독을 맡았고, 2024년 서울문화재단 지원 연극 〈한 방울의 내가〉의 음악과 연주를 맡았다. 2026년 영화 〈당신을 위한 것은 아닌〉의 음악감독을 맡았으며 이 작품은 제31회 부산국제영화제에 초청되었다. 현재 서울대학교·전남대학교·한국예술종합학교에서 후학 양성에 힘쓰고 있다." }]
+  ],
+  "영문": [
+    [
+      { "t": "Jung-Woong Oh is a composer and harpsichordist. In 2024 he premiered two orchestral works, " },
+      { "t": "Mingaramsori", "i": true, "hl": true },
+      { "t": " and " },
+      { "t": "Deluge", "i": true },
+      { "t": ". Following his " },
+      { "t": "Harpsichord Concerto No. 1", "i": true },
+      { "t": ", he composed and performed " },
+      { "t": "Harpsichord Concerto No. 2", "i": true },
+      { "t": " and " },
+      { "t": "Suite for Harpsichord", "i": true },
+      { "t": " at " },
+      { "t": "Imagining the Harpsichord", "i": true, "hl": true },
+      { "t": ", his 2025 recital of new works." }
+    ],
+    [
+      { "t": "At " },
+      { "t": "Architecture of Infinite Microtones", "i": true, "hl": true },
+      { "t": ", a concert supported by the Seoul Foundation for Arts and Culture, he composed and performed " },
+      { "t": "22 Years", "i": true, "hl": true },
+      { "t": " for retuned grand piano and " },
+      { "t": "two electronic playback devices", "hl": true },
+      { "t": ", having earlier co-composed and performed " },
+      { "t": "Plaid Panorama", "i": true, "hl": true },
+      { "t": ". He has presented electronic works at IRCAM, the MA/IN Festival and ICMC 2018, and performed as pianist with electronics at ICMC 2024 Seoul." }
+    ],
+    [
+      { "t": "As a harpsichordist he played basso continuo at the Nakdong Art Center Concert Hall pre-opening concert " },
+      { "t": "LE: CLASSIC Gibboni", "i": true, "hl": true },
+      { "t": " and at the Seocho Chamber Music Festival 2025. He was music director of the film " },
+      { "t": "From You", "i": true },
+      { "t": " (2023), which won the Grand Prize in the Korean Competition at the Jeonju International Film Festival, and composed and performed the music for the play " },
+      { "t": "A Drop of Me", "i": true, "hl": true },
+      { "t": " (2024), supported by the Seoul Foundation for Arts and Culture. In 2026 he was music director of the film " },
+      { "t": "Not For You", "i": true },
+      { "t": ", invited to the 31st Busan International Film Festival. He currently teaches at Seoul National University, Chonnam National University and the Korea National University of Arts." }
+    ]
+  ]
+}
