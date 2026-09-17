@@ -368,10 +368,13 @@ class Component extends DCLogic {
   layout() {
     // Live width first: state.vw is captured at construction, when an unsized preview frame can report 0.
     const P = this.P, vw = (typeof window !== 'undefined' && window.innerWidth) || this.state.vw || 1440;
+    // Phones: judge by the device screen, not the layout viewport — the desktop sheet forces min-width 1120px, which would
+    // otherwise widen the viewport past the breakpoint (e.g. after the language toggle re-renders) and flip the layout.
+    const phone = typeof window !== 'undefined' && window.screen && Math.min(screen.width, screen.height) < 760 && ('ontouchstart' in window || navigator.maxTouchPoints > 0);
     // Two layouts only: the desktop sheet (fixed 96px margins, 1440 column, scrolls sideways below 1120px) and a separate mobile arrangement.
-    const mobile = vw < 760;
+    const mobile = phone || vw < 760;
     const M = mobile ? 20 : 96;
-    const colW = Math.max(280, Math.min(vw, 1440) - 2 * M);
+    const colW = Math.max(280, Math.min(phone ? Math.min(vw, screen.width) : vw, 1440) - 2 * M);
     const T = mobile ? M + 48 : M;
     let L;
     if (mobile) {
