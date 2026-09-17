@@ -26,7 +26,7 @@ mark{background:rgba(247,232,140,.55);color:inherit}
 </helmet>
 {{ inkDefs }}
 <div aria-hidden="true" style="position:fixed;inset:0;z-index:7;pointer-events:none;background-image:url(assets/grain.svg);background-size:240px 240px"></div>
-<header style="position:fixed;top:0;left:0;right:0;z-index:5;height:20px;background:linear-gradient(to bottom,#efe9df 0,#efe9df 16px,rgba(239,233,223,0) 20px)">
+<header style="{{ S.header }}">
 <div style="{{ S.headerInner }}">
 <nav style="{{ S.nav }}">
 <sc-for list="{{ nav }}" as="n" hint-placeholder-count="6">
@@ -89,11 +89,11 @@ mark{background:rgba(247,232,140,.55);color:inherit}
 </div>
 <sc-for list="{{ works }}" as="w" hint-placeholder-count="12">
 <div style="{{ w.rowStyle }}" onMouseEnter="{{ w.enter }}" onMouseLeave="{{ w.leave }}" onClick="{{ w.toggle }}">
-<div style="position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(to bottom, transparent 0 20px, #cdc3b3 20px 20.8px, transparent 20.8px 26.5px, #cdc3b3 26.5px 27.3px, transparent 27.3px 33px, #cdc3b3 33px 33.8px, transparent 33.8px 39.5px, #cdc3b3 39.5px 40.3px, transparent 40.3px 46px, #cdc3b3 46px 46.8px, transparent 46.8px 69.55px);background-size:100% 69.55px;background-repeat:repeat;background-position:0 21.8px;filter:url(#ink)"></div>
+<div style="{{ S.rowLines }}"></div>
 <div style="{{ w.woodStyle }}"></div>
 <div data-reveal="1" style="position:relative;max-width:1440px;margin:0 auto;height:100%;opacity:0;transition:opacity .6s ease">
 <div data-fit="1" style="{{ S.titleRow }}">
-<span style="width:34px;flex:none;margin-right:14px;font-family:'EB Garamond',serif;font-size:11.5px;font-variant-numeric:lining-nums tabular-nums;color:#6b6052">{{ w.year }}</span>
+<span style="{{ S.year }}">{{ w.year }}</span>
 <sc-for list="{{ w.line1 }}" as="pt" hint-placeholder-count="1">
 <sc-if value="{{ pt.t1Kr }}" hint-placeholder-val="{{ true }}"><span style="font-weight:600">{{ pt.text }}</span></sc-if>
 <sc-if value="{{ pt.t1En }}" hint-placeholder-val="{{ false }}"><span style="font-family:'EB Garamond',serif;font-size:14px;font-weight:500">{{ pt.text }}</span></sc-if>
@@ -114,6 +114,9 @@ mark{background:rgba(247,232,140,.55);color:inherit}
 <sc-if value="{{ pt.label }}" hint-placeholder-val="{{ false }}"><span style="margin-right:9px;font-size:11px;letter-spacing:.06em;color:#6b6052">{{ pt.text }}</span></sc-if>
 <sc-if value="{{ pt.plain }}" hint-placeholder-val="{{ true }}"><span>{{ pt.text }}</span></sc-if>
 <sc-if value="{{ pt.sep }}" hint-placeholder-val="{{ false }}"><span style="margin:0 8px;color:#6b6052">·</span></sc-if>
+<sc-if value="{{ pt.meta }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px;letter-spacing:.06em;color:#6b6052">{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.linkKr }}" hint-placeholder-val="{{ false }}"><a href="{{ pt.href }}" target="_blank" rel="noopener">{{ pt.text }}</a></sc-if>
+<sc-if value="{{ pt.linkEn }}" hint-placeholder-val="{{ false }}"><a href="{{ pt.href }}" target="_blank" rel="noopener" style="font-family:'EB Garamond',serif;font-size:14px">{{ pt.text }}</a></sc-if>
 </sc-for>
 </div>
 </sc-for>
@@ -138,11 +141,11 @@ mark{background:rgba(247,232,140,.55);color:inherit}
 </div>
 </div>
 <sc-for list="{{ rows.performances }}" as="r" hint-placeholder-count="10">
-<div style="position:relative;height:69.55px">
-<div style="position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(to bottom, transparent 0 20px, #cdc3b3 20px 20.8px, transparent 20.8px 26.5px, #cdc3b3 26.5px 27.3px, transparent 27.3px 33px, #cdc3b3 33px 33.8px, transparent 33.8px 39.5px, #cdc3b3 39.5px 40.3px, transparent 40.3px 46px, #cdc3b3 46px 46.8px, transparent 46.8px 69.55px);background-size:100% 69.55px;background-repeat:repeat;background-position:0 21.8px;filter:url(#ink)"></div>
+<div style="{{ S.row }}">
+<div style="{{ S.rowLines }}"></div>
 <div data-reveal="1" style="position:relative;max-width:1440px;margin:0 auto;height:100%;opacity:0;transition:opacity .6s ease">
 <div data-fit="1" style="{{ S.titleRow }}">
-<span style="width:34px;flex:none;margin-right:14px;font-family:'EB Garamond',serif;font-size:11.5px;font-variant-numeric:lining-nums tabular-nums;color:#6b6052">{{ r.year }}</span>
+<span style="{{ S.year }}">{{ r.year }}</span>
 <sc-for list="{{ r.line1 }}" as="pt" hint-placeholder-count="1">
 <sc-if value="{{ pt.subKr }}" hint-placeholder-val="{{ false }}"><span style="font-size:15.5px;font-weight:500;letter-spacing:.06em">{{ pt.text }}</span></sc-if>
 <sc-if value="{{ pt.subEn }}" hint-placeholder-val="{{ false }}"><span style="font-family:'EB Garamond',serif;font-size:17px;font-weight:500;letter-spacing:.02em">{{ pt.text }}</span></sc-if>
@@ -166,6 +169,9 @@ mark{background:rgba(247,232,140,.55);color:inherit}
 <sc-if value="{{ pt.label }}" hint-placeholder-val="{{ false }}"><span style="margin-right:9px;font-size:11px;letter-spacing:.06em;color:#6b6052">{{ pt.text }}</span></sc-if>
 <sc-if value="{{ pt.plain }}" hint-placeholder-val="{{ true }}"><span>{{ pt.text }}</span></sc-if>
 <sc-if value="{{ pt.sep }}" hint-placeholder-val="{{ false }}"><span style="margin:0 8px;color:#6b6052">·</span></sc-if>
+<sc-if value="{{ pt.meta }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px;letter-spacing:.06em;color:#6b6052">{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.linkKr }}" hint-placeholder-val="{{ false }}"><a href="{{ pt.href }}" target="_blank" rel="noopener">{{ pt.text }}</a></sc-if>
+<sc-if value="{{ pt.linkEn }}" hint-placeholder-val="{{ false }}"><a href="{{ pt.href }}" target="_blank" rel="noopener" style="font-family:'EB Garamond',serif;font-size:14px">{{ pt.text }}</a></sc-if>
 </sc-for>
 </div>
 </div>
@@ -188,11 +194,11 @@ mark{background:rgba(247,232,140,.55);color:inherit}
 </div>
 </div>
 <sc-for list="{{ rows.research }}" as="r" hint-placeholder-count="4">
-<div style="position:relative;height:69.55px">
-<div style="position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(to bottom, transparent 0 20px, #cdc3b3 20px 20.8px, transparent 20.8px 26.5px, #cdc3b3 26.5px 27.3px, transparent 27.3px 33px, #cdc3b3 33px 33.8px, transparent 33.8px 39.5px, #cdc3b3 39.5px 40.3px, transparent 40.3px 46px, #cdc3b3 46px 46.8px, transparent 46.8px 69.55px);background-size:100% 69.55px;background-repeat:repeat;background-position:0 21.8px;filter:url(#ink)"></div>
+<div style="{{ S.row }}">
+<div style="{{ S.rowLines }}"></div>
 <div data-reveal="1" style="position:relative;max-width:1440px;margin:0 auto;height:100%;opacity:0;transition:opacity .6s ease">
 <div data-fit="1" style="{{ S.titleRow }}">
-<span style="width:34px;flex:none;margin-right:14px;font-family:'EB Garamond',serif;font-size:11.5px;font-variant-numeric:lining-nums tabular-nums;color:#6b6052">{{ r.year }}</span>
+<span style="{{ S.year }}">{{ r.year }}</span>
 <sc-for list="{{ r.line1 }}" as="pt" hint-placeholder-count="1">
 <sc-if value="{{ pt.subKr }}" hint-placeholder-val="{{ false }}"><span style="font-size:15.5px;font-weight:500;letter-spacing:.06em">{{ pt.text }}</span></sc-if>
 <sc-if value="{{ pt.subEn }}" hint-placeholder-val="{{ false }}"><span style="font-family:'EB Garamond',serif;font-size:17px;font-weight:500;letter-spacing:.02em">{{ pt.text }}</span></sc-if>
@@ -216,6 +222,9 @@ mark{background:rgba(247,232,140,.55);color:inherit}
 <sc-if value="{{ pt.label }}" hint-placeholder-val="{{ false }}"><span style="margin-right:9px;font-size:11px;letter-spacing:.06em;color:#6b6052">{{ pt.text }}</span></sc-if>
 <sc-if value="{{ pt.plain }}" hint-placeholder-val="{{ true }}"><span>{{ pt.text }}</span></sc-if>
 <sc-if value="{{ pt.sep }}" hint-placeholder-val="{{ false }}"><span style="margin:0 8px;color:#6b6052">·</span></sc-if>
+<sc-if value="{{ pt.meta }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px;letter-spacing:.06em;color:#6b6052">{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.linkKr }}" hint-placeholder-val="{{ false }}"><a href="{{ pt.href }}" target="_blank" rel="noopener">{{ pt.text }}</a></sc-if>
+<sc-if value="{{ pt.linkEn }}" hint-placeholder-val="{{ false }}"><a href="{{ pt.href }}" target="_blank" rel="noopener" style="font-family:'EB Garamond',serif;font-size:14px">{{ pt.text }}</a></sc-if>
 </sc-for>
 </div>
 </div>
@@ -238,11 +247,11 @@ mark{background:rgba(247,232,140,.55);color:inherit}
 </div>
 </div>
 <sc-for list="{{ rows.news }}" as="r" hint-placeholder-count="2">
-<div style="position:relative;height:69.55px">
-<div style="position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(to bottom, transparent 0 20px, #cdc3b3 20px 20.8px, transparent 20.8px 26.5px, #cdc3b3 26.5px 27.3px, transparent 27.3px 33px, #cdc3b3 33px 33.8px, transparent 33.8px 39.5px, #cdc3b3 39.5px 40.3px, transparent 40.3px 46px, #cdc3b3 46px 46.8px, transparent 46.8px 69.55px);background-size:100% 69.55px;background-repeat:repeat;background-position:0 21.8px;filter:url(#ink)"></div>
+<div style="{{ S.row }}">
+<div style="{{ S.rowLines }}"></div>
 <div data-reveal="1" style="position:relative;max-width:1440px;margin:0 auto;height:100%;opacity:0;transition:opacity .6s ease">
 <div data-fit="1" style="{{ S.titleRow }}">
-<span style="width:34px;flex:none;margin-right:14px;font-family:'EB Garamond',serif;font-size:11.5px;font-variant-numeric:lining-nums tabular-nums;color:#6b6052">{{ r.year }}</span>
+<span style="{{ S.year }}">{{ r.year }}</span>
 <sc-for list="{{ r.line1 }}" as="pt" hint-placeholder-count="1">
 <sc-if value="{{ pt.subKr }}" hint-placeholder-val="{{ false }}"><span style="font-size:15.5px;font-weight:500;letter-spacing:.06em">{{ pt.text }}</span></sc-if>
 <sc-if value="{{ pt.subEn }}" hint-placeholder-val="{{ false }}"><span style="font-family:'EB Garamond',serif;font-size:17px;font-weight:500;letter-spacing:.02em">{{ pt.text }}</span></sc-if>
@@ -266,6 +275,9 @@ mark{background:rgba(247,232,140,.55);color:inherit}
 <sc-if value="{{ pt.label }}" hint-placeholder-val="{{ false }}"><span style="margin-right:9px;font-size:11px;letter-spacing:.06em;color:#6b6052">{{ pt.text }}</span></sc-if>
 <sc-if value="{{ pt.plain }}" hint-placeholder-val="{{ true }}"><span>{{ pt.text }}</span></sc-if>
 <sc-if value="{{ pt.sep }}" hint-placeholder-val="{{ false }}"><span style="margin:0 8px;color:#6b6052">·</span></sc-if>
+<sc-if value="{{ pt.meta }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px;letter-spacing:.06em;color:#6b6052">{{ pt.text }}</span></sc-if>
+<sc-if value="{{ pt.linkKr }}" hint-placeholder-val="{{ false }}"><a href="{{ pt.href }}" target="_blank" rel="noopener">{{ pt.text }}</a></sc-if>
+<sc-if value="{{ pt.linkEn }}" hint-placeholder-val="{{ false }}"><a href="{{ pt.href }}" target="_blank" rel="noopener" style="font-family:'EB Garamond',serif;font-size:14px">{{ pt.text }}</a></sc-if>
 </sc-for>
 </div>
 </div>
@@ -288,11 +300,11 @@ mark{background:rgba(247,232,140,.55);color:inherit}
 </div>
 </div>
 <sc-for list="{{ rows.contact }}" as="r" hint-placeholder-count="2">
-<div style="position:relative;height:69.55px">
-<div style="position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(to bottom, transparent 0 20px, #cdc3b3 20px 20.8px, transparent 20.8px 26.5px, #cdc3b3 26.5px 27.3px, transparent 27.3px 33px, #cdc3b3 33px 33.8px, transparent 33.8px 39.5px, #cdc3b3 39.5px 40.3px, transparent 40.3px 46px, #cdc3b3 46px 46.8px, transparent 46.8px 69.55px);background-size:100% 69.55px;background-repeat:repeat;background-position:0 21.8px;filter:url(#ink)"></div>
+<div style="{{ S.row }}">
+<div style="{{ S.rowLines }}"></div>
 <div data-reveal="1" style="position:relative;max-width:1440px;margin:0 auto;height:100%;opacity:0;transition:opacity .6s ease">
 <div data-fit="1" style="{{ S.contactRow }}">
-<span style="width:34px;flex:none;margin-right:14px;font-family:'EB Garamond',serif;font-size:11.5px;font-variant-numeric:lining-nums tabular-nums;color:#6b6052">{{ r.year }}</span>
+<span style="{{ S.year }}">{{ r.year }}</span>
 <sc-for list="{{ r.line1 }}" as="pt" hint-placeholder-count="1">
 <sc-if value="{{ pt.label }}" hint-placeholder-val="{{ false }}"><span style="margin-right:9px;font-size:11px;letter-spacing:.06em;color:#6b6052">{{ pt.text }}</span></sc-if>
 <sc-if value="{{ pt.plain }}" hint-placeholder-val="{{ false }}"><span>{{ pt.text }}</span></sc-if>
@@ -317,7 +329,7 @@ mark{background:rgba(247,232,140,.55);color:inherit}
 
 </main>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;initialLang&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;ko&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;ko&quot;,&quot;en&quot;],&quot;section&quot;:&quot;언어 — 처음 표시 언어 (화면 우상단에서도 전환)&quot;},&quot;cameraZoom&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;움직임 — 단 이동 시 카메라의 미세한 줌 아웃&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;initialLang&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;ko&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;ko&quot;,&quot;en&quot;],&quot;section&quot;:&quot;언어 — 처음 표시 언어 (화면 우상단에서도 전환)&quot;},&quot;cameraZoom&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;움직임 — 단 이동 시 카메라의 미세한 줌 아웃&quot;},&quot;previewWidth&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:0,&quot;tsType&quot;:&quot;number&quot;,&quot;min&quot;:0,&quot;max&quot;:1440,&quot;step&quot;:10,&quot;unit&quot;:&quot;px&quot;,&quot;section&quot;:&quot;미리보기 — 화면 폭 강제 (0 = 자동, 390 = 휴대폰)&quot;}}">
 class Component extends DCLogic {
   P = 69.55;
   state = { data: null, lang: (this.props && this.props.initialLang) || 'ko', hover: null, pinned: null, current: 'about', aboutH: 1112.8, filler: 625.95, vw: typeof window !== 'undefined' ? window.innerWidth : 1440 };
@@ -332,6 +344,8 @@ class Component extends DCLogic {
       .catch(err => console.warn('data load failed', err));
     this._lastInitialLang = this.props && this.props.initialLang;
     this.reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this.noHover = window.matchMedia && matchMedia('(hover: none)').matches;   // touch: tapping toggles, no hover state to get stuck
+    window.__site = this;
     this._failsafe = setTimeout(() => document.querySelectorAll('[data-reveal]').forEach(el => { el.style.opacity = '1'; }), 4000);
     this.onScroll = () => { if (this._sr) return; this._sr = requestAnimationFrame(() => { this._sr = 0; this.updateCurrent(); }); };
     this._fitTimer = 0;
@@ -361,16 +375,18 @@ class Component extends DCLogic {
     if (!this.state.data) return;
     const pel = this.proseEl();
     if (this.ro && pel && this._roTarget !== pel) { if (this._roTarget) this.ro.unobserve(this._roTarget); this._roTarget = pel; this.ro.observe(pel); }
-    const key = this.state.lang + ':' + this.state.vw;
+    const key = this.state.lang + ':' + this.state.vw + ':' + this.forcedWidth();
     if (this._measuredFor !== key) { this._measuredFor = key; this.measure(); }
     this.observe();
     clearTimeout(this._fitTimer); this._fitTimer = setTimeout(() => this.fitLines(), 60);
   }
   // Lines that must stay on one staff row: instead of clipping, squeeze letter-spacing (then word-spacing) until the text fits.
   fitLines() {
+    const mobile = this.layout().mobile;
     document.querySelectorAll('[data-fit]').forEach(el => {
       el.style.letterSpacing = ''; el.style.wordSpacing = ''; el.style.fontSize = '';
       const sec = el.querySelector('[data-secondary]'); if (sec) sec.style.display = '';
+      if (mobile) { el.style.height = ''; el.style.maxHeight = ''; return; }   // phones wrap text instead of squeezing it
       const avail = el.clientWidth; if (!avail || el.scrollWidth <= avail + 0.5) return;
       // 1) an optional secondary-language title is dropped first — better than crushing the row
       if (sec) { sec.style.display = 'none'; if (el.scrollWidth <= avail + 0.5) return; }
@@ -394,14 +410,17 @@ class Component extends DCLogic {
       }
     });
   }
+  // Preview aid: a forced sheet width (Tweaks → previewWidth, or window.__site.setState({ forceW })) renders the phone layout on a desktop screen.
+  forcedWidth() { const w = +((this.props && this.props.previewWidth) || 0) || (this.state.forceW || 0); return w >= 280 ? w : 0; }
   // Geometry per viewport width. Every vertical position is a system top (k·P) plus a fixed offset inside the system,
   // so text always lands in the same place relative to the staff: titles/memos under a staff, the next staff separating items.
   layout() {
     // Live width first: state.vw is captured at construction, when an unsized preview frame can report 0.
-    const P = this.P, vw = (typeof window !== 'undefined' && window.innerWidth) || this.state.vw || 1440;
+    const fw = this.forcedWidth();
+    const P = this.P, vw = fw || (typeof window !== 'undefined' && window.innerWidth) || this.state.vw || 1440;
     // Phones: judge by the device screen, not the layout viewport — the desktop sheet forces min-width 1120px, which would
     // otherwise widen the viewport past the breakpoint (e.g. after the language toggle re-renders) and flip the layout.
-    const phone = typeof window !== 'undefined' && window.screen && Math.min(screen.width, screen.height) < 760 && ('ontouchstart' in window || navigator.maxTouchPoints > 0);
+    const phone = !fw && typeof window !== 'undefined' && window.screen && Math.min(screen.width, screen.height) < 760 && ('ontouchstart' in window || navigator.maxTouchPoints > 0);
     // Two layouts only: the desktop sheet (fixed 96px margins, 1440 column, scrolls sideways below 1120px) and a separate mobile arrangement.
     const mobile = phone || vw < 760;
     const M = mobile ? 20 : 96;
@@ -453,8 +472,9 @@ class Component extends DCLogic {
   go(id) {
     const el = document.getElementById('sec-' + id); if (!el) return;
     this.setState({ current: id, pinned: null });
+    const hdr = document.querySelector('header'), hoff = hdr ? Math.max(0, hdr.offsetHeight - 20) : 0;   // taller (wrapped) phone nav
     const max = document.documentElement.scrollHeight - window.innerHeight;
-    const target = Math.max(0, Math.min(el.offsetTop, max));
+    const target = Math.max(0, Math.min(el.offsetTop - hoff, max));
     if (this.reduce) { window.scrollTo(0, target); return; }
     const start = window.scrollY, dist = target - start;
     if (Math.abs(dist) < 1) return;
@@ -485,10 +505,21 @@ class Component extends DCLogic {
     const t = k => str(k);
     const A = (o, extra) => Object.assign({ position: 'absolute' }, o, extra || {});
     const rowLine = (top, left, right) => ({ position: 'absolute', left, right, top, height: 19.5, display: 'flex', alignItems: 'baseline', whiteSpace: 'nowrap', overflow: 'hidden' });
+    const fw = this.forcedWidth();
+    const LINES = c => `linear-gradient(to bottom, transparent 0 20px, ${c} 20px 20.8px, transparent 20.8px 26.5px, ${c} 26.5px 27.3px, transparent 27.3px 33px, ${c} 33px 33.8px, transparent 33.8px 39.5px, ${c} 39.5px 40.3px, transparent 40.3px 46px, ${c} 46px 46.8px, transparent 46.8px 69.55px)`;
+    // Phone rows: text flows and wraps (hanging indent beside the year) and each item closes with its own staff,
+    // instead of sitting inside a fixed 69.55px system with squeezed or clipped lines.
+    const flow = extra => Object.assign({ position: 'relative', padding: '0 ' + M + 'px 0 ' + T + 'px', whiteSpace: 'normal', wordBreak: 'keep-all', overflowWrap: 'anywhere' }, extra || {});
+    const staffAt = (c, where) => ({ position: 'absolute', inset: 0, pointerEvents: 'none', backgroundImage: LINES(c), backgroundSize: '100% 69.55px', filter: 'url(#ink)', backgroundRepeat: where === 'bottom' ? 'no-repeat' : 'repeat', backgroundPosition: where === 'bottom' ? '0 calc(100% + 21.8px)' : '0 21.8px' });
     const S = {
-      main: L.main,
-      headerInner: { position: 'relative', maxWidth: 1440, margin: '0 auto', height: 19.5, padding: '0 ' + M + 'px', display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', fontSize: 11, lineHeight: '19.5px', letterSpacing: '.08em', color: G },
-      nav: { display: 'flex', gap: mobile ? 16 : 26, overflowX: 'auto', whiteSpace: 'nowrap', minWidth: 0, flex: '1 1 auto', marginRight: 12, scrollbarWidth: 'none' },
+      main: Object.assign({}, L.main, fw ? { width: fw, minWidth: 0, margin: '0 auto' } : {}),
+      header: mobile
+        ? { position: 'fixed', top: 0, left: 0, right: 0, zIndex: 5, background: 'linear-gradient(to bottom, #efe9df 0, #efe9df calc(100% - 6px), rgba(239,233,223,0))' }
+        : { position: 'fixed', top: 0, left: 0, right: 0, zIndex: 5, height: 20, background: 'linear-gradient(to bottom, #efe9df 0, #efe9df 16px, rgba(239,233,223,0) 20px)' },
+      headerInner: mobile
+        ? { position: 'relative', maxWidth: fw || 1440, margin: '0 auto', padding: '2px ' + M + 'px 8px', display: 'flex', flexWrap: 'wrap', alignItems: 'baseline', columnGap: 16, fontSize: 11, lineHeight: '19.5px', letterSpacing: '.08em', color: G }
+        : { position: 'relative', maxWidth: fw || 1440, margin: '0 auto', height: 19.5, padding: '0 ' + M + 'px', display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', fontSize: 11, lineHeight: '19.5px', letterSpacing: '.08em', color: G },
+      nav: mobile ? { display: 'contents' } : { display: 'flex', gap: 26, overflowX: 'auto', whiteSpace: 'nowrap', minWidth: 0, flex: '1 1 auto', marginRight: 12, scrollbarWidth: 'none' },
       about: { position: 'relative', height: this.state.aboutH, background: '#efe9df', isolation: 'isolate' },
       hwName: A(L.hwName, { display: 'block' }),
       heroName: A({ left: M, top: L.nameTop, height: 19.5, display: 'flex', alignItems: 'baseline', whiteSpace: 'nowrap' }),
@@ -506,19 +537,24 @@ class Component extends DCLogic {
       head: { position: 'relative', height: L.headH },
       memo: A({ left: M, top: 20, height: this.P, width: 'auto', display: 'block' }),
       headTitle: A(L.headTitle, { display: 'flex', alignItems: 'baseline', whiteSpace: 'nowrap' }),
-      titleRow: rowLine(0.25, T - 48, M + (mobile ? 130 : L.rightGap)),
-      rightRow: { position: 'absolute', right: M, top: 0.25, height: 19.5, display: 'flex', alignItems: 'baseline', gap: 18, whiteSpace: 'nowrap' },
-      line2: rowLine(19.75, T, M),
-      inst: { position: 'absolute', left: T, right: M + L.rightGap, top: 19.75, height: 19.5, whiteSpace: 'nowrap', overflow: 'hidden' },
-      linksRow: { position: 'absolute', right: M, top: 19.75, height: 19.5, display: 'flex', alignItems: 'baseline', gap: 18, whiteSpace: 'nowrap' },
-      contactRow: rowLine(0.25, T - 48, M),
+      row: mobile ? { position: 'relative', padding: '0.25px 0 30.55px' } : { position: 'relative', height: 69.55 },
+      rowLines: staffAt('#cdc3b3', mobile ? 'bottom' : 'repeat'),
+      year: mobile
+        ? { position: 'absolute', left: M, top: 0, width: 34, fontFamily: "'EB Garamond', serif", fontSize: 11.5, fontVariantNumeric: 'lining-nums tabular-nums', color: G }
+        : { width: 34, flex: 'none', marginRight: 14, fontFamily: "'EB Garamond', serif", fontSize: 11.5, fontVariantNumeric: 'lining-nums tabular-nums', color: G },
+      titleRow: mobile ? flow() : rowLine(0.25, T - 48, M + L.rightGap),
+      rightRow: mobile ? { display: 'none' } : { position: 'absolute', right: M, top: 0.25, height: 19.5, display: 'flex', alignItems: 'baseline', gap: 18, whiteSpace: 'nowrap' },
+      line2: mobile ? flow() : rowLine(19.75, T, M),
+      inst: mobile ? flow() : { position: 'absolute', left: T, right: M + L.rightGap, top: 19.75, height: 19.5, whiteSpace: 'nowrap', overflow: 'hidden' },
+      linksRow: mobile ? flow({ display: 'flex', flexWrap: 'wrap', columnGap: 18 }) : { position: 'absolute', right: M, top: 19.75, height: 19.5, display: 'flex', alignItems: 'baseline', gap: 18, whiteSpace: 'nowrap' },
+      contactRow: mobile ? flow() : rowLine(0.25, T - 48, M),
       footer: A({ left: T, top: 48, height: 19.5, fontFamily: "'EB Garamond', 'Noto Serif KR', serif", fontSize: 11.5, letterSpacing: '.06em', color: G }),
       filler: { position: 'relative', height: this.state.filler },
     };
-    const navBase = { background: 'none', border: 0, padding: 0, margin: 0, cursor: 'pointer', font: 'inherit', letterSpacing: 'inherit', lineHeight: 'inherit', flex: 'none' };
+    const navBase = { background: 'none', border: 0, padding: mobile ? '4px 0' : 0, margin: 0, cursor: 'pointer', font: 'inherit', letterSpacing: 'inherit', lineHeight: 'inherit', flex: 'none' };
     const nav = this.IDS.map(id => ({ id, label: t('nav.' + id), go: () => this.go(id), style: Object.assign({}, navBase, { color: cur === id ? R : G }) }));
     const langLabel = t('label.lang_switch');
-    const langStyle = Object.assign({}, navBase, { color: G, fontFamily: isKr(langLabel) ? "'Noto Serif KR', serif" : "'EB Garamond', serif", fontSize: isKr(langLabel) ? 11 : 12.5, letterSpacing: isKr(langLabel) ? '.08em' : '.04em' });
+    const langStyle = Object.assign({}, navBase, { marginLeft: mobile ? 'auto' : 0, color: G, fontFamily: isKr(langLabel) ? "'Noto Serif KR', serif" : "'EB Garamond', serif", fontSize: isKr(langLabel) ? 11 : 12.5, letterSpacing: isKr(langLabel) ? '.08em' : '.04em' });
     const base = {
       S, inkDefs: this.ink(), nav, langLabel, langStyle, toggleLang: () => this.setState(s => ({ lang: s.lang === 'ko' ? 'en' : 'ko' })),
       h: {}, works: [], rows: { performances: [], research: [], news: [], contact: [] }, about: [], footer: '',
@@ -547,7 +583,6 @@ class Component extends DCLogic {
     const role = v => ok(v) ? ((lang === 'en' && roleMap[v]) ? t(roleMap[v]) : v) : '';
     const year = v => ok(v) ? v : '';
     const pub = list => (list || []).filter(r => r['웹'] === undefined || r['웹'] === 'Y');
-    const LINES = c => `linear-gradient(to bottom, transparent 0 20px, ${c} 20px 20.8px, transparent 20.8px 26.5px, ${c} 26.5px 27.3px, transparent 27.3px 33px, ${c} 33px 33.8px, transparent 33.8px 39.5px, ${c} 39.5px 40.3px, transparent 40.3px 46px, ${c} 46px 46.8px, transparent 46.8px 69.55px)`;
 
     // --- works (hover expands 1 → 3 systems) ---------------------------------
     const slots = [69.8, 89.3, 139.35, 158.85];
@@ -578,9 +613,9 @@ class Component extends DCLogic {
       return {
         id: r.id, year: year(r['연도']), line1: title(r['제목_국문'], r['제목_영문']), inst: byLang(r['편성_국문'], r['편성_영문']), links,
         // on phones the instrumentation line only yields room for links that actually exist
-        instStyle: Object.assign({}, S.inst, mobile ? { right: M + (links.length ? links.length * 44 : 0) } : {}),
+        instStyle: mobile ? flow() : S.inst,
         scoreImg: score ? React.createElement('img', { src: score, alt: t('label.score'), style: { position: 'absolute', right: M, top: 41.8, maxHeight: 165.9, maxWidth: 300, width: 'auto', height: 'auto', display: 'block', mixBlendMode: 'multiply' } }) : null,
-        details: (() => {
+        details: mobile ? (expanded ? lines.map(parts => ({ parts, style: flow() })) : []) : (() => {
           const out = []; let k = 0;
           for (const parts of lines) {
             const need = parts.wrap ? 2 : 1;
@@ -593,9 +628,11 @@ class Component extends DCLogic {
           }
           return out;
         })(),
-        rowStyle: { position: 'relative', height: expanded ? 208.65 : 69.55, overflow: 'hidden', transition: this.reduce ? 'none' : 'height .32s cubic-bezier(.4,0,.2,1)' },
+        rowStyle: mobile
+          ? { position: 'relative', padding: '0.25px 0 30.55px', overflow: 'hidden', cursor: 'pointer' }
+          : { position: 'relative', height: expanded ? 208.65 : 69.55, overflow: 'hidden', transition: this.reduce ? 'none' : 'height .32s cubic-bezier(.4,0,.2,1)' },
         woodStyle: { position: 'absolute', inset: 0, pointerEvents: 'none', backgroundImage: LINES('#b79e85'), backgroundSize: '100% 69.55px', backgroundRepeat: 'repeat', backgroundPosition: '0 21.8px', filter: 'url(#ink)', opacity: 0, display: 'none' },
-        enter: () => this.setState({ hover: r.id }), leave: () => this.setState({ hover: null }),
+        enter: () => { if (!this.noHover) this.setState({ hover: r.id }); }, leave: () => { if (!this.noHover) this.setState({ hover: null }); },
         toggle: e => { if (e && e.target && e.target.closest && e.target.closest('a')) return; this.setState(s => ({ pinned: s.pinned === r.id ? null : r.id })); },
       };
     });
@@ -603,13 +640,13 @@ class Component extends DCLogic {
     // --- performances + film ---------------------------------------------------
     const perf = pub(d.performances).map(r => ({
       year: year(r['연도']), line1: title(r['공연명_국문'], r['공연명_영문']),
-      right: role(r['역할']) ? [meta(role(r['역할']))] : [],
-      line2: join([ok(r['일자']) ? r['일자'] : null, byLang(r['장소_국문'], r['장소_영문']), ok(r['프로그램·협연']) ? r['프로그램·협연'] : null]),
+      right: !mobile && role(r['역할']) ? [meta(role(r['역할']))] : [],
+      line2: join([ok(r['일자']) ? r['일자'] : null, byLang(r['장소_국문'], r['장소_영문']), ok(r['프로그램·협연']) ? r['프로그램·협연'] : null, mobile && role(r['역할']) ? [meta(role(r['역할']))] : null]),
     }));
     const film = pub(d.film).map(r => ({
       year: year(r['연도']), line1: title(r['제목_국문'], r['제목_영문']).concat(lang === 'ko' && ok(r['유형']) ? [meta(r['유형'])] : []),
-      right: ok(r['링크']) ? [link(r['링크'], host(r['링크']))] : [],
-      line2: join([role(r['역할']), lang === 'ko' && ok(r['감독·연출']) ? [label('감독·연출'), plain(r['감독·연출'])] : null, byLang(r['영화제·수상_국문'], r['영화제·수상_영문']), ok(r['장소·지원']) ? r['장소·지원'] : null]),
+      right: !mobile && ok(r['링크']) ? [link(r['링크'], host(r['링크']))] : [],
+      line2: join([role(r['역할']), lang === 'ko' && ok(r['감독·연출']) ? [label('감독·연출'), plain(r['감독·연출'])] : null, byLang(r['영화제·수상_국문'], r['영화제·수상_영문']), ok(r['장소·지원']) ? r['장소·지원'] : null, mobile && ok(r['링크']) ? [link(r['링크'], host(r['링크']))] : null]),
     }));
     // --- research ------------------------------------------------------------------
     const res = pub(d.research).map(r => ({
@@ -619,8 +656,8 @@ class Component extends DCLogic {
     // --- news ------------------------------------------------------------------------
     const newsSrc = (d.news || []).filter(r => r['공개'] === 'Y');
     const news = newsSrc.length ? newsSrc.map(r => ({
-      year: '', line1: title(r['제목_국문'], r['제목_영문']), right: ok(r['링크']) ? [link(r['링크'], host(r['링크']))] : [],
-      line2: join([ok(r['일자']) ? r['일자'] : null, byLang(r['장소_국문'], r['장소_영문']), ok(r['내용']) ? r['내용'] : null]),
+      year: '', line1: title(r['제목_국문'], r['제목_영문']), right: !mobile && ok(r['링크']) ? [link(r['링크'], host(r['링크']))] : [],
+      line2: join([ok(r['일자']) ? r['일자'] : null, byLang(r['장소_국문'], r['장소_영문']), ok(r['내용']) ? r['내용'] : null, mobile && ok(r['링크']) ? [link(r['링크'], host(r['링크']))] : null]),
     })) : [{ year: '', line1: [plain(t('news.empty'))], right: [], line2: [] }];
     // --- contact ---------------------------------------------------------------------
     const email = t('contact.email');
