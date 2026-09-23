@@ -23,8 +23,8 @@ mark{background:rgba(247,232,140,.55);color:inherit}
 :focus-visible{outline:1px solid #a83c25;outline-offset:2px}
 .channel-link{display:inline-flex;align-items:center;min-height:44px;max-width:100%;box-sizing:border-box;touch-action:manipulation;white-space:normal;overflow-wrap:anywhere}
 .channel-link:hover{text-decoration:underline;text-underline-offset:3px}
-.social-link{width:44px;min-width:44px;height:44px;justify-content:center;margin-right:8px;border-radius:2px;vertical-align:middle}
-.social-link:hover{text-decoration:none}
+.social-link{width:44px;min-width:44px;height:44px;justify-content:center;margin-right:0;border-radius:2px;vertical-align:middle;color:#817566}
+.social-link:hover,.social-link:focus-visible{color:#8e5a30;text-decoration:none}
 .social-link svg{display:block;flex:none}
 .recital-link{margin-top:19.5px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
@@ -667,10 +667,10 @@ class Component extends DCLogic {
       about, footer: t('footer'),
     });
   }
-  // Small ink-line marks share the site's link colour without external images.
+  // Small ink-line marks inherit their colour without external images.
   socialIcon(name) {
     const e = React.createElement;
-    const attrs = { width: name === 'SoundCloud' ? 30 : 24, height: 24, viewBox: name === 'SoundCloud' ? '0 0 32 24' : '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.45, strokeLinecap: 'round', strokeLinejoin: 'round', 'aria-hidden': 'true', focusable: 'false' };
+    const attrs = { width: name === 'SoundCloud' ? 26 : 20, height: 20, viewBox: name === 'SoundCloud' ? '0 0 32 24' : '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.35, strokeLinecap: 'round', strokeLinejoin: 'round', 'aria-hidden': 'true', focusable: 'false' };
     if (name === 'SoundCloud') return e('svg', attrs,
       e('path', { d: 'M2 13v4M5 10v8M8 8v10M11 6v12' }),
       e('path', { d: 'M14 18h10.5a4.5 4.5 0 1 0-.9-8.9A6.4 6.4 0 0 0 14 5.8Z' }));
