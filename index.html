@@ -23,6 +23,9 @@ mark{background:rgba(247,232,140,.55);color:inherit}
 :focus-visible{outline:1px solid #a83c25;outline-offset:2px}
 .channel-link{display:inline-flex;align-items:center;min-height:44px;max-width:100%;box-sizing:border-box;touch-action:manipulation;white-space:normal;overflow-wrap:anywhere}
 .channel-link:hover{text-decoration:underline;text-underline-offset:3px}
+.social-link{width:44px;min-width:44px;height:44px;justify-content:center;margin-right:8px;border-radius:2px;vertical-align:middle}
+.social-link:hover{text-decoration:none}
+.social-link svg{display:block;flex:none}
 .recital-link{margin-top:19.5px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 @media (max-width:759px){
@@ -313,8 +316,8 @@ mark{background:rgba(247,232,140,.55);color:inherit}
 <sc-for list="{{ r.line1 }}" as="pt" hint-placeholder-count="1">
 <sc-if value="{{ pt.label }}" hint-placeholder-val="{{ false }}"><span style="margin-right:9px;font-size:11px;letter-spacing:.06em;color:#6b6052">{{ pt.text }}</span></sc-if>
 <sc-if value="{{ pt.plain }}" hint-placeholder-val="{{ false }}"><span>{{ pt.text }}</span></sc-if>
-<sc-if value="{{ pt.linkKr }}" hint-placeholder-val="{{ true }}"><a href="{{ pt.href }}" class="{{ pt.className }}" target="{{ pt.target }}" rel="{{ pt.rel }}" aria-label="{{ pt.ariaLabel }}" style="font-family:'EB Garamond','Noto Serif KR',serif;font-size:13.5px">{{ pt.text }}</a></sc-if>
-<sc-if value="{{ pt.linkEn }}" hint-placeholder-val="{{ false }}"><a href="{{ pt.href }}" class="{{ pt.className }}" target="{{ pt.target }}" rel="{{ pt.rel }}" aria-label="{{ pt.ariaLabel }}" style="font-family:'EB Garamond',serif;font-size:14px">{{ pt.text }}</a></sc-if>
+<sc-if value="{{ pt.linkKr }}" hint-placeholder-val="{{ true }}"><a href="{{ pt.href }}" class="{{ pt.className }}" target="{{ pt.target }}" rel="{{ pt.rel }}" aria-label="{{ pt.ariaLabel }}" title="{{ pt.title }}" style="font-family:'EB Garamond','Noto Serif KR',serif;font-size:13.5px">{{ pt.icon }}{{ pt.text }}</a></sc-if>
+<sc-if value="{{ pt.linkEn }}" hint-placeholder-val="{{ false }}"><a href="{{ pt.href }}" class="{{ pt.className }}" target="{{ pt.target }}" rel="{{ pt.rel }}" aria-label="{{ pt.ariaLabel }}" title="{{ pt.title }}" style="font-family:'EB Garamond',serif;font-size:14px">{{ pt.icon }}{{ pt.text }}</a></sc-if>
 </sc-for>
 </div>
 </div>
@@ -541,8 +544,8 @@ class Component extends DCLogic {
     // Sub-headings (영화·무대, 논문·발표, 예정) set a step larger than item titles so they read as headings, not entries.
     const sub = key => ({ year: '', right: [], line2: [], line1: title(d.strings[key]['국문'], d.strings[key]['영문'], true).map(p => p.t1Kr ? { text: p.text, subKr: true } : p.t1En ? { text: p.text, subEn: true } : p) });
     const host = url => { try { return new URL(url).hostname.replace(/^www\./, ''); } catch (e) { return url; } };
-    const link = (href, text) => ({ href, text, [isKr(text) ? 'linkKr' : 'linkEn']: true });
-    const channel = (href, text) => Object.assign(link(href, text + ' ↗'), { className: 'channel-link', target: '_blank', rel: 'noopener noreferrer', ariaLabel: text + ' — ' + t('label.new_tab') });
+    const link = (href, text) => ({ href, text, icon: null, [isKr(text) ? 'linkKr' : 'linkEn']: true });
+    const channel = (href, name) => ({ href, text: '', linkEn: true, icon: this.socialIcon(name), title: name, className: 'channel-link social-link', target: '_blank', rel: 'noopener noreferrer', ariaLabel: name + ' — ' + t('label.new_tab') });
     const recital = (d.performances || []).find(r => r.id === 'p01' && (r['웹'] === undefined || r['웹'] === 'Y') && ok(r['링크']));
     const meta = text => ({ text, meta: true }), plain = text => ({ text, plain: true }), label = text => ({ text, label: true }), SEP = { sep: true };
     const join = items => { const out = []; items.filter(x => x && (typeof x !== 'string' || x.trim())).forEach((x, i) => { if (i) out.push(SEP); if (typeof x === 'string') out.push(plain(x)); else out.push(...x); }); return out; };
@@ -631,13 +634,14 @@ class Component extends DCLogic {
     })) : [{ year: '', line1: [plain(t('news.empty'))], right: [], line2: [] }];
     // --- contact ---------------------------------------------------------------------
     const email = t('contact.email');
+    const channels = [['contact.soundcloud', 'SoundCloud'], ['contact.instagram', 'Instagram']].filter(([key]) => ok(t(key))).map(([key, name]) => channel(t(key), name));
     const contact = [
       { year: '', line1: [label(t('label.email')), link('mailto:' + email, email)], right: [], line2: [], rowStyle: S.contactRow },
       { year: '', line1: [link('#', t('label.cv'))], right: [], line2: [], rowStyle: S.contactRow },
-      ...[['contact.soundcloud', 'SoundCloud'], ['contact.instagram', 'Instagram']].filter(([key]) => ok(t(key))).map(([key, name]) => ({
-        year: '', line1: [channel(t(key), name)], right: [], line2: [],
+      ...(channels.length ? [{
+        year: '', line1: channels, right: [], line2: [],
         rowStyle: mobile ? S.contactRow : Object.assign({}, S.contactRow, { top: -12, height: 44, alignItems: 'center', overflow: 'visible' }),
-      })),
+      }] : []),
     ];
     // --- about prose -------------------------------------------------------------------
     const about = (d.about[lang === 'ko' ? '국문' : '영문'] || []).map((segs, k) => ({
@@ -653,6 +657,18 @@ class Component extends DCLogic {
       rows: { performances: perf.concat([Object.assign(sub('sub.film'), { rowStyle: S.row })], film), research: [sub('sub.papers')].concat(res), news: [sub('label.upcoming')].concat(news), contact },
       about, footer: t('footer'),
     });
+  }
+  // Small ink-line marks share the site's link colour without external images.
+  socialIcon(name) {
+    const e = React.createElement;
+    const attrs = { width: name === 'SoundCloud' ? 30 : 24, height: 24, viewBox: name === 'SoundCloud' ? '0 0 32 24' : '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.45, strokeLinecap: 'round', strokeLinejoin: 'round', 'aria-hidden': 'true', focusable: 'false' };
+    if (name === 'SoundCloud') return e('svg', attrs,
+      e('path', { d: 'M2 13v4M5 10v8M8 8v10M11 6v12' }),
+      e('path', { d: 'M14 18h10.5a4.5 4.5 0 1 0-.9-8.9A6.4 6.4 0 0 0 14 5.8Z' }));
+    return e('svg', attrs,
+      e('rect', { x: 3.5, y: 3.5, width: 17, height: 17, rx: 4.5 }),
+      e('circle', { cx: 12, cy: 12, r: 4 }),
+      e('circle', { cx: 17.3, cy: 6.8, r: 0.9, fill: 'currentColor', stroke: 'none' }));
   }
   // The staff-line wobble of 오선지_패턴.svg, as a CSS-referenced SVG filter (#ink).
   ink() {
