@@ -67,6 +67,54 @@ test('Recent recital, channel and concert-title edits are preserved', () => {
   assert(links.includes('https://www.instagram.com/ijskra/'));
   assert(c.state.data.news.find(row => row.id === 'n02')['제목_국문'].startsWith('「콘체르탄테:'));
 });
+function assertFlow(style) {
+  assert.equal(style.position, 'relative');
+  assert.equal(style.whiteSpace, 'normal');
+  assert.equal(style.overflowWrap, 'anywhere');
+  assert(style.height === undefined || style.height === 'auto', 'Text must not have a fixed height');
+  assert(style.maxHeight === undefined || style.maxHeight === 'none', 'Text must not have a height cap');
+  assert(!['hidden', 'clip'].includes(style.overflow), 'Text must not be clipped');
+}
+test('Long phone descriptions retain every detail and grow in normal document flow', () => {
+  for (const width of [320, 390, 430, 759]) for (const lang of ['ko', 'en']) {
+    const { component: c, window } = create({ width });
+    c.state.lang = lang;
+    const r = c.state.data.works[0];
+    const long = '긴 설명과 연주자 명단 Long description and performers '.repeat(30);
+    r['편성_국문'] = r['편성_영문'] = 'LongUnbrokenInstrumentation'.repeat(40);
+    r['초연장소_국문'] = r['초연장소_영문'] = long + 'PREMIERE_END';
+    r['연주자'] = r['연주자_영문'] = long + 'PERFORMERS_END';
+    r['재연'] = long + 'REPEAT_END';
+    r['지원기관'] = long + 'SUPPORT_END';
+    c.state.pinned = r.id;
+    window.innerWidth = 1120;
+    const v = c.renderVals(), w = v.works[0];
+    const text = w.details.flatMap(line => line.parts.map(p => p.text || '')).join(' ');
+    for (const suffix of ['PREMIERE_END', 'PERFORMERS_END', 'REPEAT_END', ...(lang === 'ko' ? ['SUPPORT_END'] : [])]) {
+      assert(text.includes(suffix), 'Truncated detail: ' + suffix);
+    }
+    assert(w.rowStyle.height === undefined || w.rowStyle.height === 'auto');
+    assert(!['hidden', 'clip'].includes(w.rowStyle.overflow));
+    w.details.forEach(line => assertFlow(line.style));
+    for (const key of ['titleRow', 'inst', 'linksRow', 'line2', 'rightRow', 'contactRow', 'performanceVideo']) assertFlow(v.S[key]);
+    w.toggle(); assert.equal(c.renderVals().works[0].details.length, 0);
+    c.renderVals().works[0].toggle(); assert.equal(c.renderVals().works[0].details.length, w.details.length);
+  }
+});
+test('Other mobile records and contact links have no fixed-height ancestor', () => {
+  const { component: c } = create({ width: 320 });
+  const v = c.renderVals();
+  assert.equal(v.S.row.height, undefined);
+  assert.equal(v.S.rowLines.backgroundRepeat, 'no-repeat');
+  for (const row of v.rows.performances) assert.equal(row.rowStyle.height, undefined);
+  for (const row of v.rows.contact) assertFlow(row.rowStyle);
+  for (const list of ['research', 'news', 'contact']) {
+    const start = html.indexOf('<sc-for list="{{ rows.' + list + ' }}"');
+    assert(start >= 0);
+    const firstDiv = html.slice(start).match(/<div\b[^>]*>/)[0];
+    assert.equal(firstDiv, '<div style="{{ S.row }}">');
+  }
+});
 let failed = 0;
 for (const [name, run] of tests) {
   try { run(); console.log('PASS ' + name); }
