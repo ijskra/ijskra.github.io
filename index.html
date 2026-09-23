@@ -22,6 +22,14 @@ mark{background:rgba(247,232,140,.55);color:inherit}
 ::selection{background:rgba(142,90,48,.18)}
 :focus-visible{outline:1px solid #a83c25;outline-offset:2px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media (max-width:759px){
+  html{scroll-padding-top:40px}
+  header{height:36px!important;background:linear-gradient(to bottom,#efe9df 0,#efe9df 30px,rgba(239,233,223,0) 36px)!important}
+  header>div{height:36px!important;padding:0 12px!important;align-items:center!important}
+  header nav{gap:2px!important;margin-right:5px!important;scroll-snap-type:x mandatory}
+  header button{min-height:40px!important;padding:0 7px!important;touch-action:manipulation}
+  header nav button{scroll-snap-align:start}
+}
 </style>
 </helmet>
 {{ inkDefs }}
@@ -88,7 +96,7 @@ mark{background:rgba(247,232,140,.55);color:inherit}
 </div>
 </div>
 <sc-for list="{{ works }}" as="w" hint-placeholder-count="12">
-<div style="{{ w.rowStyle }}" onMouseEnter="{{ w.enter }}" onMouseLeave="{{ w.leave }}" onClick="{{ w.toggle }}">
+<div style="{{ w.rowStyle }}" role="button" tabindex="0" aria-expanded="{{ w.expanded }}" onMouseEnter="{{ w.enter }}" onMouseLeave="{{ w.leave }}" onClick="{{ w.toggle }}" onKeyDown="{{ w.keyToggle }}">
 <div style="position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(to bottom, transparent 0 20px, #cdc3b3 20px 20.8px, transparent 20.8px 26.5px, #cdc3b3 26.5px 27.3px, transparent 27.3px 33px, #cdc3b3 33px 33.8px, transparent 33.8px 39.5px, #cdc3b3 39.5px 40.3px, transparent 40.3px 46px, #cdc3b3 46px 46.8px, transparent 46.8px 69.55px);background-size:100% 69.55px;background-repeat:repeat;background-position:0 21.8px;filter:url(#ink)"></div>
 <div style="{{ w.woodStyle }}"></div>
 <div data-reveal="1" style="position:relative;max-width:1440px;margin:0 auto;height:100%;opacity:0;transition:opacity .6s ease">
@@ -554,7 +562,9 @@ class Component extends DCLogic {
           }
           return out;
         })(),
-        rowStyle: { position: 'relative', height: expanded ? 208.65 : 69.55, overflow: 'hidden', transition: this.reduce ? 'none' : 'height .32s cubic-bezier(.4,0,.2,1)' },
+        rowStyle: { position: 'relative', height: expanded ? 208.65 : 69.55, overflow: 'hidden', cursor: mobile ? 'pointer' : 'default', touchAction: 'manipulation', WebkitTapHighlightColor: 'transparent', transition: this.reduce ? 'none' : 'height .32s cubic-bezier(.4,0,.2,1)' },
+        expanded,
+        keyToggle: e => { if (e && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); this.setState(s => ({ pinned: s.pinned === r.id ? null : r.id })); } },
         woodStyle: { position: 'absolute', inset: 0, pointerEvents: 'none', backgroundImage: LINES('#b79e85'), backgroundSize: '100% 69.55px', backgroundRepeat: 'repeat', backgroundPosition: '0 21.8px', filter: 'url(#ink)', opacity: 0, display: 'none' },
         enter: () => this.setState({ hover: r.id }), leave: () => this.setState({ hover: null }),
         toggle: e => { if (e && e.target && e.target.closest && e.target.closest('a')) return; this.setState(s => ({ pinned: s.pinned === r.id ? null : r.id })); },
