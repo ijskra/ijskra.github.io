@@ -385,10 +385,16 @@ class Component extends DCLogic {
   layout() {
     // Live width first: state.vw is captured at construction, when an unsized preview frame can report 0.
     const P = this.P, vw = (typeof window !== 'undefined' && window.innerWidth) || this.state.vw || 1440;
+    // Restore the phone guard from the previous published version. Overflow can widen
+    // innerWidth after a tap; that must not enable the 1120px desktop sheet on a phone.
+    const device = typeof window !== 'undefined' && window.screen;
+    const touch = typeof window !== 'undefined' && ('ontouchstart' in window || (window.navigator && window.navigator.maxTouchPoints > 0));
+    const phone = !!(touch && device && device.width > 0 && device.height > 0 && Math.min(device.width, device.height) < 760);
+    const width = phone ? Math.min(vw, device.width) : vw;
     // Two layouts only: the desktop sheet (fixed 96px margins, 1440 column, scrolls sideways below 1120px) and a separate mobile arrangement.
-    const mobile = vw < 760;
+    const mobile = phone || vw < 760;
     const M = mobile ? 20 : 96;
-    const colW = Math.max(280, Math.min(vw, 1440) - 2 * M);
+    const colW = Math.max(280, Math.min(width, 1440) - 2 * M);
     const T = mobile ? M + 48 : M;
     let L;
     if (mobile) {
@@ -404,6 +410,9 @@ class Component extends DCLogic {
         headH: P + 47.75, headTitle: { left: M + 215, top: 42 }, rightGap: 204, main: { position: 'relative', minWidth: 1120 } };
     }
     return Object.assign(L, { mobile, M, T, colW });
+  }
+  canHover() {
+    return typeof window !== 'undefined' && !!window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   }
   proseEl() { return (this.proseRef && this.proseRef.current) || document.getElementById('about-prose'); }
   measure() {
@@ -538,7 +547,7 @@ class Component extends DCLogic {
     // --- works (hover expands 1 → 3 systems) ---------------------------------
     const slots = [69.8, 89.3, 139.35, 158.85];
     const works = pub(d.works).map(r => {
-      const expanded = this.state.hover === r.id || this.state.pinned === r.id;
+      const expanded = (this.canHover() && this.state.hover === r.id) || this.state.pinned === r.id;
       const score = ok(r['악보이미지']) && !mobile ? (/^(https?:)?\//.test(r['악보이미지']) ? r['악보이미지'] : 'assets/' + r['악보이미지']) : '';
       const lines = [];
       // 역할과 길이는 한 줄에 — 긴 연주자 명단이 두 줄을 쓸 자리를 남긴다.
@@ -578,7 +587,9 @@ class Component extends DCLogic {
         expanded,
         keyToggle: e => { if (e && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); this.setState(s => ({ pinned: s.pinned === r.id ? null : r.id })); } },
         woodStyle: { position: 'absolute', inset: 0, pointerEvents: 'none', backgroundImage: LINES('#b79e85'), backgroundSize: '100% 69.55px', backgroundRepeat: 'repeat', backgroundPosition: '0 21.8px', filter: 'url(#ink)', opacity: 0, display: 'none' },
-        enter: () => this.setState({ hover: r.id }), leave: () => this.setState({ hover: null }),
+        // Touch browsers can synthesize mouseenter before click. Only a real hover
+        // pointer may expand a row; taps open and close solely through pinned state.
+        enter: () => { if (this.canHover()) this.setState({ hover: r.id }); }, leave: () => this.setState({ hover: null }),
         toggle: e => { if (e && e.target && e.target.closest && e.target.closest('a')) return; this.setState(s => ({ pinned: s.pinned === r.id ? null : r.id })); },
       };
     });
