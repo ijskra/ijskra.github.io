@@ -185,8 +185,11 @@ mark{background:rgba(247,232,140,.55);color:inherit}
 <sc-if value="{{ pt.sep }}" hint-placeholder-val="{{ false }}"><span style="margin:0 8px;color:#6b6052">·</span></sc-if>
 </sc-for>
 </div>
+<sc-if value="{{ r.performers }}" hint-placeholder-val="{{ false }}">
+<div style="{{ S.performancePerformers }}"><span style="margin-right:9px;font-size:11px;letter-spacing:.06em;color:#6b6052">{{ r.performersLabel }}</span><span>{{ r.performers }}</span></div>
+</sc-if>
 <sc-if value="{{ r.videoHref }}" hint-placeholder-val="{{ false }}">
-<div style="{{ S.performanceVideo }}"><a class="channel-link" href="{{ r.videoHref }}" target="_blank" rel="noopener noreferrer" aria-label="{{ r.videoAria }}">{{ r.videoLabel }} <span aria-hidden="true" style="margin-left:6px">↗</span></a></div>
+<div style="{{ r.videoStyle }}"><a class="channel-link" href="{{ r.videoHref }}" target="_blank" rel="noopener noreferrer" aria-label="{{ r.videoAria }}">{{ r.videoLabel }} <span aria-hidden="true" style="margin-left:6px">↗</span></a></div>
 </sc-if>
 </div>
 </div>
@@ -516,6 +519,7 @@ class Component extends DCLogic {
       inst: mobile ? flow() : { position: 'absolute', left: T, right: M + L.rightGap, top: 19.75, height: 19.5, whiteSpace: 'nowrap', overflow: 'hidden' },
       linksRow: mobile ? flow({ display: 'flex', flexWrap: 'wrap', columnGap: 18 }) : { position: 'absolute', right: M, top: 19.75, height: 19.5, display: 'flex', alignItems: 'baseline', gap: 18, whiteSpace: 'nowrap' },
       contactRow: mobile ? flow() : rowLine(0.25, T - 48, M),
+      performancePerformers: mobile ? flow() : { position: 'absolute', left: T, right: M, top: this.P + 0.25, whiteSpace: 'normal', wordBreak: 'keep-all', overflowWrap: 'anywhere' },
       performanceVideo: mobile ? flow({ minHeight: 44 }) : { position: 'absolute', left: T, right: M, top: this.P - 12, minHeight: 44 },
       footer: A({ left: T, top: 48, height: 19.5, fontFamily: "'EB Garamond', 'Noto Serif KR', serif", fontSize: 11.5, letterSpacing: '.06em', color: G }),
       filler: { position: 'relative', height: this.state.filler },
@@ -608,13 +612,18 @@ class Component extends DCLogic {
     });
 
     // --- performances + film ---------------------------------------------------
-    const perf = pub(d.performances).map(r => ({
-      rowStyle: mobile ? S.row : { position: 'relative', height: ok(r['링크']) ? 2 * this.P : this.P },
-      videoHref: ok(r['링크']) ? r['링크'] : '', videoLabel: t('label.performance_video'), videoAria: t('label.performance_video') + ' — ' + t('label.new_tab'),
-      year: year(r['연도']), line1: title(r['공연명_국문'], r['공연명_영문']),
-      right: role(r['역할']) ? [meta(role(r['역할']))] : [],
-      line2: join([ok(r['일자']) ? r['일자'] : null, byLang(r['장소_국문'], r['장소_영문']), ok(r['프로그램·협연']) ? r['프로그램·협연'] : null]),
-    }));
+    const perf = pub(d.performances).map(r => {
+      const performers = byLang(r['연주자'], r['연주자_영문']);
+      return {
+        rowStyle: mobile ? S.row : { position: 'relative', height: (1 + (ok(r['링크']) ? 1 : 0) + (performers ? 1 : 0)) * this.P },
+        performers, performersLabel: t('label.performers'),
+        videoHref: ok(r['링크']) ? r['링크'] : '', videoLabel: t('label.performance_video'), videoAria: t('label.performance_video') + ' — ' + t('label.new_tab'),
+        videoStyle: !mobile && performers ? Object.assign({}, S.performanceVideo, { top: 2 * this.P - 12 }) : S.performanceVideo,
+        year: year(r['연도']), line1: title(r['공연명_국문'], r['공연명_영문']),
+        right: role(r['역할']) ? [meta(role(r['역할']))] : [],
+        line2: join([ok(r['일자']) ? r['일자'] : null, byLang(r['장소_국문'], r['장소_영문']), ok(r['프로그램·협연']) ? r['프로그램·협연'] : null]),
+      };
+    });
     const film = pub(d.film).map(r => ({
       rowStyle: S.row,
       year: year(r['연도']), line1: title(r['제목_국문'], r['제목_영문']).concat(lang === 'ko' && ok(r['유형']) ? [meta(r['유형'])] : []),
