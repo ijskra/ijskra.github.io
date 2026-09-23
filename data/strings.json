@@ -75,6 +75,18 @@
     "국문": "영상",
     "영문": "Video"
   },
+  "label.recital_video": {
+    "국문": "하프시코드 창작독주회 영상 보기",
+    "영문": "Watch the harpsichord recital"
+  },
+  "label.performance_video": {
+    "국문": "공연 영상",
+    "영문": "Watch performance"
+  },
+  "label.new_tab": {
+    "국문": "새 탭에서 열림",
+    "영문": "opens in a new tab"
+  },
   "label.score": {
     "국문": "악보",
     "영문": "Score"
@@ -114,6 +126,14 @@
   "contact.email": {
     "국문": "marinmarais123@gmail.com",
     "영문": "marinmarais123@gmail.com"
+  },
+  "contact.soundcloud": {
+    "국문": "https://soundcloud.com/ijskra",
+    "영문": "https://soundcloud.com/ijskra"
+  },
+  "contact.instagram": {
+    "국문": "https://www.instagram.com/ijskra/",
+    "영문": "https://www.instagram.com/ijskra/"
   },
   "news.empty": {
     "국문": "예정된 소식이 없습니다.",
