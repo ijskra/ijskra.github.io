@@ -15,6 +15,8 @@
 
 `portrait-700.webp`는 기존 PNG와 동일한 RGBA 픽셀을 보존한 무손실 WebP입니다. `portrait-350.webp`는 작은 화면용입니다. 원본 PNG는 공유 미리보기용으로 유지합니다. 첫 화면 사진은 지연 로딩하지 않으며, 악보는 PC에서 작품을 펼칠 때 로딩합니다.
 
+사진을 교체할 때는 Pillow 설치 후 `python scripts/optimize-images.py`로 두 WebP를 재생성합니다.
+
 ## 검증
 
 - `npm test`: 생성된 HTML 콘텐츠, 메타데이터, 링크, 초기 이미지 요청, 재현 가능한 빌드, HTML 이스케이프를 검사합니다.

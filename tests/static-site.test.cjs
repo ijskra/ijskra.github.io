@@ -11,6 +11,7 @@ for (const lang of ['ko','en']) {
  const file = lang === 'ko' ? 'index.html' : 'en/index.html';
  test(`${lang}: real content and all published works exist without executing JavaScript`, () => {
   const html = read(file);
+  assert(!html.includes('【'), 'Editorial placeholders must not be published');
   assert(!html.includes('{{'));assert(!html.includes('<x-dc'));
   assert.equal((html.match(/<h1[ >]/g)||[]).length,1);
   assert.equal((html.match(/<h2[ >]/g)||[]).length,6);

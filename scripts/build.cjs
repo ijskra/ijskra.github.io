@@ -56,7 +56,8 @@ for (const lang of ['ko','en']) {
     const expanded = c.renderVals().works.find(x => x.id === w.id);
     const raw = data.works.find(x => x.id === w.id);
     const ko = raw['제목_국문'], en = raw['제목_영문'];
-    const other = lang === 'ko' ? en : ko;
+    const candidate = lang === 'ko' ? en : ko;
+    const other = typeof candidate === 'string' && !candidate.includes('【') ? candidate : '';
     const mainTitle = w.line1.map(x => x.text).join('');
     const scorePath = raw['악보이미지'];
     const scoreURL = scorePath ? (/^https?:\/\//.test(scorePath) ? safeURL(scorePath) : asset('assets/'+scorePath)) : '';
