@@ -2,7 +2,9 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
+const { createHash } = require('node:crypto');
 const root = path.resolve(__dirname, '..');
+const cssVersion = createHash('sha256').update(fs.readFileSync(path.join(root, 'assets/site.css'))).digest('hex').slice(0, 12);
 const source = fs.readFileSync(path.join(root, 'src/component.html'), 'utf8');
 const script = source.match(/<script type="text\/x-dc"[^>]*>([\s\S]*?)<\/script>/)[1];
 const files = ['strings', 'works', 'performances', 'film', 'research', 'news', 'about', 'handwriting'];
@@ -73,7 +75,7 @@ for (const lang of ['ko','en']) {
 <link rel="canonical" href="${url}"><link rel="alternate" hreflang="ko" href="${origin}/"><link rel="alternate" hreflang="en" href="${origin}/en/"><link rel="alternate" hreflang="x-default" href="${origin}/">
 <meta property="og:type" content="website"><meta property="og:title" content="${esc(v.heroName+' — '+v.heroRole)}"><meta property="og:description" content="${esc(description)}"><meta property="og:url" content="${url}"><meta property="og:locale" content="${lang==='ko'?'ko_KR':'en_US'}"><meta property="og:image" content="${origin}/assets/photo-lines-cut.png"><meta property="og:image:width" content="700"><meta property="og:image:height" content="870"><meta property="og:image:alt" content="${esc(v.heroName)}"><meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="/assets/site.css?v=${cssVersion}">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap">
 <script type="application/ld+json">${structured}</script><script src="/assets/site.js" defer></script>
 </head><body>
