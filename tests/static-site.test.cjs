@@ -36,7 +36,7 @@ for (const lang of ['ko','en']) {
  test(`${lang}: local links resolve and offscreen scores are not fetched initially`,()=>{
   const html=read(file);
   for(const m of html.matchAll(/(?:src|href|data-src)="(\/[^"#]*)"/g)){
-   let local=m[1].slice(1);if(!local||local.endsWith('/'))local+='index.html';
+   let local=m[1].slice(1).split('?')[0];if(!local||local.endsWith('/'))local+='index.html';
    assert(fs.existsSync(path.join(root,local)),`Missing ${local}`);
   }
   for(const m of html.matchAll(/href="#([^"]+)"/g))assert(html.includes(`id="${m[1]}"`));
