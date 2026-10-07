@@ -1,0 +1,11 @@
+{
+  "name": "ijskra-homepage",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/build.cjs",
+    "test": "node --test tests/static-site.test.cjs",
+    "test:content": "node tests/mobile-layout.test.cjs",
+    "test:browser": "node tests/browser.cjs"
+  },
+  "engines": { "node": ">=20" }
+}
