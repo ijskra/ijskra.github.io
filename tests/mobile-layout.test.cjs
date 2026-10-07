@@ -115,9 +115,109 @@ test('Other mobile records and contact links have no fixed-height ancestor', () 
     assert.equal(firstDiv, '<div style="{{ S.row }}">');
   }
 });
+
+test('Tablet widths and browser zoom use flowing rows without offscreen hero or prose decoration', () => {
+  for (const width of [320, 390, 430, 600, 759, 760, 768, 820, 1024, 1119, 1120, 1440]) {
+    const { component: c } = create({ width, screenWidth: 1440, screenHeight: 900, touch: false });
+    const layout = c.layout();
+    assert.equal(layout.mobile, width < 1120);
+    for (const lang of ['ko', 'en']) {
+      c.state.lang = lang;
+      const v = c.renderVals();
+      assert((v.S.main.minWidth || 0) <= width);
+      for (const name of ['prose', 'proseBack']) {
+        const box = v.S[name];
+        assert(box.left >= 0 && box.left + box.width <= Math.min(width, 1440), `${width}: ${name} overflows`);
+      }
+      const photo = v.S.photo;
+      assert((photo.left ?? photo.right) + photo.width <= width);
+      if (layout.tablet) assert(v.S.hwName.left + v.S.hwName.width < width - photo.right - photo.width);
+      if (layout.mobile) {
+        assertFlow(v.S.workTitleRow);
+        for (const work of v.works) {
+          work.toggle();
+          const expanded = c.renderVals().works.find(w => w.id === work.id);
+          assert.equal(expanded.expanded, true);
+          expanded.details.forEach(line => assertFlow(line.style));
+          expanded.toggle();
+        }
+      }
+    }
+  }
+});
+test('First-screen links lead to the recital and works before the long biography', () => {
+  for (const width of [320, 390, 768, 1024, 1440]) {
+    const { component: c } = create({ width, touch: false });
+    for (const lang of ['ko', 'en']) {
+      c.state.lang = lang;
+      const v = c.renderVals();
+      assert(v.S.heroActions.top + 88 < v.S.prose.top);
+      assert(v.S.heroActions.top + 88 < 600);
+      assert(v.recitalHref.startsWith('https://www.youtube.com/playlist?'));
+      let destination;
+      c.go = id => { destination = id; };
+      v.goWorks();
+      assert.equal(destination, 'works');
+      assert(v.listenLabel && v.worksLabel);
+      assert(v.S.prose.fontSize >= 15);
+      assert(parseFloat(v.S.prose.lineHeight) >= 24);
+    }
+  }
+});
+test('Disclosure marks follow touch and keyboard state without consuming link activation', () => {
+  const { component: c } = create();
+  let w = c.renderVals().works[0];
+  assert.equal(w.toggleMark, '+');
+  w.toggle();
+  w = c.renderVals().works[0];
+  assert.equal(w.toggleMark, '−');
+  let prevented = false;
+  w.keyToggle({ key: 'Enter', target: { closest: () => ({ tagName: 'A' }) }, preventDefault: () => { prevented = true; } });
+  assert.equal(prevented, false);
+  assert.equal(c.renderVals().works[0].expanded, true);
+  w.keyToggle({ key: ' ', target: { closest: () => null }, preventDefault: () => { prevented = true; } });
+  assert.equal(prevented, true);
+  assert.equal(c.renderVals().works[0].toggleMark, '+');
+});
+test('All five staff lines fit each tile, section head and expanded/collapsed row', () => {
+  const svg = fs.readFileSync(path.join(root, 'assets/staff-lines.svg'), 'utf8');
+  const centers = [...svg.matchAll(/M0 ([\d.]+)H100/g)].map(m => Number(m[1]));
+  const thickness = Number(svg.match(/stroke-width="([\d.]+)"/)[1]);
+  assert.equal(centers.length, 5);
+  for (let i = 1; i < centers.length; i++) assert(Math.abs(centers[i] - centers[i - 1] - 6.5) < 1e-8);
+  for (const width of [320, 390, 768, 1024, 1120, 1440]) {
+    const { component: c } = create({ width, touch: false });
+    const P = c.P, v = c.renderVals();
+    assert(centers[0] - thickness / 2 > 0);
+    assert(centers.at(-1) + thickness / 2 < P);
+    // Section heads end in the gap after a complete five-line group.
+    const lastTile = Math.floor(v.S.head.height / P) * P;
+    assert(lastTile + centers.at(-1) + thickness / 2 <= v.S.head.height);
+    if (c.layout().mobile) {
+      // Bottom-anchored separator is entirely in the row's trailing padding,
+      // regardless of how much wrapped text precedes it.
+      const paddingBottom = Number(v.S.row.padding.split(' ')[2].replace('px', ''));
+      const firstFromBottom = -P + 21.8 + centers[0] - thickness / 2;
+      const lastFromBottom = -P + 21.8 + centers.at(-1) + thickness / 2;
+      assert(firstFromBottom >= -paddingBottom);
+      assert(lastFromBottom <= 0);
+    } else {
+      for (const expanded of [false, true]) {
+        if (expanded) v.works[0].toggle();
+        const row = c.renderVals().works[0].rowStyle;
+        assert(Math.abs(row.height / P - Math.round(row.height / P)) < 1e-8);
+        assert.equal(row.transition, 'none');
+        const lastStart = (Math.round(row.height / P) - 1) * P + 21.8;
+        assert(lastStart + centers.at(-1) + thickness / 2 < row.height);
+      }
+    }
+  }
+});
+
 let failed = 0;
 for (const [name, run] of tests) {
   try { run(); console.log('PASS ' + name); }
   catch (error) { failed++; console.error('FAIL ' + name + '\n' + error.message); }
 }
 process.exitCode = failed ? 1 : 0;
+
