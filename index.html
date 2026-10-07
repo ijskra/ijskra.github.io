@@ -14,6 +14,10 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600&amp;family=EB+Garamond:ital,wght@0,400;0,500;1,400&amp;display=swap">
 <style>
 html,body{margin:0;background:#efe9df}
+.staff-paper{position:absolute;inset:0;pointer-events:none;background-image:url(assets/staff-lines.svg);background-size:100% 69.55px;background-repeat:repeat}
+.hero-action{background:none;border:0;padding:0;cursor:pointer;text-align:left;color:#a83c25}
+.work-toggle{position:absolute;top:0;right:var(--sheet-margin);width:24px;text-align:center;color:#a83c25;font-size:18px;line-height:19.5px;pointer-events:none}
+.work-row:focus-visible{outline-offset:-2px}
 body{font-family:'Noto Serif KR',serif;color:#3d3529;font-size:13px;line-height:19.5px;-webkit-text-size-adjust:100%}
 a{color:#a83c25;text-decoration:none}a:hover{color:#8e5a30}
 button{font:inherit;color:inherit}
@@ -28,7 +32,7 @@ mark{background:rgba(247,232,140,.55);color:inherit}
 .social-link svg{display:block;flex:none}
 .recital-link{margin-top:19.5px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
-@media (max-width:759px){
+@media (max-width:1119px){
   html{scroll-padding-top:40px}
   header{height:36px!important;background:linear-gradient(to bottom,#efe9df 0,#efe9df 30px,rgba(239,233,223,0) 36px)!important}
   header>div{height:36px!important;padding:0 12px!important;align-items:center!important}
@@ -38,7 +42,6 @@ mark{background:rgba(247,232,140,.55);color:inherit}
 }
 </style>
 </helmet>
-{{ inkDefs }}
 <div aria-hidden="true" style="position:fixed;inset:0;z-index:7;pointer-events:none;background-image:url(assets/grain.svg);background-size:240px 240px"></div>
 <header style="position:fixed;top:0;left:0;right:0;z-index:5;height:20px;background:linear-gradient(to bottom,#efe9df 0,#efe9df 16px,rgba(239,233,223,0) 20px)">
 <div style="{{ S.headerInner }}">
@@ -53,7 +56,7 @@ mark{background:rgba(247,232,140,.55);color:inherit}
 <main ref="{{ sheetRef }}" style="{{ S.main }}">
 
 <section id="sec-about" data-screen-label="소개" style="{{ S.about }}">
-<div style="position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(to bottom, transparent 0 20px, #cdc3b3 20px 20.8px, transparent 20.8px 26.5px, #cdc3b3 26.5px 27.3px, transparent 27.3px 33px, #cdc3b3 33px 33.8px, transparent 33.8px 39.5px, #cdc3b3 39.5px 40.3px, transparent 40.3px 46px, #cdc3b3 46px 46.8px, transparent 46.8px 69.55px);background-size:100% 69.55px;background-repeat:repeat;filter:url(#ink)"></div>
+<div class="staff-paper" aria-hidden="true"></div>
 <div style="position:relative;max-width:1440px;margin:0 auto;height:100%">
 <img src="assets/handwriting-jungwoong.svg" data-hw="name" alt="{{ heroName }}" style="{{ S.hwName }}">
 <div style="{{ S.heroName }}">
@@ -63,6 +66,10 @@ mark{background:rgba(247,232,140,.55);color:inherit}
 <div style="{{ S.heroRole }}">
 <sc-if value="{{ heroKr }}" hint-placeholder-val="{{ true }}"><span style="letter-spacing:.04em">{{ heroRole }}</span></sc-if>
 <sc-if value="{{ heroEn }}" hint-placeholder-val="{{ false }}"><span style="font-family:'EB Garamond',serif;font-size:14px;letter-spacing:.02em">{{ heroRole }}</span></sc-if>
+</div>
+<div style="{{ S.heroActions }}">
+<sc-if value="{{ recitalHref }}" hint-placeholder-val="{{ false }}"><a class="channel-link" href="{{ recitalHref }}" target="_blank" rel="noopener noreferrer" aria-label="{{ recitalAria }}">{{ listenLabel }} <span aria-hidden="true" style="margin-left:6px">↗</span></a></sc-if>
+<button type="button" class="channel-link hero-action" onClick="{{ goWorks }}">{{ worksLabel }} <span aria-hidden="true" style="margin-left:6px">↓</span></button>
 </div>
 <div style="{{ S.photo }}"><img src="assets/photo-lines-cut.png" alt="{{ heroName }}" style="display:block;width:100%;height:auto;mix-blend-mode:multiply;opacity:.9"></div>
 <img src="assets/handwriting-about.svg" data-hw="about" alt="" style="{{ S.aboutMemo }}">
@@ -93,7 +100,7 @@ mark{background:rgba(247,232,140,.55);color:inherit}
 
 <section id="sec-works" data-screen-label="작품" style="position:relative">
 <div style="{{ S.head }}">
-<div style="position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(to bottom, transparent 0 20px, #cdc3b3 20px 20.8px, transparent 20.8px 26.5px, #cdc3b3 26.5px 27.3px, transparent 27.3px 33px, #cdc3b3 33px 33.8px, transparent 33.8px 39.5px, #cdc3b3 39.5px 40.3px, transparent 40.3px 46px, #cdc3b3 46px 46.8px, transparent 46.8px 69.55px);background-size:100% 69.55px;background-repeat:repeat;filter:url(#ink)"></div>
+<div class="staff-paper" aria-hidden="true"></div>
 <div data-reveal="1" style="position:relative;max-width:1440px;margin:0 auto;height:100%;opacity:0;transition:opacity .6s ease">
 <img src="assets/handwriting-works.svg" data-hw="works" alt="" style="{{ S.memo }}">
 <div style="{{ S.headTitle }}">
@@ -105,11 +112,12 @@ mark{background:rgba(247,232,140,.55);color:inherit}
 </div>
 </div>
 <sc-for list="{{ works }}" as="w" hint-placeholder-count="12">
-<div style="{{ w.rowStyle }}" role="button" tabindex="0" aria-expanded="{{ w.expanded }}" onMouseEnter="{{ w.enter }}" onMouseLeave="{{ w.leave }}" onClick="{{ w.toggle }}" onKeyDown="{{ w.keyToggle }}">
+<div class="work-row" style="{{ w.rowStyle }}" role="button" tabindex="0" aria-expanded="{{ w.expanded }}" title="{{ w.toggleLabel }}" onMouseEnter="{{ w.enter }}" onMouseLeave="{{ w.leave }}" onClick="{{ w.toggle }}" onKeyDown="{{ w.keyToggle }}">
 <div style="{{ S.rowLines }}"></div>
 <div style="{{ w.woodStyle }}"></div>
 <div data-reveal="1" style="position:relative;max-width:1440px;margin:0 auto;height:100%;opacity:0;transition:opacity .6s ease">
-<div style="{{ S.titleRow }}">
+<span class="work-toggle" aria-hidden="true">{{ w.toggleMark }}</span>
+<div style="{{ S.workTitleRow }}">
 <span style="{{ S.year }}">{{ w.year }}</span>
 <sc-for list="{{ w.line1 }}" as="pt" hint-placeholder-count="1">
 <sc-if value="{{ pt.t1Kr }}" hint-placeholder-val="{{ true }}"><span style="font-weight:600">{{ pt.text }}</span></sc-if>
@@ -143,7 +151,7 @@ mark{background:rgba(247,232,140,.55);color:inherit}
 
 <section id="sec-performances" data-screen-label="연주·영화" style="position:relative">
 <div style="{{ S.head }}">
-<div style="position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(to bottom, transparent 0 20px, #cdc3b3 20px 20.8px, transparent 20.8px 26.5px, #cdc3b3 26.5px 27.3px, transparent 27.3px 33px, #cdc3b3 33px 33.8px, transparent 33.8px 39.5px, #cdc3b3 39.5px 40.3px, transparent 40.3px 46px, #cdc3b3 46px 46.8px, transparent 46.8px 69.55px);background-size:100% 69.55px;background-repeat:repeat;filter:url(#ink)"></div>
+<div class="staff-paper" aria-hidden="true"></div>
 <div data-reveal="1" style="position:relative;max-width:1440px;margin:0 auto;height:100%;opacity:0;transition:opacity .6s ease">
 <img src="assets/handwriting-performances.svg" data-hw="performances" alt="" style="{{ S.memo }}">
 <div style="{{ S.headTitle }}">
@@ -199,7 +207,7 @@ mark{background:rgba(247,232,140,.55);color:inherit}
 
 <section id="sec-research" data-screen-label="연구" style="position:relative">
 <div style="{{ S.head }}">
-<div style="position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(to bottom, transparent 0 20px, #cdc3b3 20px 20.8px, transparent 20.8px 26.5px, #cdc3b3 26.5px 27.3px, transparent 27.3px 33px, #cdc3b3 33px 33.8px, transparent 33.8px 39.5px, #cdc3b3 39.5px 40.3px, transparent 40.3px 46px, #cdc3b3 46px 46.8px, transparent 46.8px 69.55px);background-size:100% 69.55px;background-repeat:repeat;filter:url(#ink)"></div>
+<div class="staff-paper" aria-hidden="true"></div>
 <div data-reveal="1" style="position:relative;max-width:1440px;margin:0 auto;height:100%;opacity:0;transition:opacity .6s ease">
 <img src="assets/handwriting-research.svg" data-hw="research" alt="" style="{{ S.memo }}">
 <div style="{{ S.headTitle }}">
@@ -249,7 +257,7 @@ mark{background:rgba(247,232,140,.55);color:inherit}
 
 <section id="sec-news" data-screen-label="소식" style="position:relative">
 <div style="{{ S.head }}">
-<div style="position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(to bottom, transparent 0 20px, #cdc3b3 20px 20.8px, transparent 20.8px 26.5px, #cdc3b3 26.5px 27.3px, transparent 27.3px 33px, #cdc3b3 33px 33.8px, transparent 33.8px 39.5px, #cdc3b3 39.5px 40.3px, transparent 40.3px 46px, #cdc3b3 46px 46.8px, transparent 46.8px 69.55px);background-size:100% 69.55px;background-repeat:repeat;filter:url(#ink)"></div>
+<div class="staff-paper" aria-hidden="true"></div>
 <div data-reveal="1" style="position:relative;max-width:1440px;margin:0 auto;height:100%;opacity:0;transition:opacity .6s ease">
 <img src="assets/handwriting-news.svg" data-hw="news" alt="" style="{{ S.memo }}">
 <div style="{{ S.headTitle }}">
@@ -299,7 +307,7 @@ mark{background:rgba(247,232,140,.55);color:inherit}
 
 <section id="sec-contact" data-screen-label="연락" style="position:relative">
 <div style="{{ S.head }}">
-<div style="position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(to bottom, transparent 0 20px, #cdc3b3 20px 20.8px, transparent 20.8px 26.5px, #cdc3b3 26.5px 27.3px, transparent 27.3px 33px, #cdc3b3 33px 33.8px, transparent 33.8px 39.5px, #cdc3b3 39.5px 40.3px, transparent 40.3px 46px, #cdc3b3 46px 46.8px, transparent 46.8px 69.55px);background-size:100% 69.55px;background-repeat:repeat;filter:url(#ink)"></div>
+<div class="staff-paper" aria-hidden="true"></div>
 <div data-reveal="1" style="position:relative;max-width:1440px;margin:0 auto;height:100%;opacity:0;transition:opacity .6s ease">
 <img src="assets/handwriting-contact.svg" data-hw="contact" alt="" style="{{ S.memo }}">
 <div style="{{ S.headTitle }}">
@@ -328,19 +336,19 @@ mark{background:rgba(247,232,140,.55);color:inherit}
 </sc-for>
 <div style="position:relative;height:21.8px"></div>
 <div style="position:relative;height:69.55px">
-<div style="position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(to bottom, transparent 0 20px, #cdc3b3 20px 20.8px, transparent 20.8px 26.5px, #cdc3b3 26.5px 27.3px, transparent 27.3px 33px, #cdc3b3 33px 33.8px, transparent 33.8px 39.5px, #cdc3b3 39.5px 40.3px, transparent 40.3px 46px, #cdc3b3 46px 46.8px, transparent 46.8px 69.55px);background-size:100% 69.55px;background-repeat:repeat;filter:url(#ink)"></div>
+<div class="staff-paper" aria-hidden="true"></div>
 <div style="position:relative;max-width:1440px;margin:0 auto;height:100%">
 <div style="{{ S.footer }}">{{ footer }}</div>
 </div>
 </div>
 <div style="{{ S.filler }}">
-<div style="position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(to bottom, transparent 0 20px, #cdc3b3 20px 20.8px, transparent 20.8px 26.5px, #cdc3b3 26.5px 27.3px, transparent 27.3px 33px, #cdc3b3 33px 33.8px, transparent 33.8px 39.5px, #cdc3b3 39.5px 40.3px, transparent 40.3px 46px, #cdc3b3 46px 46.8px, transparent 46.8px 69.55px);background-size:100% 69.55px;background-repeat:repeat;filter:url(#ink)"></div>
+<div class="staff-paper" aria-hidden="true"></div>
 </div>
 </section>
 
 </main>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;initialLang&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;ko&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;ko&quot;,&quot;en&quot;],&quot;section&quot;:&quot;언어 — 처음 표시 언어 (화면 우상단에서도 전환)&quot;},&quot;cameraZoom&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;움직임 — 단 이동 시 카메라의 미세한 줌 아웃&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;initialLang&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;ko&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;ko&quot;,&quot;en&quot;],&quot;section&quot;:&quot;언어 — 처음 표시 언어 (화면 우상단에서도 전환)&quot;}}">
 class Component extends DCLogic {
   P = 69.55;
   state = { data: null, lang: (this.props && this.props.initialLang) || 'ko', hover: null, pinned: null, current: 'about', aboutH: 1112.8, filler: 625.95, vw: typeof window !== 'undefined' ? window.innerWidth : 1440 };
@@ -397,25 +405,32 @@ class Component extends DCLogic {
     const touch = typeof window !== 'undefined' && ('ontouchstart' in window || (window.navigator && window.navigator.maxTouchPoints > 0));
     const phone = !!(touch && device && device.width > 0 && device.height > 0 && Math.min(device.width, device.height) < 760);
     const width = phone ? Math.min(vw, device.width) : vw;
-    // Two layouts only: the desktop sheet (fixed 96px margins, 1440 column, scrolls sideways below 1120px) and a separate mobile arrangement.
-    const mobile = phone || vw < 760;
-    const M = mobile ? 20 : 96;
-    const colW = Math.max(280, Math.min(width, 1440) - 2 * M);
+    // Use flowing rows until the complete desktop sheet fits, including tablets and browser zoom.
+    const mobile = phone || vw < 1120;
+    const tablet = mobile && width >= 760;
+    const M = mobile ? (tablet ? 32 : 20) : 96;
+    const colW = Math.max(0, Math.min(width, 1440) - 2 * M);
     const T = mobile ? M + 48 : M;
     let L;
     if (mobile) {
       const photoW = Math.min(240, colW);
-      L = { hwName: { left: M, top: 2 * P, width: Math.min(colW, 390), height: 'auto' }, nameTop: 4 * P + 48,
-        photo: { left: M, top: 6 * P + 20, width: photoW, height: 'auto' },
-        aboutMemoTop: 12 * P + 20, aboutTitle: { left: M, top: 13 * P + 42 }, proseTop: 15 * P, proseW: colW,
-        headH: 2 * P + 47.75, headTitle: { left: M, top: P + 42 }, rightGap: 70, main: { position: 'relative' } };
+      L = { hwName: { left: M, top: P, width: Math.min(colW, 390), height: 'auto' }, nameTop: 3 * P + 20,
+        photo: { left: M, top: 5 * P + 20, width: photoW, height: 'auto' },
+        aboutMemoTop: 10 * P + 20, aboutTitle: { left: M, top: 11 * P + 42 }, proseTop: 12 * P, proseW: Math.min(640, colW),
+        headH: 2 * P + 47.75, headTitle: { left: M, top: P + 42 }, rightGap: 70, main: { position: 'relative', fontSize: 15, lineHeight: '24px', '--sheet-margin': M + 'px' } };
+      if (tablet) Object.assign(L, {
+        hwName: { left: M, top: P, width: Math.min(340, colW - 288), height: 'auto' },
+        photo: { right: M, top: P + 20, width: photoW, height: 'auto' },
+        aboutMemoTop: 6 * P + 20, aboutTitle: { left: M + 215, top: 6 * P + 42 },
+        proseTop: 8 * P, headH: P + 47.75, headTitle: { left: M + 215, top: 42 }
+      });
     } else {
       L = { hwName: { left: M, top: 2 * P, height: 3 * P, width: 'auto' }, nameTop: 5 * P + 48,
         photo: { right: M, top: P + 20, width: 324.57, height: 'auto' },
         aboutMemoTop: 8 * P + 20, aboutTitle: { left: M + 215, top: 8 * P + 42 }, proseTop: 10 * P, proseW: 640,
-        headH: P + 47.75, headTitle: { left: M + 215, top: 42 }, rightGap: 204, main: { position: 'relative', minWidth: 1120 } };
+        headH: P + 47.75, headTitle: { left: M + 215, top: 42 }, rightGap: 204, main: { position: 'relative', '--sheet-margin': M + 'px' } };
     }
-    return Object.assign(L, { mobile, M, T, colW });
+    return Object.assign(L, { mobile, tablet, M, T, colW });
   }
   canHover() {
     return typeof window !== 'undefined' && !!window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
@@ -447,7 +462,7 @@ class Component extends DCLogic {
     if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) cur = 'contact';
     if (cur !== this.state.current) this.setState({ current: cur });
   }
-  // Camera: pan the sheet to the section head (under the fixed nav) with a slight zoom-out breath at mid-flight.
+  // Pan without scaling: staff line weight and spacing remain stable throughout navigation.
   go(id) {
     const el = document.getElementById('sec-' + id); if (!el) return;
     this.setState({ current: id, pinned: null });
@@ -457,17 +472,11 @@ class Component extends DCLogic {
     const start = window.scrollY, dist = target - start;
     if (Math.abs(dist) < 1) return;
     const dur = Math.min(1500, 550 + Math.abs(dist) * 0.22), t0 = performance.now();
-    const sheet = this.sheetRef.current, zoom = this.props.cameraZoom ?? true;
     const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
     cancelAnimationFrame(this._cam);
     const step = now => {
       const t = Math.min(1, (now - t0) / dur), y = start + dist * ease(t);
       window.scrollTo(0, y);
-      if (sheet && zoom) {
-        const s = 1 - 0.035 * Math.sin(Math.PI * t);
-        sheet.style.transformOrigin = '50% ' + (y + window.innerHeight / 2) + 'px';
-        sheet.style.transform = t < 1 ? 'scale(' + s.toFixed(4) + ')' : '';
-      }
       if (t < 1) this._cam = requestAnimationFrame(step);
     };
     this._cam = requestAnimationFrame(step);
@@ -486,34 +495,36 @@ class Component extends DCLogic {
     // Restore the previous phone layout: each text block participates in normal
     // flow so long descriptions expand the row instead of overflowing a slot.
     const flow = extra => Object.assign({ position: 'relative', padding: '0 ' + M + 'px 0 ' + T + 'px', minWidth: 0, whiteSpace: 'normal', wordBreak: 'keep-all', overflowWrap: 'anywhere' }, extra || {});
-    const LINES = c => `linear-gradient(to bottom, transparent 0 20px, ${c} 20px 20.8px, transparent 20.8px 26.5px, ${c} 26.5px 27.3px, transparent 27.3px 33px, ${c} 33px 33.8px, transparent 33.8px 39.5px, ${c} 39.5px 40.3px, transparent 40.3px 46px, ${c} 46px 46.8px, transparent 46.8px 69.55px)`;
+    const staffImage = 'url(assets/staff-lines.svg)';
     const S = {
       main: L.main,
-      headerInner: { position: 'relative', maxWidth: 1440, margin: '0 auto', height: 19.5, padding: '0 ' + M + 'px', display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', fontSize: 11, lineHeight: '19.5px', letterSpacing: '.08em', color: G },
+      headerInner: { position: 'relative', maxWidth: 1440, margin: '0 auto', height: 19.5, padding: '0 ' + M + 'px', display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', fontSize: mobile ? 12 : 11, lineHeight: '19.5px', letterSpacing: '.08em', color: G },
       nav: { display: 'flex', gap: mobile ? 16 : 26, overflowX: 'auto', whiteSpace: 'nowrap', minWidth: 0, flex: '1 1 auto', marginRight: 12, scrollbarWidth: 'none' },
       about: { position: 'relative', height: this.state.aboutH, background: '#efe9df', isolation: 'isolate' },
       hwName: A(L.hwName, { display: 'block' }),
       heroName: A({ left: M, top: L.nameTop, height: 19.5, display: 'flex', alignItems: 'baseline', whiteSpace: 'nowrap' }),
-      heroRole: A({ left: M, top: L.nameTop + 19.5, height: 19.5, display: 'flex', alignItems: 'baseline', whiteSpace: 'nowrap' }),
+      heroRole: A({ left: M, top: L.nameTop + 19.5, fontSize: 13, height: 19.5, display: 'flex', alignItems: 'baseline', whiteSpace: 'nowrap' }),
+      heroActions: A({ left: M, top: L.nameTop + 44, maxWidth: L.tablet ? L.colW - 288 : L.colW, display: 'flex', flexWrap: 'wrap', columnGap: 24, alignItems: 'center', fontSize: 14, lineHeight: '20px' }),
       photo: A(L.photo, { background: '#efe9df', isolation: 'isolate' }),
       aboutMemo: A({ left: M, top: L.aboutMemoTop, height: this.P, width: 'auto', display: 'block' }),
       aboutTitle: A(L.aboutTitle, { display: 'flex', alignItems: 'baseline', whiteSpace: 'nowrap' }),
       // A feathered wash behind the prose: softens and lightens the staff under the paragraph without drawing a box.
-      proseBack: A({ left: M - 48, top: L.proseTop - 30, width: L.proseW + 96, height: (this.state.proseH || 0) + 60, pointerEvents: 'none',
+      proseBack: A({ left: Math.max(0, M - 48), top: L.proseTop - 30, width: Math.min(L.proseW + 96, L.colW + 2 * M - Math.max(0, M - 48)), height: (this.state.proseH || 0) + 60, pointerEvents: 'none',
         background: 'rgba(239,233,223,.42)', backdropFilter: 'blur(1.2px)', WebkitBackdropFilter: 'blur(1.2px)',
         WebkitMaskImage: 'radial-gradient(ellipse 100% 100% at 50% 50%, #000 40%, rgba(0,0,0,.6) 65%, transparent 100%)',
         maskImage: 'radial-gradient(ellipse 100% 100% at 50% 50%, #000 40%, rgba(0,0,0,.6) 65%, transparent 100%)',
         WebkitMaskComposite: 'source-in', maskComposite: 'intersect' }),
-      prose: A({ left: M, top: L.proseTop, width: L.proseW, wordBreak: 'keep-all', overflowWrap: 'anywhere', textWrap: 'pretty', fontFamily: lang === 'en' ? "'EB Garamond', serif" : "'Noto Serif KR', serif", fontSize: lang === 'en' ? 14 : 13, lineHeight: '19.5px' }),
+      prose: A({ left: M, top: L.proseTop, width: L.proseW, wordBreak: 'keep-all', overflowWrap: 'anywhere', textWrap: 'pretty', fontFamily: lang === 'en' ? "'EB Garamond', serif" : "'Noto Serif KR', serif", fontSize: lang === 'en' ? 16 : 15, lineHeight: '24px' }),
       head: { position: 'relative', height: L.headH },
       memo: A({ left: M, top: 20, height: this.P, width: 'auto', display: 'block' }),
       headTitle: A(L.headTitle, { display: 'flex', alignItems: 'baseline', whiteSpace: 'nowrap' }),
       row: mobile ? { position: 'relative', padding: '0.25px 0 30.55px' } : { position: 'relative', height: this.P },
-      rowLines: { position: 'absolute', inset: 0, pointerEvents: 'none', backgroundImage: LINES('#cdc3b3'), backgroundSize: '100% 69.55px', backgroundRepeat: mobile ? 'no-repeat' : 'repeat', backgroundPosition: mobile ? '0 calc(100% + 21.8px)' : '0 21.8px', filter: 'url(#ink)' },
+      rowLines: { position: 'absolute', inset: 0, pointerEvents: 'none', backgroundImage: staffImage, backgroundSize: '100% 69.55px', backgroundRepeat: mobile ? 'no-repeat' : 'repeat', backgroundPosition: mobile ? '0 calc(100% + 21.8px)' : '0 21.8px' },
       year: mobile
         ? { position: 'absolute', left: M, top: 0, width: 34, fontFamily: "'EB Garamond',serif", fontSize: 11.5, fontVariantNumeric: 'lining-nums tabular-nums', color: G }
         : { width: 34, flex: 'none', marginRight: 14, fontFamily: "'EB Garamond',serif", fontSize: 11.5, fontVariantNumeric: 'lining-nums tabular-nums', color: G },
       titleRow: mobile ? flow() : rowLine(0.25, T - 48, M + L.rightGap),
+      workTitleRow: mobile ? flow({ paddingRight: M + 32 }) : rowLine(0.25, T - 48, M + L.rightGap),
       rightRow: mobile ? flow() : { position: 'absolute', right: M, top: 0.25, height: 19.5, display: 'flex', alignItems: 'baseline', gap: 18, whiteSpace: 'nowrap' },
       line2: mobile ? flow() : rowLine(19.75, T, M),
       inst: mobile ? flow() : { position: 'absolute', left: T, right: M + L.rightGap, top: 19.75, height: 19.5, whiteSpace: 'nowrap', overflow: 'hidden' },
@@ -529,8 +540,9 @@ class Component extends DCLogic {
     const langLabel = t('label.lang_switch');
     const langStyle = Object.assign({}, navBase, { color: G, fontFamily: isKr(langLabel) ? "'Noto Serif KR', serif" : "'EB Garamond', serif", fontSize: isKr(langLabel) ? 11 : 12.5, letterSpacing: isKr(langLabel) ? '.08em' : '.04em' });
     const base = {
-      S, inkDefs: this.ink(), nav, langLabel, langStyle, toggleLang: () => this.setState(s => ({ lang: s.lang === 'ko' ? 'en' : 'ko' })),
+      S, nav, langLabel, langStyle, toggleLang: () => this.setState(s => ({ lang: s.lang === 'ko' ? 'en' : 'ko' })),
       h: {}, works: [], rows: { performances: [], research: [], news: [], contact: [] }, about: [], footer: '',
+      listenLabel: lang === 'ko' ? '연주 영상 보기' : 'Watch recital', worksLabel: lang === 'ko' ? '작품 보기' : 'Explore works', goWorks: () => this.go('works'),
       heroName: '', heroRole: '', heroKr: lang === 'ko', heroEn: lang === 'en', recitalHref: '', recitalLabel: '', recitalAria: '',
     };
     if (!d) return base;
@@ -600,10 +612,10 @@ class Component extends DCLogic {
         })(),
         rowStyle: mobile
           ? Object.assign({}, S.row, { cursor: 'pointer', touchAction: 'manipulation', WebkitTapHighlightColor: 'transparent' })
-          : { position: 'relative', height: expanded ? 208.65 : 69.55, overflow: 'hidden', cursor: 'default', touchAction: 'manipulation', WebkitTapHighlightColor: 'transparent', transition: this.reduce ? 'none' : 'height .32s cubic-bezier(.4,0,.2,1)' },
-        expanded,
-        keyToggle: e => { if (e && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); this.setState(s => ({ pinned: s.pinned === r.id ? null : r.id })); } },
-        woodStyle: { position: 'absolute', inset: 0, pointerEvents: 'none', backgroundImage: LINES('#b79e85'), backgroundSize: '100% 69.55px', backgroundRepeat: 'repeat', backgroundPosition: '0 21.8px', filter: 'url(#ink)', opacity: 0, display: 'none' },
+          : { position: 'relative', height: expanded ? 208.65 : 69.55, overflow: 'hidden', cursor: 'pointer', touchAction: 'manipulation', WebkitTapHighlightColor: 'transparent', transition: 'none' },
+        expanded, toggleMark: expanded ? '−' : '+', toggleLabel: lang === 'ko' ? (expanded ? '상세 접기' : '상세 펼치기') : (expanded ? 'Hide details' : 'Show details'),
+        keyToggle: e => { if (e && e.target && e.target.closest && e.target.closest('a')) return; if (e && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); this.setState(s => ({ pinned: s.pinned === r.id ? null : r.id })); } },
+        woodStyle: { position: 'absolute', inset: 0, pointerEvents: 'none', backgroundImage: staffImage, backgroundSize: '100% 69.55px', backgroundRepeat: 'repeat', backgroundPosition: '0 21.8px', opacity: 0, display: 'none' },
         // Touch browsers can synthesize mouseenter before click. Only a real hover
         // pointer may expand a row; taps open and close solely through pinned state.
         enter: () => { if (this.canHover()) this.setState({ hover: r.id }); }, leave: () => this.setState({ hover: null }),
@@ -679,17 +691,9 @@ class Component extends DCLogic {
       e('circle', { cx: 12, cy: 12, r: 4 }),
       e('circle', { cx: 17.3, cy: 6.8, r: 0.9, fill: 'currentColor', stroke: 'none' }));
   }
-  // The staff-line wobble of 오선지_패턴.svg, as a CSS-referenced SVG filter (#ink).
-  ink() {
-    if (this._ink) return this._ink;
-    const e = React.createElement;
-    this._ink = e('svg', { width: 0, height: 0, 'aria-hidden': 'true', style: { position: 'absolute', width: 0, height: 0, overflow: 'hidden' } },
-      e('defs', null, e('filter', { id: 'ink', x: '-1%', y: '-2%', width: '102%', height: '104%' },
-        e('feTurbulence', { type: 'fractalNoise', baseFrequency: '0.004 0.03', numOctaves: 2, seed: 3, result: 'n' }),
-        e('feDisplacementMap', { in: 'SourceGraphic', in2: 'n', scale: 0.9, xChannelSelector: 'R', yChannelSelector: 'G' }))));
-    return this._ink;
-  }
+
 }
 </script>
 </body>
 </html>
+
