@@ -33,6 +33,22 @@ const server=http.createServer((req,res)=>{
   assert.equal(await page.locator('nav a[aria-current]').getAttribute('href'),'#sec-contact');
   await page.goto(base+(lang==='ko'?'/':'/en/'));await page.evaluate(()=>document.fonts.ready);
   if([390,768,1440].includes(width))await page.screenshot({path:path.join(root,`test-results/${lang}-${width}.png`),fullPage:true});
+
+  // Design-review variants are injected only into screenshots, never the built site.
+  if(lang==='ko' && [390,1440].includes(width)){
+   const palettes=[
+    {name:'lilac',paper:'#eee9f1',ink:'#3d3147',muted:'#706079',accent:'#74528c',staff:'#cfc3d7',wash:'238,233,241',mark:'190,168,202'},
+    {name:'olive',paper:'#edeee2',ink:'#383e29',muted:'#666d50',accent:'#637232',staff:'#c9ccb4',wash:'237,238,226',mark:'177,186,129'}
+   ];
+   for(const p of palettes){
+    const svg=fs.readFileSync(path.join(root,'assets/staff-celadon.svg'),'utf8').replaceAll('#bdcbc2',p.staff);
+    const style=await page.addStyleTag({content:`:root{--paper:${p.paper};--ink:${p.ink};--muted:${p.muted};--accent:${p.accent};--staff:url("data:image/svg+xml;base64,${Buffer.from(svg).toString('base64')}")}
+     .about-prose::before{background:rgba(${p.wash},.42)}
+     mark{background:rgba(${p.mark},.38)}`});
+    await page.screenshot({path:path.join(root,`test-results/${p.name}-${width}.png`),fullPage:true});
+    await style.evaluate(el=>el.remove());
+   }
+  }
   assert.deepEqual(errors,[]);await context.close();
  }
  const context=await browser.newContext({javaScriptEnabled:false,viewport:{width:390,height:844}});
