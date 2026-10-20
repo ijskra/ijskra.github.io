@@ -70,3 +70,8 @@ test('Content is escaped and unsafe links never become executable HTML',()=>{
   assert.match(html,/<img data-src="\/assets\/works\/deluge-score.webp"[^>]+loading="lazy"/);
  }finally{fs.rmSync(temp,{recursive:true,force:true});}
 });
+test('assets carry no C2PA content credentials', () => {
+ const { signedFiles } = require('../scripts/strip-credentials.cjs');
+ const left = signedFiles(path.join(root,'assets')).map(f=>path.relative(root,f));
+ assert.deepEqual(left,[],`C2PA 서명이 남은 파일: ${left.join(', ')} — npm run strip-credentials로 지우세요`);
+});

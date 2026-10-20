@@ -17,9 +17,11 @@
 
 사진을 교체할 때는 Pillow 설치 후 `python scripts/optimize-images.py`로 두 WebP를 재생성합니다.
 
+Claude 등 AI 도구에서 받은 이미지와 SVG에는 C2PA 서명(콘텐츠 자격증명)이 붙어 올 수 있습니다. 새 파일을 넣은 뒤 `npm run strip-credentials`로 지웁니다. 서명만 지우고 픽셀과 EXIF는 그대로 둡니다.
+
 ## 검증
 
-- `npm test`: 생성된 HTML 콘텐츠, 메타데이터, 링크, 초기 이미지 요청, 재현 가능한 빌드, HTML 이스케이프를 검사합니다.
+- `npm test`: 생성된 HTML 콘텐츠, 메타데이터, 링크, 초기 이미지 요청, 재현 가능한 빌드, HTML 이스케이프, 이미지에 남은 C2PA 서명을 검사합니다.
 - `npm run test:content`: 기존 콘텐츠 변환 및 배치 계산의 회귀 검사입니다. 실제 CSS 렌더링 검사는 아닙니다.
 - `npm install --no-save --package-lock=false playwright@1.51.1` 후 `npx playwright install chromium`, `npm run test:browser`: 국문·영문 320~1440px, 펼침, 내비게이션, JavaScript 비활성 상태와 스크린샷을 검사합니다.
 
