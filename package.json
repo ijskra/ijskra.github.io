@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "build": "node scripts/build.cjs",
+    "strip-credentials": "node scripts/strip-credentials.cjs",
     "test": "node --test tests/static-site.test.cjs",
     "test:content": "node tests/mobile-layout.test.cjs",
     "test:browser": "node tests/browser.cjs"
