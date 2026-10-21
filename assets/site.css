@@ -13,3 +13,4 @@ section{position:relative;scroll-margin-top:0}.hero{height:556.4px;background-im
 @media(prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
 
 .hero-identity>p.passport-name{margin:4px 0 6px;font-size:11.5px;line-height:17px;color:var(--muted)}
+#heading-performances{right:var(--margin);white-space:normal}#heading-performances .heading-translation{display:inline-block}
