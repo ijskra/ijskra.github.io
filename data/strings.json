@@ -1,7 +1,15 @@
 {
   "site.name": {
     "국문": "오정웅",
-    "영문": "Jung-Woong Oh"
+    "영문": "OH Jung-Woong"
+  },
+  "site.passport_name": {
+    "국문": "Jeongung Oh",
+    "영문": "Jeongung Oh"
+  },
+  "label.passport_name": {
+    "국문": "여권상 영문 이름",
+    "영문": "Passport name"
   },
   "site.title": {
     "국문": "작곡가 · 하프시코드 연주자 · 프로듀서",
@@ -141,6 +149,6 @@
   },
   "footer": {
     "국문": "© 2026 오정웅",
-    "영문": "© 2026 Jung-Woong Oh"
+    "영문": "© 2026 OH Jung-Woong"
   }
 }
