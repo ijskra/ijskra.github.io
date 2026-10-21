@@ -1,5 +1,22 @@
 [
   {
+    "id": "r05",
+    "연도": "2026",
+    "유형": "논문",
+    "제목": "역사적 조율법과 조성 아펙트: 요한 세바스찬 바흐 ≪평균율 클라비어곡집≫ 제1권 중 〈e♭단조 전주곡, BWV 853/1〉을 중심으로",
+    "제목_영문": "Historical Temperaments and Key Affects: With a Focus on Prelude in E-flat Minor, BWV 853/1 in J. S. Bach’s Well-Tempered Clavier, Book I",
+    "저자": "오정웅",
+    "저자_영문": "Jeongung Oh",
+    "학회·기관": "『음악교수법연구』 27(2), 통권 38호, pp. 145–169",
+    "학회·기관_영문": "Research in Music Pedagogy 27(2), no. 38, pp. 145–169",
+    "일자·장소": "한국피아노교수법학회",
+    "일자·장소_영문": "한국피아노교수법학회",
+    "발행월": "2026-09",
+    "링크": "https://kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART003383535",
+    "웹": "Y",
+    "비고": "KCI 등재 학술지 게재 논문. 국·영문 제목은 KCI, 권호·쪽수·발행월은 사용자 제공 서지 및 KISS 출판사 자료 확인."
+  },
+  {
     "id": "r02",
     "연도": "2026",
     "유형": "번역·통역",

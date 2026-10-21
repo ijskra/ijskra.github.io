@@ -644,8 +644,8 @@ class Component extends DCLogic {
     }));
     // --- research ------------------------------------------------------------------
     const res = pub(d.research).map(r => ({
-      year: year(r['연도']), line1: title(r['제목'], r['제목_영문']).concat(lang === 'ko' && ok(r['유형']) ? [meta(r['유형'])] : []), right: [],
-      line2: join([ok(r['학회·기관']) ? r['학회·기관'] : null, ok(r['일자·장소']) ? r['일자·장소'] : null]),
+      year: year(r['연도']), line1: title(r['제목'], r['제목_영문']).concat(lang === 'ko' && ok(r['유형']) ? [meta(r['유형'])] : []), right: ok(r['링크']) ? [link(r['링크'], host(r['링크']))] : [],
+      line2: join([byLang(r['저자'], r['저자_영문']), byLang(r['학회·기관'], r['학회·기관_영문']), byLang(r['일자·장소'], r['일자·장소_영문'])]),
     }));
     // --- news ------------------------------------------------------------------------
     const newsSrc = (d.news || []).filter(r => r['공개'] === 'Y');
