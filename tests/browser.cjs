@@ -51,9 +51,35 @@ const server=http.createServer((req,res)=>{
   }
   assert.deepEqual(errors,[]);await context.close();
  }
+
+ // The Concertante landing page must remain readable without JavaScript.
+ for(const width of [320,390,1024]){
+  const context=await browser.newContext({javaScriptEnabled:false,viewport:{width,height:900}});
+  const page=await context.newPage();
+  const response=await page.goto(base+'/concertante/');
+  assert.equal(response.status(),200);
+  await page.evaluate(()=>document.fonts.ready);
+  assert.equal(await page.locator('h1').count(),1);
+  assert(await page.evaluate(w=>document.documentElement.scrollWidth<=w+1,width),`concertante ${width}: overflow`);
+  await page.locator('img').evaluateAll(images=>Promise.all(images.map(img=>{img.loading='eager';return img.decode();})));
+  assert(await page.locator('img').evaluateAll(images=>images.every(img=>img.complete&&img.naturalWidth>0)),'Concertante images must load');
+  assert.equal(await page.locator('img[data-portrait="jungwoong"]').count(),1);
+  assert(await page.evaluate(()=>document.fonts.check('300 128px "ConcertanteOriginalCormorant"','11.16')),'Concertante date font must load');
+  assert.equal(await page.locator('link[rel="canonical"]').getAttribute('href'),'https://ijskra.github.io/concertante/');
+  assert.equal(await page.locator('a').filter({hasText:'예매하기'}).getAttribute('href'),'https://www.lotteconcerthall.com/product/performance/261250');
+  if(width===390){
+   const title=await page.locator('h1').evaluate(el=>({height:el.getBoundingClientRect().height,line:parseFloat(getComputedStyle(el).lineHeight)}));
+   assert(title.height<title.line*1.5,'Concertante desktop-sized mobile title should fit one line');
+   await page.screenshot({path:path.join(root,'test-results/concertante-390-top.png')});
+  }
+  await page.screenshot({path:path.join(root,`test-results/concertante-${width}.png`),fullPage:true});
+  await context.close();
+ }
+ console.log('PASS: Concertante at 320/390/1024px, image and date font loading, booking link and no-JS content');
  const context=await browser.newContext({javaScriptEnabled:false,viewport:{width:390,height:844}});
  const page=await context.newPage();await page.goto(base);await page.locator('summary').first().click();assert(await page.locator('details').first().evaluate(el=>el.open));
  await page.locator('.language-link').click();assert.equal(await page.locator('html').getAttribute('lang'),'en');await context.close();
  console.log('PASS: both languages at 7 widths, native disclosure, navigation and no-JS access');
  }finally{await browser.close();server.close();}
 })().catch(error=>{console.error(error);server.close();process.exitCode=1;});
+
