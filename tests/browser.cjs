@@ -67,6 +67,8 @@ const server=http.createServer((req,res)=>{
   assert.equal(await page.locator('[data-selection-project]').textContent(),'2026년 서울문화재단 예술창작활동지원 선정 프로젝트');
   assert.equal(await page.locator('[data-sponsor-credit]').textContent(),'후원 서울특별시, 서울문화재단');
   assert.equal(await page.locator('img[data-sponsor]').count(),2);
+  assert(await page.locator('[data-organizer-credits]').evaluate(el=>el.scrollWidth<=el.clientWidth),'Organizer and sponsor credits must fit one line');
+  assert(await page.locator('[data-sponsor-logos]').evaluate(el=>getComputedStyle(el).backgroundColor==='rgba(0, 0, 0, 0)'),'Logo row must retain the original footer background');
   await page.locator('[data-funding-credits]').screenshot({path:path.join(root,`test-results/concertante-sponsors-${width}.png`)});
 
   assert(await page.evaluate(()=>document.fonts.check('300 128px "ConcertanteOriginalCormorant"','11.16')),'Concertante date font must load');
