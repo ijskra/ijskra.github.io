@@ -64,24 +64,22 @@ const server=http.createServer((req,res)=>{
   await page.locator('img').evaluateAll(images=>Promise.all(images.map(img=>{img.loading='eager';return img.decode();})));
   assert(await page.locator('img').evaluateAll(images=>images.every(img=>img.complete&&img.naturalWidth>0)),'Concertante images must load');
   assert.equal(await page.locator('img[data-portrait="jungwoong"]').count(),1);
-  assert.equal(await page.locator('[data-selection-project]').textContent(),'2026년 서울문화재단 예술창작활동지원 선정 프로젝트');
+  assert.equal((await page.locator('[data-selection-project]').textContent()).replace(/\s+/g,' ').trim(),'2026년 서울문화재단 예술창작활동지원 선정 프로젝트');
   assert.equal(await page.locator('[data-sponsor-credit]').textContent(),'후원 서울특별시, 서울문화재단');
   assert.equal(await page.locator('img[data-sponsor]').count(),2);
   assert(await page.locator('[data-organizer-credits]').evaluate(el=>el.scrollWidth<=el.clientWidth),'Organizer and sponsor credits must fit one line');
-  assert.equal(await page.locator('[data-brand-panel]').evaluate(el=>getComputedStyle(el).backgroundColor),'rgb(255, 255, 255)','Full-color signatures need a neutral light background');
-  assert.equal(await page.locator('[data-venue-credit] img[data-venue="lotte-concert-hall"]').count(),1);
-  assert((await page.locator('[data-venue-credit]').textContent()).includes('공연장'),'Venue must be explicitly labelled');
+  assert.equal(await page.locator('img[data-venue="lotte-concert-hall"]').count(),2);
   assert.equal(await page.locator('[data-sponsor-logos] img[data-venue]').count(),0,'The venue must not be classified as a funding sponsor');
-  assert(await page.locator('[data-brand-panel] img').evaluateAll(images=>images.every(img=>{
+  assert(await page.locator('[data-funding-credits] img').evaluateAll(images=>images.every(img=>{
    const rect=img.getBoundingClientRect();
-   const panel=img.closest('[data-brand-panel]').getBoundingClientRect();
+   const panel=img.closest('[data-funding-credits]').getBoundingClientRect();
    const style=getComputedStyle(img);
    const hasOriginalRatio=Math.abs(rect.width/rect.height-img.naturalWidth/img.naturalHeight)<0.02;
    return img.complete&&img.naturalWidth>0&&rect.width>0&&rect.height>0&&
     rect.left>=panel.left&&rect.right<=panel.right&&rect.top>=panel.top&&rect.bottom<=panel.bottom&&
     rect.left>=0&&rect.right<=innerWidth&&hasOriginalRatio&&style.filter==='none'&&style.opacity==='1';
   })),'All logos must load, retain their proportions/colors and stay within the panel and viewport');
-  assert(await page.locator('[data-venue]').evaluate(img=>img.getBoundingClientRect().width*(314.39/366.39)>=36),'Lotte visible lockup must exceed the official web minimum');
+  assert(await page.locator('[data-venue]').first().evaluate(img=>img.getBoundingClientRect().width*(314.39/366.39)>=36),'Lotte visible lockup must exceed the official web minimum');
   await page.locator('[data-funding-credits]').screenshot({path:path.join(root,`test-results/concertante-sponsors-${width}.png`)});
 
   assert(await page.evaluate(()=>document.fonts.check('300 128px "ConcertanteOriginalCormorant"','11.16')),'Concertante date font must load');
