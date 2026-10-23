@@ -19,6 +19,19 @@ const server=http.createServer((req,res)=>{
  const browser=await chromium.launch();
  try{
  fs.mkdirSync(path.join(root,'test-results'),{recursive:true});
+ // Obtain the unmodified official logo packages for the sponsor footer review.
+ for(const [name,url] of [
+  ['seoul-official-ci.zip','https://www.seoul.go.kr/upload/seoul/emblem/ci_png.zip'],
+  ['sfac-official-signatures.zip','https://www.sfac.or.kr/down/ci_signature_png.zip']
+ ]){
+  const response=await fetch(url,{headers:{'User-Agent':'Mozilla/5.0','Referer':url.includes('sfac')?'https://www.sfac.or.kr/':'https://www.seoul.go.kr/'},signal:AbortSignal.timeout(45000)});
+  assert.equal(response.status,200,'Official logo download: '+url);
+  const bytes=Buffer.from(await response.arrayBuffer());
+  assert.equal(bytes.subarray(0,2).toString(),'PK','Official logo archive must be ZIP');
+  fs.writeFileSync(path.join(root,'test-results',name),bytes);
+  console.log('Official logo package downloaded:',name,bytes.length);
+ }
+
  for(const width of [320,390,768,1024,1119,1120,1440])for(const lang of ['ko','en']){
   const context=await browser.newContext({viewport:{width,height:900},hasTouch:width<760,isMobile:width<760});
   const page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
