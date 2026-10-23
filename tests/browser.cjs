@@ -82,7 +82,7 @@ const server=http.createServer((req,res)=>{
  }
  console.log('PASS: Concertante at 320/390/1024px, image and date font loading, booking link and no-JS content');
  const context=await browser.newContext({javaScriptEnabled:false,viewport:{width:390,height:844}});
- const page=await context.newPage();await page.goto(base);await page.locator('summary').first().click();assert(await page.locator('details').first().evaluate(el=>el.open));
+ const page=await context.newPage();await page.goto(base);await page.evaluate(()=>document.fonts.ready);await page.addStyleTag({content:'html{scroll-behavior:auto!important}'});await page.locator('summary').first().click();assert(await page.locator('details').first().evaluate(el=>el.open));
  await page.locator('.language-link').click();assert.equal(await page.locator('html').getAttribute('lang'),'en');await context.close();
  console.log('PASS: both languages at 7 widths, native disclosure, navigation and no-JS access');
  }finally{await browser.close();server.close();}
