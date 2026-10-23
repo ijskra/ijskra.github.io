@@ -64,6 +64,11 @@ const server=http.createServer((req,res)=>{
   await page.locator('img').evaluateAll(images=>Promise.all(images.map(img=>{img.loading='eager';return img.decode();})));
   assert(await page.locator('img').evaluateAll(images=>images.every(img=>img.complete&&img.naturalWidth>0)),'Concertante images must load');
   assert.equal(await page.locator('img[data-portrait="jungwoong"]').count(),1);
+  assert.equal(await page.locator('[data-selection-project]').textContent(),'2026년 서울문화재단 예술창작활동지원 선정 프로젝트');
+  assert.equal(await page.locator('[data-sponsor-credit]').textContent(),'후원 서울특별시, 서울문화재단');
+  assert.equal(await page.locator('img[data-sponsor]').count(),2);
+  await page.locator('[data-funding-credits]').screenshot({path:path.join(root,`test-results/concertante-sponsors-${width}.png`)});
+
   assert(await page.evaluate(()=>document.fonts.check('300 128px "ConcertanteOriginalCormorant"','11.16')),'Concertante date font must load');
   assert.equal(await page.locator('link[rel="canonical"]').getAttribute('href'),'https://ijskra.github.io/concertante/');
   assert.equal(await page.locator('a').filter({hasText:'예매하기'}).getAttribute('href'),'https://www.lotteconcerthall.com/product/performance/261250');
@@ -77,7 +82,7 @@ const server=http.createServer((req,res)=>{
  }
  console.log('PASS: Concertante at 320/390/1024px, image and date font loading, booking link and no-JS content');
  const context=await browser.newContext({javaScriptEnabled:false,viewport:{width:390,height:844}});
- const page=await context.newPage();await page.goto(base);await page.locator('summary').first().click();assert(await page.locator('details').first().evaluate(el=>el.open));
+ const page=await context.newPage();await page.goto(base);await page.locator('summary').first().focus();await page.keyboard.press('Enter');assert(await page.locator('details').first().evaluate(el=>el.open));
  await page.locator('.language-link').click();assert.equal(await page.locator('html').getAttribute('lang'),'en');await context.close();
  console.log('PASS: both languages at 7 widths, native disclosure, navigation and no-JS access');
  }finally{await browser.close();server.close();}
