@@ -19,19 +19,6 @@ const server=http.createServer((req,res)=>{
  const browser=await chromium.launch();
  try{
  fs.mkdirSync(path.join(root,'test-results'),{recursive:true});
- // Obtain the unmodified official logo packages for the sponsor footer review.
- for(const [name,url] of [
-  ['seoul-official-ci.zip','https://www.seoul.go.kr/upload/seoul/emblem/ci_png.zip'],
-  ['sfac-official-signatures.zip','https://www.sfac.or.kr/down/ci_signature_png.zip']
- ]){
-  const response=await fetch(url,{headers:{'User-Agent':'Mozilla/5.0','Referer':url.includes('sfac')?'https://www.sfac.or.kr/':'https://www.seoul.go.kr/'},signal:AbortSignal.timeout(45000)});
-  assert.equal(response.status,200,'Official logo download: '+url);
-  const bytes=Buffer.from(await response.arrayBuffer());
-  assert.equal(bytes.subarray(0,2).toString(),'PK','Official logo archive must be ZIP');
-  fs.writeFileSync(path.join(root,'test-results',name),bytes);
-  console.log('Official logo package downloaded:',name,bytes.length);
- }
-
  for(const width of [320,390,768,1024,1119,1120,1440])for(const lang of ['ko','en']){
   const context=await browser.newContext({viewport:{width,height:900},hasTouch:width<760,isMobile:width<760});
   const page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
@@ -77,6 +64,11 @@ const server=http.createServer((req,res)=>{
   await page.locator('img').evaluateAll(images=>Promise.all(images.map(img=>{img.loading='eager';return img.decode();})));
   assert(await page.locator('img').evaluateAll(images=>images.every(img=>img.complete&&img.naturalWidth>0)),'Concertante images must load');
   assert.equal(await page.locator('img[data-portrait="jungwoong"]').count(),1);
+  assert.equal(await page.locator('[data-selection-project]').textContent(),'2026년 서울문화재단 예술창작활동지원 선정 프로젝트');
+  assert.equal(await page.locator('[data-sponsor-credit]').textContent(),'후원 서울특별시, 서울문화재단');
+  assert.equal(await page.locator('img[data-sponsor]').count(),2);
+  await page.locator('[data-funding-credits]').screenshot({path:path.join(root,`test-results/concertante-sponsors-${width}.png`)});
+
   assert(await page.evaluate(()=>document.fonts.check('300 128px "ConcertanteOriginalCormorant"','11.16')),'Concertante date font must load');
   assert.equal(await page.locator('link[rel="canonical"]').getAttribute('href'),'https://ijskra.github.io/concertante/');
   assert.equal(await page.locator('a').filter({hasText:'예매하기'}).getAttribute('href'),'https://www.lotteconcerthall.com/product/performance/261250');
