@@ -14,6 +14,18 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Collect official brand source files for design review
+        run: |
+          mkdir -p /tmp/brand-sources
+          curl --fail --location --retry 2 'https://www.sfac.or.kr/images/sfac/info_img33.png' -o /tmp/brand-sources/sfac-dark-example.png
+          curl --fail --location --retry 2 'https://www.sfac.or.kr/images/sfac/info_img36.png' -o /tmp/brand-sources/sfac-black-example.png
+          curl --fail --location --retry 2 'https://www.sfac.or.kr/down/ci_signature_ai.zip' -o /tmp/brand-sources/sfac-signatures-ai.zip
+          curl --fail --location --retry 2 'https://www.lotteconcerthall.com/down/rent/lotteconcerthall_ai.zip' -o /tmp/brand-sources/lotte-bi.zip
+          curl --fail --location --retry 2 'https://www.lotteconcerthall.com/home/ko/display/region/content/JSVFOFQ0T1ZTR0FaQlhwNEZUTUh4UGFCR0xTRmVaQWFpYTZjQm04TUF3YlorND0=' -o /tmp/brand-sources/lotte-bi-page.html
+      - uses: actions/upload-artifact@v4
+        with:
+          name: official-brand-sources
+          path: /tmp/brand-sources/
       - run: npm run build && npm test && npm run test:content
       - run: git diff --exit-code -- index.html en/index.html robots.txt sitemap.xml
       - run: npm install --no-save --package-lock=false playwright@1.51.1
