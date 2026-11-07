@@ -19,3 +19,17 @@ No CSS filters, opacity or blend modes are applied.
   signature in SFAC Gray (#BFC0C0), one of the foundation's identity colours
   (https://www.sfac.or.kr/site/SFAC_KOR/05/10502040000002018102204.jsp).
 - `piaolla-gray.svg` — Piaolla mark, fill #BFC0C0 to match the SFAC gray.
+
+## Ensemble GEM members
+
+- `ensemble/{slug}.webp` — 15 cut-out portraits (400×500, transparent
+  background, 14–33 KB each), shown in the 앙상블 GEM section grouped by part
+  (1st violin 5 · 2nd violin 4 · viola 3 · cello 2 · double bass 1). 이근화 is
+  marked 악장. Order follows the in-part listing in the programme note.
+- Edge tones are matched to the page ground #160f10; do not place them on any
+  other background. No CSS filters or opacity, the photos are used as retouched.
+- Served from the same origin, so they satisfy the CSP `img-src 'self'`.
+- Photo credit is not confirmed yet. A hidden `© [사진가]` placeholder
+  (`data-credit-pending`) sits at the end of the members block; remove its
+  `hidden` attribute once the credit is settled.
+- The 800×1000 source PNGs are not deployed.
