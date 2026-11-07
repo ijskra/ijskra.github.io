@@ -33,3 +33,10 @@ No CSS filters, opacity or blend modes are applied.
   (`data-credit-pending`) sits at the end of the members block; remove its
   `hidden` attribute once the credit is settled.
 - The 800×1000 source PNGs are not deployed.
+- Member names are set in the embedded Maru Buri subset (v1.000, 295 glyphs),
+  which lacked 13 characters used in the names (근행김백건훈온유노채슬윤두).
+  A second `@font-face` for `ConcertanteOriginalMaru` with a `unicode-range`
+  limited to those code points supplies them (2.9 KB WOFF2 subset of Maru Buri
+  Regular v2.000 from the `@kfonts/maruburi` npm package, vertical metrics set
+  to match v1.000). When adding names, check the subset covers every character,
+  or extend that supplement.
