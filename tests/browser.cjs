@@ -161,7 +161,7 @@ const server=http.createServer((req,res)=>{
   })),'Original-language quotations must carry their language and fit the column');
   assert.equal(await page.locator('a.home').getAttribute('href'),'/concertante/');
   assert.equal(await page.locator('a[href="/concertante/notes/"]').count(),0,'The sources page does not link to the printed note');
-  assert.equal(await page.locator('a.buy').getAttribute('href'),'https://www.lotteconcerthall.com/product/performance/261250');
+  assert.equal(await page.locator('a[href*="lotteconcerthall.com"]').count(),0,'The sources page carries no booking link');
   assert.equal(await page.locator('.info img[data-venue="lotte-concert-hall"]').count(),1);
   assert(!(await page.locator('.head').innerText()).includes('롯데콘서트홀'),'The venue must not be set in type');
   assert(await page.locator('img[data-venue]').evaluateAll(images=>images.every(img=>{
