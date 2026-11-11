@@ -120,6 +120,7 @@ const server=http.createServer((req,res)=>{
   assert.equal(await page.locator('a.home').getAttribute('href'),'/concertante/');
   assert.equal(await page.locator('a.back').getAttribute('href'),'/concertante/');
   assert.equal(await page.locator('a.buy').getAttribute('href'),'https://www.lotteconcerthall.com/product/performance/261250');
+  assert.deepEqual(await page.locator('[data-sources-link]').evaluateAll(links=>links.map(link=>link.getAttribute('href'))),['/concertante/program_note/sources/','/concertante/program_note/sources/']);
   assert.equal(await page.locator('.hero img[data-venue="lotte-concert-hall"]').count(),1,'The cover must show the venue with its official logotype');
   assert.equal(await page.locator('.info img[data-venue="lotte-concert-hall"]').count(),1);
   assert(!(await page.locator('.hero').innerText()).includes('롯데콘서트홀'),'The venue must not be set in type on the cover');
@@ -139,6 +140,46 @@ const server=http.createServer((req,res)=>{
   await context.close();
  }
  console.log('PASS: Concertante programme note at 320/390/1024/1440px, three notes, composer quote, official venue logotype, links back to the landing page and no-JS content');
+ // The sources page gives the originals behind the programme note; it must also read without JavaScript.
+ let photoPending=false;
+ for(const width of [320,390,1024,1440]){
+  const context=await browser.newContext({javaScriptEnabled:false,viewport:{width,height:900}});
+  const page=await context.newPage();
+  const response=await page.goto(base+'/concertante/program_note/sources/');
+  assert.equal(response.status(),200);
+  await page.evaluate(()=>document.fonts.ready);
+  assert.equal(await page.locator('h1').count(),1);
+  assert.equal(await page.locator('h1').textContent(),'자세한 이야기');
+  assert(await page.evaluate(w=>document.documentElement.scrollWidth<=w+1,width),`sources ${width}: overflow`);
+  await page.locator('img').evaluateAll(images=>Promise.all(images.map(img=>{img.loading='eager';return img.decode();})));
+  assert(await page.locator('img').evaluateAll(images=>images.every(img=>img.complete&&img.naturalWidth>0)),'Sources page images must load');
+  assert.equal(await page.locator('link[rel="canonical"]').getAttribute('href'),'https://ijskra.github.io/concertante/program_note/sources/');
+  assert.deepEqual(await page.locator('[data-group]').evaluateAll(groups=>groups.map(group=>group.dataset.group)),['introduction','sonata','concerto-grosso','concertante']);
+  assert(await page.locator('[data-entry]').evaluateAll(entries=>entries.length>=10&&entries.every(entry=>entry.querySelector('.lemma')&&entry.querySelector('.prose p'))),'Every entry needs the phrase from the note and its explanation');
+  assert(await page.locator('.orig').evaluateAll(quotes=>quotes.every(quote=>{
+   const box=quote.getBoundingClientRect();
+   return quote.lang&&quote.scrollWidth<=quote.clientWidth+1&&box.left>=0&&box.right<=innerWidth;
+  })),'Original-language quotations must carry their language and fit the column');
+  assert.equal(await page.locator('[data-section="in-memoriam"] h2').textContent(),'Stanley Ritchie');
+  assert.equal(await page.locator('a.home').getAttribute('href'),'/concertante/');
+  assert.equal(await page.locator('.head a.label').getAttribute('href'),'/concertante/program_note/');
+  assert.equal(await page.locator('a.back').getAttribute('href'),'/concertante/program_note/');
+  assert.equal(await page.locator('a.buy').getAttribute('href'),'https://www.lotteconcerthall.com/product/performance/261250');
+  assert.equal(await page.locator('.info img[data-venue="lotte-concert-hall"]').count(),1);
+  assert(!(await page.locator('.head').innerText()).includes('롯데콘서트홀'),'The venue must not be set in type');
+  assert(await page.locator('img[data-venue]').evaluateAll(images=>images.every(img=>{
+   const rect=img.getBoundingClientRect(),style=getComputedStyle(img);
+   return Math.abs(rect.width/rect.height-275.05/44.8)<0.02&&rect.width*(314.39/366.39)>=36&&
+    rect.left>=0&&rect.right<=innerWidth&&style.filter==='none'&&style.opacity==='1';
+  })),'Lotte logotype must keep its proportions and colour and exceed the official web minimum');
+  assert(await page.evaluate(()=>document.fonts.check('400 44px "ConcertanteOriginalMaru"','자세한 이야기')),'Sources title font must load, including the supplement for 야');
+  assert(await page.evaluate(()=>document.fonts.check('400 19px "ConcertanteOriginalCormorant"','Cum ergo sit in medio')),'Quotation font must load');
+  photoPending=photoPending||await page.locator('[data-photo-pending]').count()>0;
+  await page.screenshot({path:path.join(root,`test-results/concertante-sources-${width}.png`),fullPage:true});
+  await context.close();
+ }
+ if(photoPending)console.warn('WARN: the Stanley Ritchie photo on the sources page is still a placeholder; do not publish it like this');
+ console.log('PASS: Concertante sources page at 320/390/1024/1440px, four groups of entries, quotations within the column, links back to the programme note and no-JS content');
  const context=await browser.newContext({javaScriptEnabled:false,viewport:{width:390,height:844}});
  const page=await context.newPage();await page.goto(base);await page.locator('summary').first().focus();await page.keyboard.press('Enter');assert(await page.locator('details').first().evaluate(el=>el.open));
  await page.locator('.language-link').click();assert.equal(await page.locator('html').getAttribute('lang'),'en');await context.close();

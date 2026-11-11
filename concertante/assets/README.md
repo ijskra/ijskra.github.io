@@ -50,7 +50,9 @@ No CSS filters, opacity or blend modes are applied.
   2026-11-11): INTRODUCTION, PROGRAM, the three notes and the composer's line.
   It is a hand-written page with its own small stylesheet, on the same tokens
   as the landing page (ground #160f10, text #f3ede6 / #e8dfda / #bfb2ae, plum
-  #635153, 390px column). A longer text will replace the notes later.
+  #635153, 390px column). The QR code in the printed programme points here,
+  so the page keeps this address; the detail lives one link further on (a row
+  under the cover and a button after the notes, both `data-sources-link`).
 - The venue appears as the official LOTTE Concert Hall logotype, never set in
   type: under the date on the cover (12px high) and in 장소 (13px high), the
   same two places and sizes as the landing page.
@@ -69,3 +71,31 @@ No CSS filters, opacity or blend modes are applied.
   begins or ends on a separator.
 - Body text carries `font-feature-settings:"halt"` so the full-width brackets
   〈 〉 「 」 of Noto Serif KR sit on half widths next to Hangul.
+
+## Sources page
+
+- `/concertante/program_note/sources/` (자세한 이야기) shows where the words of
+  the programme note come from. Entries are grouped like the note
+  (INTRODUCTION, I, II, III). Each entry has the phrase from the note
+  (`.lemma`), where there is one the original-language text (`.orig`, with its
+  `lang`) and a Korean rendering (`.ko`), a short explanation, and the source
+  line (`.src`). It ends with IN MEMORIAM Stanley Ritchie.
+- Texts in copyright (Eco 1983, Barthes 1977, Merleau-Ponty 1945, Bukofzer
+  1947) are quoted for a few words only or paraphrased; the long quotations
+  are from Mattheson, Monteverdi, Berardi, Augustine and Corelli's title page.
+  The Augustine passage is cut before its last clause on purpose: the
+  programme note keeps to the first half.
+- Original-language text is set in the embedded Cormorant subset (Latin-1 plus
+  œ and the quotation marks « » „ “ ”); check the subset before adding other
+  scripts or letters. A word joiner (U+2060) keeps a closing quote with the
+  particle after it, and `.flat` pulls in the full-width ♭ of Noto Serif KR.
+- The title 자세한 이야기 is set in Maru Buri. The embedded subsets lack 야, so
+  the page carries a third `@font-face` limited to U+C57C, built from Maru Buri
+  Regular v2.000 the same way as the 13-character supplement (hinting kept,
+  vertical metrics and `gasp` of the v1.000 face). Stanley Ritchie's name is
+  set in Cormorant because the subsets lack 탠 and 치.
+- The photograph of Stanley Ritchie must be one the owner holds the rights to
+  or has permission for. Until it is supplied the figure carries
+  `data-photo-pending` and a visible placeholder; the browser test prints a
+  warning. Do not publish the page in that state: put the photo in (toned to
+  the page like the other portraits, with its credit) or remove the figure.

@@ -41,6 +41,11 @@ a:focus-visible{outline:2px solid currentColor;outline-offset:4px}
 .hero .sub{margin:14px 0 0;font-family:'Noto Sans KR',sans-serif;font-size:13px;font-weight:500;line-height:1.5;color:#e8dfda}
 /* The venue is always shown with its official logotype, never set in type (see ../assets/README.md). */
 .hero .venue{display:block;margin-top:7px;width:auto;height:12px}
+.more{display:flex;align-items:center;justify-content:space-between;margin:0 20px;padding:16px 0 15px;border-bottom:1px solid rgba(243,237,230,.2);font-family:'Noto Serif KR',serif;font-size:15px;font-weight:400;line-height:1.5;color:#f3ede6;text-decoration:none}
+.more small{margin-left:10px;font-family:'Noto Sans KR',sans-serif;font-size:12px;color:#bfb2ae}
+.more:hover{border-bottom-color:#f3ede6}
+.more-end{margin:0 0 28px;height:52px;padding:0 18px;display:flex;align-items:center;justify-content:space-between;border:1px solid rgba(243,237,230,.55);font-family:'Noto Serif KR',serif;font-size:15px;font-weight:400;line-height:normal;color:#f3ede6;text-decoration:none}
+.more-end:hover{border-color:#f3ede6}
 .block{padding:72px 20px 0}
 .block.first{padding-top:44px}
 /* "halt" sets the full-width brackets 〈 〉 「 」 on half widths, so no gap opens next to Hangul. */
@@ -99,6 +104,7 @@ a:focus-visible{outline:2px solid currentColor;outline-offset:4px}
       <img class="venue" src="/concertante/assets/lotte-concert-hall-kr-white.svg" alt="롯데콘서트홀" width="275" height="45" data-venue="lotte-concert-hall">
     </div>
   </header>
+  <a class="more" href="/concertante/program_note/sources/" data-sources-link="top"><span>자세한 이야기<small>이 글의 말들이 온 곳</small></span><span aria-hidden="true">→</span></a>
 
   <section class="block first" aria-label="들머리" data-section="introduction">
     <p class="label">INTRODUCTION</p>
@@ -158,6 +164,7 @@ a:focus-visible{outline:2px solid currentColor;outline-offset:4px}
         </div>
       </article>
     </div>
+    <a class="more-end" href="/concertante/program_note/sources/" data-sources-link="end">자세한 이야기 읽기<span aria-hidden="true">→</span></a>
     <a class="back" href="/concertante/">공연 안내로 돌아가기</a>
   </section>
 
