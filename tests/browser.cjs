@@ -116,10 +116,10 @@ const server=http.createServer((req,res)=>{
   assert(await page.locator('img').evaluateAll(images=>images.every(img=>img.complete&&img.naturalWidth>0)),'Programme note images must load');
   assert.equal(await page.locator('link[rel="canonical"]').getAttribute('href'),'https://ijskra.github.io/concertante/program_note/');
   assert.deepEqual(await page.locator('[data-note]').evaluateAll(notes=>notes.map(note=>note.dataset.note)),['sonata','concerto-grosso','concertante']);
-  assert.equal(await page.locator('[data-section="from-the-composer"] blockquote').textContent(),'바로크에는 있을 수 없었던 바로크 음악.');
+  assert.equal(await page.locator('[data-section="from-the-composer"]').count(),0);
   assert.equal(await page.locator('a.home').getAttribute('href'),'/concertante/');
   assert.equal(await page.locator('a.back').getAttribute('href'),'/concertante/');
-  assert.equal(await page.locator('a.buy').getAttribute('href'),'https://www.lotteconcerthall.com/product/performance/261250');
+  assert.equal(await page.locator('a[href*="lotteconcerthall.com"]').count(),0,'The programme note carries no booking link');
   assert.deepEqual(await page.locator('[data-sources-link]').evaluateAll(links=>links.map(link=>link.getAttribute('href'))),['/concertante/program_note/sources/','/concertante/program_note/sources/']);
   assert.equal(await page.locator('.hero img[data-venue="lotte-concert-hall"]').count(),1,'The cover must show the venue with its official logotype');
   assert.equal(await page.locator('.info img[data-venue="lotte-concert-hall"]').count(),1);

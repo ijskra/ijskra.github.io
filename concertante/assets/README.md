@@ -47,7 +47,8 @@ No CSS filters, opacity or blend modes are applied.
 ## Programme note page
 
 - `/concertante/program_note/` mirrors the printed programme (proof of
-  2026-11-11): INTRODUCTION, PROGRAM, the three notes and the composer's line.
+  2026-11-11): INTRODUCTION, PROGRAM and the three notes. By the owner's choice
+  it carries no booking link and no FROM THE COMPOSER line.
   It is a hand-written page with its own small stylesheet, on the same tokens
   as the landing page (ground #160f10, text #f3ede6 / #e8dfda / #bfb2ae, plum
   #635153, 390px column). The QR code in the printed programme points here,
