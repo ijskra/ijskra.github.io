@@ -85,6 +85,12 @@ const server=http.createServer((req,res)=>{
   assert(await page.evaluate(()=>document.fonts.check('300 128px "ConcertanteOriginalCormorant"','11.16')),'Concertante date font must load');
   assert.equal(await page.locator('link[rel="canonical"]').getAttribute('href'),'https://ijskra.github.io/concertante/');
   assert.equal(await page.locator('a').filter({hasText:'예매하기'}).getAttribute('href'),'https://www.lotteconcerthall.com/product/performance/261250');
+  assert.equal(await page.locator('[data-program-note-link]').getAttribute('href'),'/concertante/program_note/');
+  assert.equal(await page.locator('[data-movements]').count(),2);
+  assert(await page.locator('[data-movements]>span>span').evaluateAll(units=>units.every(unit=>{
+   const box=unit.getBoundingClientRect(),row=unit.closest('[data-movements]').getBoundingClientRect();
+   return box.right<=row.right+1;
+  })),'Movement names must not be clipped');
   if(width===390){
    const title=await page.locator('h1').evaluate(el=>({height:el.getBoundingClientRect().height,line:parseFloat(getComputedStyle(el).lineHeight)}));
    assert(title.height<title.line*1.5,'Concertante desktop-sized mobile title should fit one line');
@@ -94,6 +100,43 @@ const server=http.createServer((req,res)=>{
   await context.close();
  }
  console.log('PASS: Concertante at 320/390/1024/1440px, official sponsor and venue logos without clipping/distortion, date font loading, booking link and no-JS content');
+
+ // The programme note mirrors the printed programme and must also read without JavaScript.
+ for(const width of [320,390,1024,1440]){
+  const context=await browser.newContext({javaScriptEnabled:false,viewport:{width,height:900}});
+  const page=await context.newPage();
+  const response=await page.goto(base+'/concertante/program_note/');
+  assert.equal(response.status(),200);
+  await page.evaluate(()=>document.fonts.ready);
+  assert.equal(await page.locator('h1').count(),1);
+  assert.equal(await page.locator('h1').textContent(),'프로그램 노트');
+  assert(await page.evaluate(w=>document.documentElement.scrollWidth<=w+1,width),`programme note ${width}: overflow`);
+  await page.locator('img').evaluateAll(images=>Promise.all(images.map(img=>{img.loading='eager';return img.decode();})));
+  assert(await page.locator('img').evaluateAll(images=>images.every(img=>img.complete&&img.naturalWidth>0)),'Programme note images must load');
+  assert.equal(await page.locator('link[rel="canonical"]').getAttribute('href'),'https://ijskra.github.io/concertante/program_note/');
+  assert.deepEqual(await page.locator('[data-note]').evaluateAll(notes=>notes.map(note=>note.dataset.note)),['sonata','concerto-grosso','concertante']);
+  assert.equal(await page.locator('[data-section="from-the-composer"] blockquote').textContent(),'바로크에는 있을 수 없었던 바로크 음악.');
+  assert.equal(await page.locator('a.home').getAttribute('href'),'/concertante/');
+  assert.equal(await page.locator('a.back').getAttribute('href'),'/concertante/');
+  assert.equal(await page.locator('a.buy').getAttribute('href'),'https://www.lotteconcerthall.com/product/performance/261250');
+  assert.equal(await page.locator('.hero img[data-venue="lotte-concert-hall"]').count(),1,'The cover must show the venue with its official logotype');
+  assert.equal(await page.locator('.info img[data-venue="lotte-concert-hall"]').count(),1);
+  assert(!(await page.locator('.hero').innerText()).includes('롯데콘서트홀'),'The venue must not be set in type on the cover');
+  assert(await page.locator('img[data-venue]').evaluateAll(images=>images.every(img=>{
+   const rect=img.getBoundingClientRect(),style=getComputedStyle(img);
+   // The SVG is 275.05 x 44.80; naturalWidth/naturalHeight round that to 275 x 45.
+   return Math.abs(rect.width/rect.height-275.05/44.8)<0.02&&rect.width*(314.39/366.39)>=36&&
+    rect.left>=0&&rect.right<=innerWidth&&style.filter==='none'&&style.opacity==='1';
+  })),'Lotte logotype must keep its proportions and colour and exceed the official web minimum');
+  assert(await page.locator('.movements>span>span').evaluateAll(units=>units.every(unit=>{
+   const box=unit.getBoundingClientRect(),row=unit.closest('.movements').getBoundingClientRect();
+   return box.right<=row.right+1;
+  })),'Movement names must not be clipped');
+  assert(await page.evaluate(()=>document.fonts.check('400 44px "ConcertanteOriginalMaru"','프로그램 노트')),'Programme note title font must load');
+  await page.screenshot({path:path.join(root,`test-results/concertante-program-note-${width}.png`),fullPage:true});
+  await context.close();
+ }
+ console.log('PASS: Concertante programme note at 320/390/1024/1440px, three notes, composer quote, official venue logotype, links back to the landing page and no-JS content');
  const context=await browser.newContext({javaScriptEnabled:false,viewport:{width:390,height:844}});
  const page=await context.newPage();await page.goto(base);await page.locator('summary').first().focus();await page.keyboard.press('Enter');assert(await page.locator('details').first().evaluate(el=>el.open));
  await page.locator('.language-link').click();assert.equal(await page.locator('html').getAttribute('lang'),'en');await context.close();
