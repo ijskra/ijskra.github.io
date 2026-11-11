@@ -155,7 +155,7 @@ const server=http.createServer((req,res)=>{
   assert(await page.locator('img').evaluateAll(images=>images.every(img=>img.complete&&img.naturalWidth>0)),'Sources page images must load');
   assert.equal(await page.locator('link[rel="canonical"]').getAttribute('href'),'https://ijskra.github.io/concertante/program_note/sources/');
   assert.deepEqual(await page.locator('[data-group]').evaluateAll(groups=>groups.map(group=>group.dataset.group)),['introduction','sonata','concerto-grosso','concertante']);
-  assert(await page.locator('[data-entry]').evaluateAll(entries=>entries.length>=10&&entries.every(entry=>entry.querySelector('.lemma')&&entry.querySelector('.prose p'))),'Every entry needs the phrase from the note and its explanation');
+  assert(await page.locator('[data-entry]').evaluateAll(entries=>entries.length>=10&&entries.every(entry=>entry.querySelector('.lemma')&&(entry.querySelector('.orig')||entry.querySelector('.src')))),'Every entry needs the phrase from the note and its original or source');
   assert(await page.locator('.orig').evaluateAll(quotes=>quotes.every(quote=>{
    const box=quote.getBoundingClientRect();
    return quote.lang&&quote.scrollWidth<=quote.clientWidth+1&&box.left>=0&&box.right<=innerWidth;
