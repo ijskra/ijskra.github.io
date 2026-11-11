@@ -43,3 +43,23 @@ No CSS filters, opacity or blend modes are applied.
   renders visibly lighter and smaller than the hinted glyphs next to it on
   Windows. When adding names, check the subset covers every character, or
   extend that supplement.
+
+## Programme note page
+
+- `/concertante/program_note/` mirrors the printed programme (proof of
+  2026-11-11): INTRODUCTION, PROGRAM, the three notes and the composer's line.
+  It is a hand-written page with its own small stylesheet, on the same tokens
+  as the landing page (ground #160f10, text #f3ede6 / #e8dfda / #bfb2ae, plum
+  #635153, 390px column). A longer text will replace the notes later.
+- The venue appears as the official LOTTE Concert Hall logotype, never set in
+  type: under the date on the cover (12px high) and in 장소 (13px high), the
+  same two places and sizes as the landing page.
+- Its `@font-face` rules are copied verbatim from `concertante/index.html`
+  (Cormorant, Maru Buri Regular and its 13-character supplement). Maru Buri is
+  used only for 프로그램 노트 and 오정웅; check the subset before setting any
+  other string in it. Everything else is Noto Serif KR / Noto Sans KR.
+- Movement names (PROGRAM on both pages): each name is its own nowrap span and
+  the middle dots are drawn by `::before`, clipped at line starts, so no line
+  begins or ends on a separator.
+- Body text carries `font-feature-settings:"halt"` so the full-width brackets
+  〈 〉 「 」 of Noto Serif KR sit on half widths next to Hangul.
