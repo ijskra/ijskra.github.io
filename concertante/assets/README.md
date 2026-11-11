@@ -46,7 +46,7 @@ No CSS filters, opacity or blend modes are applied.
 
 ## Programme note page
 
-- `/concertante/program_note/` mirrors the printed programme (proof of
+- `/concertante/notes/` mirrors the printed programme (proof of
   2026-11-11): INTRODUCTION, PROGRAM and the three notes. By the owner's choice
   it carries no booking link and no FROM THE COMPOSER line.
   It is a hand-written page with its own small stylesheet, on the same tokens
@@ -75,7 +75,7 @@ No CSS filters, opacity or blend modes are applied.
 
 ## Sources page
 
-- `/concertante/program_note/sources/` (자세한 이야기) shows where the words of
+- `/concertante/program_note/` (자세한 이야기) shows where the words of
   the programme note come from. Entries are grouped like the note
   (INTRODUCTION, I, II, III). Each entry has the phrase from the note
   (`.lemma`), the original-language text or the title of the work (`.orig`,
