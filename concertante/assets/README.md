@@ -55,9 +55,15 @@ No CSS filters, opacity or blend modes are applied.
   type: under the date on the cover (12px high) and in 장소 (13px high), the
   same two places and sizes as the landing page.
 - Its `@font-face` rules are copied verbatim from `concertante/index.html`
-  (Cormorant, Maru Buri Regular and its 13-character supplement). Maru Buri is
-  used only for 프로그램 노트 and 오정웅; check the subset before setting any
-  other string in it. Everything else is Noto Serif KR / Noto Sans KR.
+  (Cormorant, Maru Buri Regular and its 13-character supplement, Cinzel). Maru
+  Buri is used only for 프로그램 노트 and 오정웅; check the subset before
+  setting any other string in it. Everything else is Noto Serif KR / Noto Sans
+  KR.
+- Latin section labels on both pages (CONCERTANTE, PROGRAM, INTERMISSION,
+  PROGRAM NOTE, INTRODUCTION, NOTES, FROM THE COMPOSER) are set in the embedded
+  Cinzel subset (400, letter-spacing .24em), the label face of the printed
+  programme. Korean role labels (첼로, 작곡·하프시코드, 연주) stay in Noto Sans
+  KR 600.
 - Movement names (PROGRAM on both pages): each name is its own nowrap span and
   the middle dots are drawn by `::before`, clipped at line starts, so no line
   begins or ends on a separator.

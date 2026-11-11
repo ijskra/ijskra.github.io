@@ -83,6 +83,7 @@ const server=http.createServer((req,res)=>{
   await page.locator('[data-funding-credits]').screenshot({path:path.join(root,`test-results/concertante-sponsors-${width}.png`)});
 
   assert(await page.evaluate(()=>document.fonts.check('300 128px "ConcertanteOriginalCormorant"','11.16')),'Concertante date font must load');
+  assert(await page.evaluate(()=>document.fonts.check('400 12px "ConcertanteOriginalCinzel"','PROGRAM')),'Concertante label font must load');
   assert.equal(await page.locator('link[rel="canonical"]').getAttribute('href'),'https://ijskra.github.io/concertante/');
   assert.equal(await page.locator('a').filter({hasText:'예매하기'}).getAttribute('href'),'https://www.lotteconcerthall.com/product/performance/261250');
   assert.equal(await page.locator('[data-program-note-link]').getAttribute('href'),'/concertante/program_note/');
@@ -133,6 +134,7 @@ const server=http.createServer((req,res)=>{
    return box.right<=row.right+1;
   })),'Movement names must not be clipped');
   assert(await page.evaluate(()=>document.fonts.check('400 44px "ConcertanteOriginalMaru"','프로그램 노트')),'Programme note title font must load');
+  assert(await page.evaluate(()=>document.fonts.check('400 12px "ConcertanteOriginalCinzel"','PROGRAM NOTE')),'Programme note label font must load');
   await page.screenshot({path:path.join(root,`test-results/concertante-program-note-${width}.png`),fullPage:true});
   await context.close();
  }
