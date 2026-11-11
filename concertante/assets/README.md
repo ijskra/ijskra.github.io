@@ -77,9 +77,9 @@ No CSS filters, opacity or blend modes are applied.
 - `/concertante/program_note/sources/` (자세한 이야기) shows where the words of
   the programme note come from. Entries are grouped like the note
   (INTRODUCTION, I, II, III). Each entry has the phrase from the note
-  (`.lemma`), where there is one the original-language text (`.orig`, with its
-  `lang`) and a Korean rendering (`.ko`), a short explanation, and the source
-  line (`.src`). It ends with IN MEMORIAM Stanley Ritchie.
+  (`.lemma`), the original-language text or the title of the work (`.orig`,
+  with its `lang`), a Korean rendering (`.ko`) and the source line (`.src`).
+  There are no explanations and no lead paragraph, by the owner's choice.
 - Texts in copyright (Eco 1983, Barthes 1977, Merleau-Ponty 1945, Bukofzer
   1947) are quoted for a few words only or paraphrased; the long quotations
   are from Mattheson, Monteverdi, Berardi, Augustine and Corelli's title page.
@@ -92,10 +92,4 @@ No CSS filters, opacity or blend modes are applied.
 - The title 자세한 이야기 is set in Maru Buri. The embedded subsets lack 야, so
   the page carries a third `@font-face` limited to U+C57C, built from Maru Buri
   Regular v2.000 the same way as the 13-character supplement (hinting kept,
-  vertical metrics and `gasp` of the v1.000 face). Stanley Ritchie's name is
-  set in Cormorant because the subsets lack 탠 and 치.
-- The photograph of Stanley Ritchie must be one the owner holds the rights to
-  or has permission for. Until it is supplied the figure carries
-  `data-photo-pending` and a visible placeholder; the browser test prints a
-  warning. Do not publish the page in that state: put the photo in (toned to
-  the page like the other portraits, with its credit) or remove the figure.
+  vertical metrics and `gasp` of the v1.000 face).

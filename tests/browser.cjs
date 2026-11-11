@@ -141,7 +141,6 @@ const server=http.createServer((req,res)=>{
  }
  console.log('PASS: Concertante programme note at 320/390/1024/1440px, three notes, composer quote, official venue logotype, links back to the landing page and no-JS content');
  // The sources page gives the originals behind the programme note; it must also read without JavaScript.
- let photoPending=false;
  for(const width of [320,390,1024,1440]){
   const context=await browser.newContext({javaScriptEnabled:false,viewport:{width,height:900}});
   const page=await context.newPage();
@@ -160,7 +159,6 @@ const server=http.createServer((req,res)=>{
    const box=quote.getBoundingClientRect();
    return quote.lang&&quote.scrollWidth<=quote.clientWidth+1&&box.left>=0&&box.right<=innerWidth;
   })),'Original-language quotations must carry their language and fit the column');
-  assert.equal(await page.locator('[data-section="in-memoriam"] h2').textContent(),'Stanley Ritchie');
   assert.equal(await page.locator('a.home').getAttribute('href'),'/concertante/');
   assert.equal(await page.locator('.head a.label').getAttribute('href'),'/concertante/program_note/');
   assert.equal(await page.locator('a.back').getAttribute('href'),'/concertante/program_note/');
@@ -174,11 +172,9 @@ const server=http.createServer((req,res)=>{
   })),'Lotte logotype must keep its proportions and colour and exceed the official web minimum');
   assert(await page.evaluate(()=>document.fonts.check('400 44px "ConcertanteOriginalMaru"','자세한 이야기')),'Sources title font must load, including the supplement for 야');
   assert(await page.evaluate(()=>document.fonts.check('400 19px "ConcertanteOriginalCormorant"','Cum ergo sit in medio')),'Quotation font must load');
-  photoPending=photoPending||await page.locator('[data-photo-pending]').count()>0;
   await page.screenshot({path:path.join(root,`test-results/concertante-sources-${width}.png`),fullPage:true});
   await context.close();
  }
- if(photoPending)console.warn('WARN: the Stanley Ritchie photo on the sources page is still a placeholder; do not publish it like this');
  console.log('PASS: Concertante sources page at 320/390/1024/1440px, four groups of entries, quotations within the column, links back to the programme note and no-JS content');
  const context=await browser.newContext({javaScriptEnabled:false,viewport:{width:390,height:844}});
  const page=await context.newPage();await page.goto(base);await page.locator('summary').first().focus();await page.keyboard.press('Enter');assert(await page.locator('details').first().evaluate(el=>el.open));
