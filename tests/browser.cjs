@@ -120,7 +120,7 @@ const server=http.createServer((req,res)=>{
   assert.equal(await page.locator('a.home').getAttribute('href'),'/concertante/');
   assert.equal(await page.locator('a.back').getAttribute('href'),'/concertante/');
   assert.equal(await page.locator('a[href*="lotteconcerthall.com"]').count(),0,'The programme note carries no booking link');
-  assert.deepEqual(await page.locator('[data-sources-link]').evaluateAll(links=>links.map(link=>link.getAttribute('href'))),['/concertante/program_note/','/concertante/program_note/']);
+  assert.equal(await page.locator('a[href^="/concertante/program_note"]').count(),0,'The printed note does not link to the sources page');
   assert.equal(await page.locator('.hero img[data-venue="lotte-concert-hall"]').count(),1,'The cover must show the venue with its official logotype');
   assert.equal(await page.locator('.info img[data-venue="lotte-concert-hall"]').count(),1);
   assert(!(await page.locator('.hero').innerText()).includes('롯데콘서트홀'),'The venue must not be set in type on the cover');
