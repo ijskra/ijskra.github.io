@@ -51,9 +51,8 @@ No CSS filters, opacity or blend modes are applied.
   it carries no booking link and no FROM THE COMPOSER line.
   It is a hand-written page with its own small stylesheet, on the same tokens
   as the landing page (ground #160f10, text #f3ede6 / #e8dfda / #bfb2ae, plum
-  #635153, 390px column). The QR code in the printed programme points here,
-  so the page keeps this address; the detail lives one link further on (a row
-  under the cover and a button after the notes, both `data-sources-link`).
+  #635153, 390px column). It is linked from the landing page only and does not
+  link to the sources page.
 - The venue appears as the official LOTTE Concert Hall logotype, never set in
   type: under the date on the cover (12px high) and in 장소 (13px high), the
   same two places and sizes as the landing page.
@@ -75,7 +74,8 @@ No CSS filters, opacity or blend modes are applied.
 
 ## Sources page
 
-- `/concertante/program_note/` (자세한 이야기) shows where the words of
+- `/concertante/program_note/` (자세한 이야기) is where the QR code in the
+  printed programme points; keep the address. It shows where the words of
   the programme note come from. Entries are grouped like the note
   (INTRODUCTION, I, II, III). Each entry has the phrase from the note
   (`.lemma`), the original-language text or the title of the work (`.orig`,
