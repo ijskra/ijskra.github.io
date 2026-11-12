@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>출력용 악보</title>
+<style>
+:root{--paper:#eee9f1;--ink:#3d3147;--muted:#706079;--accent:#74528c}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.6 'Noto Serif KR',serif}
+main{max-width:560px;margin:0 auto;padding:48px 16px}
+h1{font-size:22px;margin:0 0 4px}
+p{margin:0 0 28px;color:var(--muted);font-size:14px}
+form{display:flex;gap:8px;margin:0 0 12px}
+input{flex:1;min-width:0;padding:14px 16px;font:inherit;border:1px solid var(--accent);border-radius:6px;background:#fff;color:var(--ink)}
+button{padding:14px 20px;font:inherit;border:1px solid var(--accent);border-radius:6px;background:var(--accent);color:#fff;cursor:pointer}
+button:disabled{opacity:.6;cursor:wait}
+#msg{min-height:1.6em;font-size:14px;color:var(--muted);margin:0 0 20px}
+.item{padding:18px 20px;margin:0 0 12px;border:1px solid var(--accent);border-radius:6px;color:var(--accent)}
+.item b{font-weight:normal;font-size:17px;display:block}
+.item small{display:block;color:var(--muted);font-size:13px;margin:2px 0 10px}
+.item a{color:var(--accent);margin-right:18px}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<main>
+<h1>출력용 악보</h1>
+<p>Concertante · 2026. 11.</p>
+
+<div id="gate">
+<form id="f">
+<input id="pw" type="password" inputmode="numeric" autocomplete="off" placeholder="비밀번호" aria-label="비밀번호" required>
+<button id="go" type="submit">열기</button>
+</form>
+<div id="msg" role="status"></div>
+</div>
+
+<div id="list" hidden></div>
+</main>
+<script>
+const C={salt:'JZuZwVHTs6OO/Wl/jVi57w==',it:600000,check:'/OiqZjn/SfwAsJvaCG1PU6lBJDEi0f+plYc/zRTF'};
+const FILES=[
+ {f:'cello-sonata.bin',name:'첼로 소나타',sub:'총보 · 12쪽',dl:'첼로소나타_총보.pdf'},
+ {f:'concerto-grosso.bin',name:'콘체르토 그로소',sub:'총보 · 47쪽',dl:'콘체르토그로소_총보.pdf'},
+ {f:'concertante.bin',name:'콘체르탄테',sub:'총보 · 39쪽',dl:'콘체르탄테_총보.pdf'}
+];
+const b64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+const dec=(key,buf)=>crypto.subtle.decrypt({name:'AES-GCM',iv:buf.slice(0,12)},key,buf.slice(12));
+const msg=document.getElementById('msg'),go=document.getElementById('go');
+document.getElementById('f').addEventListener('submit',async e=>{
+ e.preventDefault();go.disabled=true;msg.textContent='여는 중…';
+ try{
+  const base=await crypto.subtle.importKey('raw',new TextEncoder().encode(document.getElementById('pw').value),'PBKDF2',false,['deriveKey']);
+  const key=await crypto.subtle.deriveKey({name:'PBKDF2',salt:b64(C.salt),iterations:C.it,hash:'SHA-256'},base,{name:'AES-GCM',length:256},false,['decrypt']);
+  try{await dec(key,b64(C.check))}catch{msg.textContent='비밀번호가 맞지 않습니다.';go.disabled=false;return}
+  msg.textContent='악보를 불러오는 중…';
+  const list=document.getElementById('list');
+  for(const x of FILES){
+   const r=await fetch(x.f,{cache:'no-cache'});
+   const pdf=await dec(key,new Uint8Array(await r.arrayBuffer()));
+   const url=URL.createObjectURL(new Blob([pdf],{type:'application/pdf'}));
+   const d=document.createElement('div');d.className='item';
+   d.innerHTML='<b></b><small></small><a target="_blank" rel="noopener">열어서 인쇄</a><a>내려받기</a>';
+   d.querySelector('b').textContent=x.name;d.querySelector('small').textContent=x.sub;
+   const [o,s]=d.querySelectorAll('a');o.href=url;s.href=url;s.download=x.dl;
+   list.appendChild(d);
+  }
+  document.getElementById('gate').hidden=true;list.hidden=false;
+ }catch(err){msg.textContent='불러오지 못했습니다. 새로고침 후 다시 시도해 주세요.';go.disabled=false}
+});
+</script>
+</body>
+</html>
