@@ -85,7 +85,8 @@ const server=http.createServer((req,res)=>{
   assert(await page.evaluate(()=>document.fonts.check('300 128px "ConcertanteOriginalCormorant"','11.16')),'Concertante date font must load');
   assert(await page.evaluate(()=>document.fonts.check('400 12px "ConcertanteOriginalCinzel"','PROGRAM')),'Concertante label font must load');
   assert.equal(await page.locator('link[rel="canonical"]').getAttribute('href'),'https://ijskra.github.io/concertante/');
-  assert.equal(await page.locator('a').filter({hasText:'예매하기'}).getAttribute('href'),'https://www.lotteconcerthall.com/product/performance/261250');
+  assert.equal(await page.locator('a[href*="lotteconcerthall.com"]').count(),0,'The concert is over: the landing page carries no booking link');
+  assert(!/예매|가격/.test(await page.locator('body').innerText()),'The concert is over: no booking prompt or ticket price');
   assert.equal(await page.locator('[data-program-note-link]').getAttribute('href'),'/concertante/notes/');
   assert.equal(await page.locator('[data-movements]').count(),2);
   assert(await page.locator('[data-movements]>span>span').evaluateAll(units=>units.every(unit=>{
@@ -100,7 +101,7 @@ const server=http.createServer((req,res)=>{
   await page.screenshot({path:path.join(root,`test-results/concertante-${width}.png`),fullPage:true});
   await context.close();
  }
- console.log('PASS: Concertante at 320/390/1024/1440px, official sponsor and venue logos without clipping/distortion, date font loading, booking link and no-JS content');
+ console.log('PASS: Concertante at 320/390/1024/1440px, official sponsor and venue logos without clipping/distortion, date font loading, no booking link or price and no-JS content');
 
  // The programme note mirrors the printed programme and must also read without JavaScript.
  for(const width of [320,390,1024,1440]){
@@ -120,6 +121,7 @@ const server=http.createServer((req,res)=>{
   assert.equal(await page.locator('a.home').getAttribute('href'),'/concertante/');
   assert.equal(await page.locator('a.back').getAttribute('href'),'/concertante/');
   assert.equal(await page.locator('a[href*="lotteconcerthall.com"]').count(),0,'The programme note carries no booking link');
+  assert(!(await page.locator('.info').innerText()).includes('가격'),'The concert is over: no ticket price');
   assert.equal(await page.locator('a[href^="/concertante/program_note"]').count(),0,'The printed note does not link to the sources page');
   assert.equal(await page.locator('.hero img[data-venue="lotte-concert-hall"]').count(),1,'The cover must show the venue with its official logotype');
   assert.equal(await page.locator('.info img[data-venue="lotte-concert-hall"]').count(),1);
@@ -162,6 +164,8 @@ const server=http.createServer((req,res)=>{
   assert.equal(await page.locator('a.home').getAttribute('href'),'/concertante/');
   assert.equal(await page.locator('a[href="/concertante/notes/"]').count(),0,'The sources page does not link to the printed note');
   assert.equal(await page.locator('a[href*="lotteconcerthall.com"]').count(),0,'The sources page carries no booking link');
+  assert.equal(await page.locator('#review, a[href="#review"], a[href*="docs.google.com"]').count(),0,'The review lottery has ended: no review block or form link');
+  assert(!(await page.locator('.info').innerText()).includes('가격'),'The concert is over: no ticket price');
   assert.equal(await page.locator('.info img[data-venue="lotte-concert-hall"]').count(),1);
   assert(!(await page.locator('.head').innerText()).includes('롯데콘서트홀'),'The venue must not be set in type');
   assert(await page.locator('img[data-venue]').evaluateAll(images=>images.every(img=>{

@@ -31,7 +31,6 @@ a:focus-visible{outline:2px solid currentColor;outline-offset:4px}
 .label{margin:0;font-family:'ConcertanteOriginalCinzel','Noto Sans KR',serif;font-size:12px;font-weight:400;letter-spacing:.24em;line-height:1.5;color:#bfb2ae}
 .topbar{display:flex;justify-content:space-between;align-items:center;padding:18px 20px 0}
 .topbar .home{font-family:'ConcertanteOriginalCinzel','Noto Sans KR',serif;font-size:12px;font-weight:400;letter-spacing:.24em;line-height:1.5;color:#f3ede6;text-decoration:none}
-.topbar .book{padding:9px 14px;border:1px solid rgba(243,237,230,.55);font-family:'Noto Sans KR',sans-serif;font-size:13px;font-weight:500;line-height:1;color:#f3ede6;text-decoration:none}
 .head{padding:84px 20px 0}
 .head .label{display:inline-block;color:#e8dfda;text-decoration:none}
 .head h1{margin:8px 0 0;font-family:ConcertanteOriginalMaru,serif;font-weight:400;font-size:44px;line-height:1.2;color:#f3ede6}
@@ -76,14 +75,6 @@ a:focus-visible{outline:2px solid currentColor;outline-offset:4px}
 .info dt{color:#e8dfda}
 .info dd{margin:0;color:#f3ede6}
 .info dd img{display:block;width:auto;height:13px}
-.info .buy{margin-top:28px;height:56px;padding:0 20px;display:flex;align-items:center;justify-content:space-between;background:#f3ede6;color:#160f10;font-family:'Noto Serif KR',serif;font-size:16px;font-weight:600;line-height:normal;text-decoration:none}
-/* After-the-concert review lottery, inside the plum info block. */
-.review{margin-top:44px;padding-top:26px;border-top:1px solid rgba(243,237,230,.3);scroll-margin-top:24px}
-.review .label{color:#e8dfda}
-.review h2{margin:10px 0 0;font-family:'Noto Serif KR',serif;font-size:20px;font-weight:400;line-height:1.4;color:#f3ede6}
-.review .text{margin:14px 0 0;font-size:15px;line-height:1.85;color:#e8dfda;font-feature-settings:"lnum" 1,"halt" 1}
-.review dl{margin-top:18px}
-.review .note{margin:12px 0 0;font-family:'Noto Sans KR',sans-serif;font-size:12px;font-weight:400;line-height:1.7;color:#e8dfda}
 .credits{margin-top:40px;font-family:'Noto Sans KR',sans-serif;color:#e8dfda}
 .credits p{margin:0;font-size:11px;font-weight:400;line-height:1.7}
 .credits .logos{margin-top:18px;display:flex;align-items:center;gap:18px}
@@ -94,7 +85,6 @@ a:focus-visible{outline:2px solid currentColor;outline-offset:4px}
 <div class="page" id="concertante-sources">
   <div class="topbar">
     <a class="home" href="/concertante/" aria-label="콘체르탄테 공연 안내로 돌아가기">CONCERTANTE</a>
-    <a class="book" href="#review">후기 남기기</a>
   </div>
   <header class="head">
     <p class="label">PROGRAM NOTE</p>
@@ -222,19 +212,7 @@ a:focus-visible{outline:2px solid currentColor;outline-offset:4px}
     <dl>
       <dt>일시</dt><dd>2026. 11. 16. 월 오전 11:30</dd>
       <dt>장소</dt><dd><img src="/concertante/assets/lotte-concert-hall-kr-white.svg" alt="롯데콘서트홀" width="275" height="45" data-venue="lotte-concert-hall"></dd>
-      <dt>가격</dt><dd>R석 20,000원 · S석 10,000원</dd>
     </dl>
-    <section class="review" id="review" aria-label="공연 후기 추첨">
-      <p class="label">AFTER THE CONCERT</p>
-      <h2>어떻게 들으셨는지 들려주세요</h2>
-      <p class="text">공연을 보신 뒤 후기를 남겨 주시면 추첨으로 다섯&nbsp;분께 작은 선물을 드립니다.<br>한 줄이어도 좋습니다.</p>
-      <dl>
-        <dt>기간</dt><dd>공연 뒤부터 11. 22. 일까지</dd>
-        <dt>발표</dt><dd>11. 25. 수 · 당첨되신 분께 연락</dd>
-      </dl>
-      <a class="buy" href="https://docs.google.com/forms/d/e/1FAIpQLScnycH1yYlXdn8LOysyBmrADPeWNPzC4XHucYzG5241m2t_8g/viewform" target="_blank" rel="noopener noreferrer">후기 남기기<span aria-hidden="true">→</span></a>
-      <p class="note">당첨 안내를 위해 연락처를 받습니다.<br>발표와 선물 발송을 마치면 바로 지웁니다.</p>
-    </section>
     <section class="credits" data-funding-credits="true" aria-label="주최·주관·후원 및 선정사업">
       <p data-organizer-credits="true">주최 오정웅 · 주관 오정웅/피아올라 · <span data-sponsor-credit="true">후원 서울특별시, 서울문화재단</span><br><span data-selection-project="true">2026년 서울문화재단 예술창작활동지원 선정 프로젝트</span></p>
       <div class="logos" data-sponsor-logos="true" aria-label="주관 및 후원기관 로고">
