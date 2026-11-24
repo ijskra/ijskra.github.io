@@ -8,20 +8,21 @@
     "장소_영문": "Lotte Concert Hall, Seoul",
     "내용": "롯데콘서트홀 마티네 콘서트. 첼로 홍승아, 앙상블GEM. 서울문화재단 예술창작활동지원",
     "링크": "",
-    "공개": "Y",
-    "비고": "2026-09-17 확정 (일시 변경: 11-28 → 11-16)"
+    "공개": "N",
+    "비고": "2026-09-17 확정 (일시 변경: 11-28 → 11-16). 2026-11-16 공연 종료 — 예정 소식에서 내리고 연주 p07·작품 w14~w16으로 옮김"
   },
   {
     "id": "n01",
-    "일자": "2026-11",
+    "일자": "2026-11-26 ~ 12-03",
+    "종료일": "2026-12-03",
     "제목_국문": "영화 〈당신을 위한 것은 아닌〉 — 서울독립영화제2026 본선 장편경쟁 상영",
-    "제목_영문": "Not For You at Seoul Independent Film Festival 2026 (Feature Competition)",
-    "장소_국문": "서울",
-    "장소_영문": "Seoul",
-    "내용": "11월 말 상영 예정. 음악감독(작곡·편곡·연주). 감독 신동민",
-    "내용_영문": "Screening in late November. Music director (composition, arrangement & performance). Directed by Dong-min Shin",
-    "링크": "https://siff.kr/notice/서울독립영화제2026-본선-장편경쟁-부문-상영작-발표/",
+    "제목_영문": "Not for You at the Seoul Independent Film Festival 2026 (Feature Competition)",
+    "장소_국문": "CGV압구정, 서울",
+    "장소_영문": "CGV Apgujeong, Seoul",
+    "내용": "11월 26일(목) 14:20, 28일(토) 20:00, 12월 3일(목) 12:20 상영. 음악감독(작곡·편곡·연주). 감독 신동민",
+    "내용_영문": "Screenings on 26 November 14:20, 28 November 20:00 and 3 December 12:20, with English subtitles. Music director (composition, arrangement & performance). Directed by Dongmin Shin",
+    "링크": "https://siff.kr/films/당신을-위한-것은-아닌/",
     "공개": "Y",
-    "비고": "부산국제영화제 상영 완료 후 예정 소식을 서울독립영화제로 갱신. 서울독립영화제2026 공식 개최 기간 2026-11-25~12-04. 개별 상영 일시·극장은 추후 안내. 11월 말 상영 예정은 사용자 제공 정보."
+    "비고": "부산국제영화제 상영 완료 후 예정 소식을 서울독립영화제로 갱신. 서울독립영화제2026 공식 개최 기간 2026-11-25~12-04. 상영 일시·극장과 영문 표기(Not for You, SHIN Dongmin)는 서울독립영화제 공식 작품 페이지 기준(2026-11-24 확인). 종료일(마지막 상영일)이 지나면 사이트의 '예정'에서 스스로 내려간다."
   }
 ]

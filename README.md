@@ -5,24 +5,39 @@
 ## 콘텐츠 수정
 
 1. `data/*.json`에서 소개, 작품, 공연, 연구, 소식을 수정합니다.
-2. Node.js 20 이상에서 `npm run build`를 실행합니다. 별도의 패키지 설치는 필요 없습니다.
+2. Node.js 20 이상에서 `npm run build`를 실행합니다. 별도의 패키지 설치는 필요 없습니다. Windows에서 줄바꿈이 CRLF로 체크아웃되어 있어도 결과는 같습니다.
 3. `npm test`와 `npm run test:content`를 실행합니다.
-4. 수정한 JSON과 생성된 `index.html`, `en/index.html`을 함께 커밋합니다. GitHub Pages의 기존 루트 배포 방식을 그대로 사용할 수 있습니다.
+4. 수정한 JSON과 생성된 `index.html`, `en/index.html`(그리고 바뀌었다면 `sitemap.xml`)을 함께 커밋합니다. GitHub Pages의 기존 루트 배포 방식을 그대로 사용할 수 있습니다. 홈에서 연결한 사이트 안 페이지(예: `/concertante/`)는 빌드가 `sitemap.xml`에 자동으로 넣습니다.
+
+공연이 끝난 예정 소식은 `data/news.json`에서 `"공개": "N"`으로 내리고, 같은 공연을 `data/performances.json`(연주)과 `data/works.json`(초연작)에 옮겨 적습니다.
+
+자주 쓰는 선택 항목:
+
+- 영문 표기: `길이_영문`, `연주자_영문`, `공연·행사_영문`, `프로그램·협연_영문`, `장소·지원_영문`처럼 `_영문`을 붙인 항목이 있으면 영문 페이지에 그 표기를 씁니다. 없으면 국문이 그대로 나가고 `lang="ko"`가 붙습니다. 다만 `지원기관_영문`과 `감독·연출_영문`은 확인된 영문 표기가 있을 때만 영문 페이지에 싣고, 없으면 그 항목이 영문 페이지에 나오지 않습니다. 확인되지 않은 표기는 `【…】`로 적어 두면 사이트에 나가지 않습니다.
+- `링크_영문`: 같은 곳의 영문 페이지가 따로 있으면(예: 부산국제영화제 작품 페이지의 `/eng/` 주소) 영문 페이지에서는 그 주소로 연결합니다.
+- 소식의 `"종료일": "2026-12-03"`(마지막 날, 반드시 `YYYY-MM-DD`): 이 날이 지나면 방문자 화면의 '예정'에서 스스로 내려가고, 남은 소식이 없으면 "예정된 소식이 없습니다."가 보입니다. `종료일`이 없어도 `일자`가 하루(`2026-11-16`, `2026-11-16 (월) 11:30`)이면 그 날짜를 씁니다. 기간(`2026-11-26 ~ 12-03`)이나 달만 적은 일자(`2026-11`)는 `종료일`을 적어야 스스로 내려갑니다. 형식이 틀린 `종료일`은 `npm test`가 알려 줍니다. 자바스크립트가 꺼진 화면에는 그대로 남으므로, 나중에 `"공개": "N"`으로 정리합니다.
+- 작품의 `"악장": ["Prelude", "Allemande"]`은 펼친 상세에 한 줄로 나옵니다.
+- 사이트 안 페이지 링크: 작품의 `"노트": "/concertante/notes/"`(프로그램 노트), 연주와 소식의 `"페이지": "/concertante/"`(공연 안내). `/`로 시작하는 주소(`#` 뒤 위치 지정 가능)는 같은 탭에서, `https://`는 새 탭에서 열립니다. `링크`는 바깥 주소용입니다.
+- `data/strings.json`: 검색·공유에 쓰이는 사이트 설명은 `site.description`, 전화기 폭에서 긴 메뉴 이름 대신 보일 짧은 이름은 `navshort.<구역>`(예: `navshort.performances`)에 적습니다.
 
 `src/component.html`은 기존 콘텐츠 변환 규칙을 보존한 빌드 입력입니다. 브라우저에서 실행하지 않습니다. 페이지의 HTML 조립은 `scripts/build.cjs`, 반응형 배치는 `assets/site.css`, 선택적 상호작용은 `assets/site.js`에서 관리합니다. `support.js`도 기존 자료로 보존하지만 페이지가 다운로드하지 않습니다.
 
 ## 이미지
 
-`portrait-700.webp`는 기존 PNG와 동일한 RGBA 픽셀을 보존한 무손실 WebP입니다. `portrait-350.webp`는 작은 화면용입니다. 원본 PNG는 공유 미리보기용으로 유지합니다. 첫 화면 사진은 지연 로딩하지 않으며, 악보는 PC에서 작품을 펼칠 때 로딩합니다.
+`portrait-700.webp`는 기존 PNG와 동일한 RGBA 픽셀을 보존한 무손실 WebP입니다. `portrait-350.webp`는 작은 화면용입니다. 원본 PNG는 WebP를 다시 만들 때의 원본으로 유지합니다. 첫 화면 사진은 지연 로딩하지 않으며, 악보는 PC에서 작품을 펼칠 때 로딩합니다.
 
 사진을 교체할 때는 Pillow 설치 후 `python scripts/optimize-images.py`로 두 WebP를 재생성합니다.
+
+파비콘은 오선 위의 음표를 그린 `assets/favicon.svg`와, 같은 그림의 PNG 두 장(`favicon-32.png`, 홈 화면용 `apple-touch-icon.png`)입니다.
+
+링크를 공유할 때 보이는 그림은 `assets/og-ko.jpg`, `assets/og-en.jpg`(1200×630)입니다. 사진·손글씨·이름·직함을 바꾼 뒤에는 `/scripts/share-card.html`을 브라우저로 열어 두 장을 다시 내려받아 덮어씁니다. 오려 낸 `photo-lines-cut.png`는 종이 위에 겹쳐 쓰는 용도라 공유 그림으로는 쓰지 않습니다.
 
 Claude 등 AI 도구에서 받은 이미지와 SVG에는 C2PA 서명(콘텐츠 자격증명)이 붙어 올 수 있습니다. 새 파일을 넣은 뒤 `npm run strip-credentials`로 지웁니다. 서명만 지우고 픽셀과 EXIF는 그대로 둡니다.
 
 ## 검증
 
-- `npm test`: 생성된 HTML 콘텐츠, 메타데이터, 링크, 초기 이미지 요청, 재현 가능한 빌드, HTML 이스케이프, 이미지에 남은 C2PA 서명을 검사합니다.
+- `npm test`: 생성된 HTML 콘텐츠, 메타데이터와 공유 그림, 링크(바깥 링크는 새 탭, 사이트 안 링크는 같은 탭), 영문 페이지에 섞인 한글의 `lang` 표시, 소식 종료일, 초기 이미지 요청, 재현 가능한 빌드(Windows 줄바꿈 포함), HTML 이스케이프, 이미지에 남은 C2PA 서명을 검사합니다.
 - `npm run test:content`: 기존 콘텐츠 변환 및 배치 계산의 회귀 검사입니다. 실제 CSS 렌더링 검사는 아닙니다.
-- `npm install --no-save --package-lock=false playwright@1.51.1` 후 `npx playwright install chromium`, `npm run test:browser`: 국문·영문 320~1440px, 펼침, 내비게이션, JavaScript 비활성 상태와 스크린샷을 검사합니다.
+- `npm install --no-save --package-lock=false playwright@1.51.1` 후 `npx playwright install chromium`, `npm run test:browser`: 국문·영문 320~1440px, 펼침, 내비게이션, JavaScript 비활성 상태와 스크린샷을 검사합니다. Playwright 브라우저를 내려받기 어려우면 설치된 Edge로도 돌릴 수 있습니다(`chromium.launch`에 `channel: 'msedge'`를 넘기는 작은 래퍼로 `tests/browser.cjs`를 불러 실행).
 
 배포 전 실제 브라우저 화면을 확인해야 합니다. 연락처의 기존 `#` CV 링크는 파일이 연결되지 않아 출력하지 않습니다.

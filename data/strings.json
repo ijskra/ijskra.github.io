@@ -15,6 +15,10 @@
     "국문": "작곡가 · 하프시코드 연주자 · 프로듀서",
     "영문": "Composer · Harpsichordist · Producer"
   },
+  "site.description": {
+    "국문": "작곡가·하프시코드 연주자 오정웅의 공식 홈페이지. 하프시코드와 오케스트라 작품, 미분음·전자음악, 영화·무대 음악, 연구, 공연 소식을 소개합니다.",
+    "영문": "The official website of composer and harpsichordist OH Jung-Woong: works for harpsichord and orchestra, microtonal and electronic music, film and stage music, research and concert news."
+  },
   "nav.about": {
     "국문": "소개",
     "영문": "About"
@@ -26,6 +30,10 @@
   "nav.performances": {
     "국문": "연주·음악감독",
     "영문": "Performance & Music Direction"
+  },
+  "navshort.performances": {
+    "국문": "연주·음악감독",
+    "영문": "Performance"
   },
   "nav.research": {
     "국문": "연구",
@@ -99,6 +107,50 @@
     "국문": "악보",
     "영문": "Score"
   },
+  "label.movements": {
+    "국문": "악장",
+    "영문": "Movements"
+  },
+  "label.repeat": {
+    "국문": "재연",
+    "영문": "Later performances"
+  },
+  "label.support": {
+    "국문": "지원기관",
+    "영문": "Supported by"
+  },
+  "label.director": {
+    "국문": "감독·연출",
+    "영문": "Director"
+  },
+  "label.program_note": {
+    "국문": "프로그램 노트",
+    "영문": "Program note (in Korean)"
+  },
+  "label.concert_page": {
+    "국문": "공연 안내",
+    "영문": "Concert page (in Korean)"
+  },
+  "type.film": {
+    "국문": "영화",
+    "영문": "Film"
+  },
+  "type.play": {
+    "국문": "연극",
+    "영문": "Play"
+  },
+  "type.paper": {
+    "국문": "논문",
+    "영문": "Paper"
+  },
+  "type.lecture": {
+    "국문": "강의",
+    "영문": "Lecture"
+  },
+  "type.talk": {
+    "국문": "구두 발표",
+    "영문": "Talk"
+  },
   "label.upcoming": {
     "국문": "예정",
     "영문": "Upcoming"
@@ -123,9 +175,25 @@
     "국문": "작곡·연주",
     "영문": "Composition & performance"
   },
+  "role.co_composition_performance": {
+    "국문": "공동 작곡·연주",
+    "영문": "Co-composition & performance"
+  },
+  "role.composition_harpsichord": {
+    "국문": "작곡·하프시코드 연주",
+    "영문": "Composition & harpsichord"
+  },
   "role.continuo": {
     "국문": "하프시코드 통주저음",
     "영문": "Harpsichord, basso continuo"
+  },
+  "role.synthesizer": {
+    "국문": "신디사이저",
+    "영문": "Synthesizer"
+  },
+  "role.piano": {
+    "국문": "피아노",
+    "영문": "Piano"
   },
   "role.music_director": {
     "국문": "음악감독",

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ko"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex, nofollow">
+<title>공유 미리보기 카드 만들기</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600&family=EB+Garamond:wght@400;600&display=swap">
+<style>body{margin:24px;background:#eee9f1;color:#3d3147;font:15px/1.7 'Noto Serif KR',serif}h1{font-size:19.5px;font-weight:500}canvas{display:block;max-width:100%;height:auto;margin:20px 0 6px;border:1px solid #cfc3d7}a{color:#74528c}code{font-size:13px}</style>
+</head><body>
+<h1>공유 미리보기 카드</h1>
+<p>링크를 공유할 때 함께 보이는 1200×630 그림입니다. 사이트에서(또는 저장소 루트에서 띄운 로컬 서버에서) 이 페이지를 열어 아래 두 장을 내려받고, <code>assets/og-ko.jpg</code>와 <code>assets/og-en.jpg</code>에 덮어씁니다. 이름과 직함은 <code>data/strings.json</code>에서, 손글씨와 사진은 <code>assets/</code>에서 읽습니다.</p>
+<div id="cards"></div>
+<script>
+// Draws the hero as a flat card: paper, five-line staves, handwriting, the portrait multiplied onto the paper, name and roles.
+(async () => {
+  const W = 1200, H = 630, P = H / 6, s = P / 69.55;                     // six staff periods high; s scales the page's 69.55px period
+  const image = src => new Promise((done, fail) => { const i = new Image(); i.onload = () => done(i); i.onerror = () => fail(new Error(src)); i.src = src; });
+  const [strings, hand, portrait, grain] = await Promise.all([
+    fetch('/data/strings.json').then(r => r.json()),
+    image('/assets/handwriting-jungwoong.svg'), image('/assets/portrait-700.webp'), image('/assets/grain.svg'),
+  ]);
+  const ko = k => strings[k]['국문'], en = k => strings[k]['영문'];
+  const cards = [
+    { file: 'og-ko.jpg', name: ko('site.name'), nameFont: '600 50px "Noto Serif KR"', sub: en('site.name'), subFont: '400 32px "EB Garamond"', role: ko('site.title'), roleFont: '400 27px "Noto Serif KR"' },
+    { file: 'og-en.jpg', name: en('site.name'), nameFont: '600 54px "EB Garamond"', sub: ko('site.name'), subFont: '400 29px "Noto Serif KR"', role: en('site.title'), roleFont: '400 31px "EB Garamond"' },
+  ];
+  for (const c of cards) {
+    await Promise.all([document.fonts.load(c.nameFont, c.name), document.fonts.load(c.subFont, c.sub), document.fonts.load(c.roleFont, c.role)]);
+    const canvas = document.createElement('canvas'); canvas.width = W; canvas.height = H;
+    const x = canvas.getContext('2d');
+    x.fillStyle = '#eee9f1'; x.fillRect(0, 0, W, H);
+    x.fillStyle = '#cfc3d7';                                             // five staves; the bottom band stays clear for the name
+    for (let k = 0; k < 5; k++) for (let i = 0; i < 5; i++) x.fillRect(0, Math.round(k * P + (20 + 6.5 * i) * s) - 30, W, Math.max(1, Math.round(0.8 * s)));
+    const ph = 3.95 * P, pw = ph * 700 / 870;
+    x.save(); x.globalCompositeOperation = 'multiply'; x.globalAlpha = 0.9; x.drawImage(portrait, W - 78 - pw, 0.42 * P, pw, ph); x.restore();
+    const hh = 2.35 * P;
+    x.drawImage(hand, 78, 0.72 * P, hh * 1207 / 430, hh);
+    x.textBaseline = 'alphabetic';
+    x.fillStyle = '#3d3147'; x.font = c.nameFont; x.fillText(c.name, 78, 540);
+    const nameWidth = x.measureText(c.name).width;
+    x.fillStyle = '#706079'; x.font = c.subFont; x.fillText(c.sub, 78 + nameWidth + 24, 540);
+    x.fillStyle = '#3d3147'; x.font = c.roleFont; x.fillText(c.role, 78, 590);
+    x.save(); x.globalAlpha = 0.65; x.fillStyle = x.createPattern(grain, 'repeat'); x.fillRect(0, 0, W, H); x.restore();
+    const blob = await new Promise(done => canvas.toBlob(done, 'image/jpeg', 0.92));
+    const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = c.file; link.textContent = c.file + ' 내려받기';
+    document.getElementById('cards').append(canvas, link);
+  }
+})();
+</script>
+</body></html>

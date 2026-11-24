@@ -1,0 +1,6 @@
+# scripts/build.cjs writes these with LF. Keep them LF in every checkout, so that building or testing on
+# Windows (core.autocrlf=true) does not show them as modified and matches the CI check byte for byte.
+/index.html text eol=lf
+/en/index.html text eol=lf
+/robots.txt text eol=lf
+/sitemap.xml text eol=lf

@@ -30,12 +30,14 @@ for (const lang of ['ko','en']) {
   assert(html.includes(`rel="canonical" href="${url}"`));
   for(const key of ['description','og:title','og:description','og:image','og:url','twitter:card'])assert(html.includes(`="${key}"`));
   for(const locale of ['ko','en','x-default'])assert(html.includes(`hreflang="${locale}"`));
+  const share=html.match(/property="og:image" content="https:\/\/ijskra\.github\.io\/([^"]+)"/);
+  assert(share&&fs.existsSync(path.join(root,share[1])),'The share image must exist in the repository');
   const person=JSON.parse(html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
   assert.equal(person['@type'],'Person');assert.equal(person.url,url);
  });
  test(`${lang}: local links resolve and offscreen scores are not fetched initially`,()=>{
   const html=read(file);
-  for(const m of html.matchAll(/(?:src|href|data-src)="(\/[^"#]*)"/g)){
+  for(const m of html.matchAll(/(?:src|href|data-src)="(\/[^"#]*)(?:#[^"]*)?"/g)){
    let local=m[1].slice(1).split('?')[0];if(!local||local.endsWith('/'))local+='index.html';
    assert(fs.existsSync(path.join(root,local)),`Missing ${local}`);
   }
@@ -44,10 +46,48 @@ for (const lang of ['ko','en']) {
   assert(!/<img src="[^"]*score/.test(html));
   assert.match(html,/class="portrait"[^>]+width="700" height="870"/);
  });
+ test(`${lang}: links say where they lead and borrowed Korean is marked`,()=>{
+  const html=read(file);
+  for(const m of html.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/g)){
+   const href=(m[1].match(/href="([^"]*)"/)||[])[1]||'';
+   if(/^https?:/.test(href)){
+    assert(/target="_blank" rel="noopener noreferrer"/.test(m[1]),`An outside link must open a new tab safely: ${href}`);
+    assert(/aria-label="/.test(m[1])||m[2].includes('class="visually-hidden"'),`A new-tab link must say so: ${href}`);
+   }else assert(!/target=/.test(m[1]),`A link inside the site must stay in the same tab: ${href}`);
+  }
+  if(lang==='en'){
+   const text=html.replace(/<script[\s\S]*?<\/script>/g,'').replace(/<(\w+)\b[^>]*\slang="ko"[^>]*>[^<]*<\/\1>/g,'').replace(/<[^>]+>/g,' ');
+   assert(!/[가-힣]/.test(text),'Korean shown on the English page must carry lang="ko"');
+  }
+ });
 }
+test('News with a last day can step down by itself',()=>{
+ const html=read('index.html');
+ const ok=v=>typeof v==='string'&&v.trim()!==''&&!v.includes('【');
+ const isDay=v=>/^\d{4}-\d{2}-\d{2}$/.test(v||'');
+ const singleDay=v=>/^\d{4}-\d{2}-\d{2}(?:\s*\([^)]*\))?(?:\s+\d{1,2}:\d{2})?\s*$/.test(v||'');
+ const news=JSON.parse(read('data/news.json'));
+ for(const r of news)if(ok(r['종료일']))assert(isDay(r['종료일']),`${r.id}: 종료일은 YYYY-MM-DD로 적습니다`);
+ const dated=news.filter(r=>r['공개']==='Y'&&(ok(r['종료일'])?isDay(r['종료일']):singleDay(r['일자'])));
+ assert.equal((html.match(/ data-until="\d{4}-\d{2}-\d{2}"/g)||[]).length,dated.length);
+ if(dated.length)assert.match(html,/<article class="record" data-news-empty hidden>/);
+});
+test('A Windows checkout (CRLF stylesheet and script) builds the same pages',()=>{
+ const temp=fs.mkdtempSync(path.join(os.tmpdir(),'homepage-crlf-'));
+ try{
+  for(const p of ['scripts','src','data','assets'])fs.cpSync(path.join(root,p),path.join(temp,p),{recursive:true});
+  for(const name of ['assets/site.css','assets/site.js']){
+   const file=path.join(temp,name);
+   fs.writeFileSync(file,fs.readFileSync(file,'utf8').replace(/\r?\n/g,'\r\n'));
+  }
+  execFileSync(process.execPath,['scripts/build.cjs'],{cwd:temp});
+  assert.equal(fs.readFileSync(path.join(temp,'index.html'),'utf8'),read('index.html').replace(/\r\n/g,'\n'));
+ }finally{fs.rmSync(temp,{recursive:true,force:true});}
+});
 test('Building is deterministic and generated outputs are current',()=>{
  const files=['index.html','en/index.html','robots.txt','sitemap.xml'];
- const before=files.map(read);execFileSync(process.execPath,['scripts/build.cjs'],{cwd:root});
+ // The build writes LF; a checkout made before .gitattributes existed may hold CRLF copies of the same content.
+ const before=files.map(p=>read(p).replace(/\r\n/g,'\n'));execFileSync(process.execPath,['scripts/build.cjs'],{cwd:root});
  files.forEach((p,i)=>assert.equal(read(p),before[i],`Rebuild and commit ${p}`));
 });
 test('Content is escaped and unsafe links never become executable HTML',()=>{
