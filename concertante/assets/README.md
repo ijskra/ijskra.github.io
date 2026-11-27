@@ -94,3 +94,30 @@ No CSS filters, opacity or blend modes are applied.
   the page carries a third `@font-face` limited to U+C57C, built from Maru Buri
   Regular v2.000 the same way as the 13-character supplement (hinting kept,
   vertical metrics and `gasp` of the v1.000 face).
+
+## Performance videos (cover entry and player)
+
+- The three premieres of 2026-11-16 are unlisted YouTube videos on the channel
+  OH Jung-Woong, gathered in one playlist (`PLT-mNQTi_ypg`; its visibility is the owner's setting):
+  I 첼로 소나타 `WYLQf53GKvk` (11:46), II 콘체르토 그로소 `LXGoekHrik4` (16:22),
+  III 첼로와 현악기들을 위한 콘체르탄테 `a13sUMmvzpE` (19:35). Lengths are what
+  the embedded player shows; change them with the videos.
+- Cover: the outlined 「영상」 box in the empty right slot of the top bar (the
+  place of the removed booking button) jumps to `#concertante-video`, the VIDEO
+  section after the programme note button: one 16:9 player and the three
+  pieces as rows. A row is a link whose `target` is the player iframe
+  (`name="concertante-film"`), so the piece changes in place without
+  JavaScript. The player and every row use the playlist (`list=`), so a piece
+  continues with the next one. `전곡 이어 보기 ↗` opens the playlist on YouTube.
+- CSP: the only change is `frame-src https://www.youtube-nocookie.com`.
+- **Referrer:** the page sends `no-referrer`, and YouTube answers "Error 153"
+  to an embed without a Referer. The iframe and every row link therefore carry
+  `referrerpolicy="strict-origin-when-cross-origin"` (YouTube receives only
+  `https://ijskra.github.io/`). A link without it fails when the player
+  switches to that piece. Copying a row's address and opening it on its own
+  also shows Error 153.
+- Without JavaScript the iframe loads at once (`loading=lazy` is ignored), so
+  `tests/browser.cjs` aborts YouTube requests in its no-JS context.
+- Known limits of a plain-HTML player: YouTube's own title bar and buttons
+  cannot be styled; each switch adds a browser history entry (Back returns to
+  the previous piece); the row being played is not marked.

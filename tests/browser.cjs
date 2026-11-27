@@ -55,6 +55,8 @@ const server=http.createServer((req,res)=>{
  // The Concertante landing page must remain readable without JavaScript.
  for(const width of [320,390,1024,1440]){
   const context=await browser.newContext({javaScriptEnabled:false,viewport:{width,height:900}});
+  // Without JavaScript the player loads at once; keep the test independent of YouTube.
+  await context.route(/^https:\/\/(www\.)?youtube(-nocookie)?\.com\//,route=>route.abort());
   const page=await context.newPage();
   const response=await page.goto(base+'/concertante/');
   assert.equal(response.status(),200);
@@ -88,6 +90,18 @@ const server=http.createServer((req,res)=>{
   assert.equal(await page.locator('a[href*="lotteconcerthall.com"]').count(),0,'The concert is over: the landing page carries no booking link');
   assert(!/예매|가격/.test(await page.locator('body').innerText()),'The concert is over: no booking prompt or ticket price');
   assert.equal(await page.locator('[data-program-note-link]').getAttribute('href'),'/concertante/notes/');
+  // Cover entry and inline player of the three performance videos.
+  assert.equal(await page.locator('[data-film-entry]').getAttribute('href'),'#concertante-video');
+  assert.equal(await page.locator('#concertante-video').count(),1);
+  const film=page.locator('iframe[name="concertante-film"]');
+  assert.equal(await film.count(),1);
+  assert(/^https:\/\/www\.youtube-nocookie\.com\/embed\/[\w-]{11}\?list=PL[\w-]+&rel=0$/.test(await film.getAttribute('src')),'The player is the privacy-enhanced embed, inside the playlist');
+  assert.equal(await film.getAttribute('referrerpolicy'),'strict-origin-when-cross-origin','Without it YouTube shows error 153, because the page sends no referrer');
+  assert(await film.getAttribute('title'),'The player needs a title');
+  assert.deepEqual(await page.locator('[data-film-piece]').evaluateAll(links=>links.map(a=>[a.getAttribute('target'),a.getAttribute('referrerpolicy'),/^https:\/\/www\.youtube-nocookie\.com\/embed\/[\w-]{11}\?list=PL[\w-]+&rel=0&autoplay=1$/.test(a.href)])),
+   Array(3).fill(['concertante-film','strict-origin-when-cross-origin',true]),'Each piece switches the player in place and keeps the referrer policy');
+  assert(/^https:\/\/www\.youtube\.com\/playlist\?list=PL[\w-]+$/.test(await page.locator('[data-film-all]').getAttribute('href')));
+  assert.match(await page.locator('meta[http-equiv="Content-Security-Policy"]').getAttribute('content'),/frame-src https:\/\/www\.youtube-nocookie\.com;/);
   assert.equal(await page.locator('[data-movements]').count(),2);
   assert(await page.locator('[data-movements]>span>span').evaluateAll(units=>units.every(unit=>{
    const box=unit.getBoundingClientRect(),row=unit.closest('[data-movements]').getBoundingClientRect();
@@ -101,7 +115,7 @@ const server=http.createServer((req,res)=>{
   await page.screenshot({path:path.join(root,`test-results/concertante-${width}.png`),fullPage:true});
   await context.close();
  }
- console.log('PASS: Concertante at 320/390/1024/1440px, official sponsor and venue logos without clipping/distortion, date font loading, no booking link or price and no-JS content');
+ console.log('PASS: Concertante at 320/390/1024/1440px, official sponsor and venue logos without clipping/distortion, date font loading, no booking link or price, cover entry and inline video player, and no-JS content');
 
  // The programme note mirrors the printed programme and must also read without JavaScript.
  for(const width of [320,390,1024,1440]){
